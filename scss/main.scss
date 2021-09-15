@@ -1,0 +1,31 @@
+@import "components/fonts";
+@import "components/vars";
+@import "components/assist";
+@import "components/layout";
+@import "components/typography";
+@import "icons";
+
+// Header
+@import "components/header/header";
+
+// Footer
+@import "components/footer/footer";
+ 
+// Common
+@import "components/common/buttons";
+@import "components/common/forms";
+@import "components/common/sliders";
+@import "components/common/modals";
+@import "components/common/menu-opener";
+@import "components/common/tabs-nav";
+
+// Sections
+@import "components/sections/first-screen-section";
+@import "components/sections/clients-section";
+@import "components/sections/dashboard-preview-section";
+@import "components/sections/big-stats-section";
+@import "components/sections/use-cases-section";
+@import "components/sections/testimonials-section";
+@import "components/sections/get-access-section";
+@import "components/sections/single-product";
+@import "components/sections/catalog-section";

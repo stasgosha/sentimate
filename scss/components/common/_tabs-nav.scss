@@ -1,0 +1,59 @@
+.tabs-nav-wrapper{
+	// overflow-x: auto;
+	margin-bottom: 20px;
+	padding-bottom: 16px;
+
+	@media screen and (max-width: 991px){
+		width: 100%;
+		overflow-x: auto;
+	}
+}
+
+.tabs-nav{
+	display: flex;
+	flex-wrap: wrap;
+	margin-bottom: -15px;
+
+	.tab-btn{
+		padding: 11px 18px;
+		border-radius: 22px;
+		border: 0.3px solid $accent;
+		font-size: 16px;
+		line-height: 1.375;
+		font-weight: 500;
+		display: flex;
+		align-items: center;
+		color: $accent;
+		margin-bottom: 15px;
+		background: #fff;
+
+		&:not(:last-child){
+			margin-right: 15px;
+		}
+
+		.btn-icon{
+			display: block;
+			fill: currentcolor;
+			width: 16px;
+			height: 15px;
+			flex: none;
+			margin-right: 6px;
+		}
+
+		&:hover,
+		&:focus{
+			outline: none;
+			border-color: transparent;
+		}
+
+		&.current{
+			background: $accent;
+			color: #fff;
+		}
+	}
+
+	@media screen and (max-width: 991px){
+		flex-wrap: nowrap;
+		white-space: nowrap;
+	}
+}

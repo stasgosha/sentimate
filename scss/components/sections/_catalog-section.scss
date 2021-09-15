@@ -1,0 +1,215 @@
+.catalog-section{
+	padding: 64px 0 130px;
+
+	.section-inner{
+		display: grid;
+		grid-template-columns: 255px 1fr;
+		grid-gap: 30px;
+	}
+
+	.section-sidebar{
+		padding-top: 70px;
+	}
+
+	.filters-row{
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		grid-gap: 30px;
+		margin-bottom: 27px;
+	}
+
+	.select-field{
+		width: 100%;
+		grid-column: -2 / -1;
+		position: relative;
+
+		&:after{
+			content: '';
+			display: block;
+			width: 8px;
+			height: 6px;
+			position: absolute;
+			top: 50%;
+			transform: translateY(-50%);
+			right: 16px;
+			pointer-events: none;
+			background: url("data:image/svg+xml,%3Csvg fill='none' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 6'%3E%3Cpath d='m4.43 4.81 3.3-3.32a.6.6 0 0 0 .2-.46.6.6 0 0 0-.2-.46L7.37.2a.67.67 0 0 0-.93 0L3.96 2.66 1.49.19a.67.67 0 0 0-.93 0L.2.58a.63.63 0 0 0-.19.46c0 .18.06.34.19.46L3.5 4.82c.13.12.28.19.47.19.18 0 .33-.07.46-.2Z' fill='%23660091'/%3E%3C/svg%3E") no-repeat center center / contain;
+		}
+
+		select{
+			width: 100%;
+			appearance: none;
+			border: 1px solid #DFDFDF;
+			padding: 5px 15px;
+			height: 43px;
+			box-shadow: none;
+			border-radius: 5px;
+			font-size: 15px;
+			line-height: 2;
+			font-weight: 500;
+			color: #000;
+			cursor: pointer;
+			transition: all $t;
+			font-family: inherit;
+
+			&:focus{
+				outline: none;
+				border-color: $accent;
+			}
+		}
+	}
+}
+
+.products-grid{
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	grid-gap: 30px;
+}
+
+.sidebar-category-block{
+	margin-bottom: 30px;
+
+	&:last-child{
+		margin-bottom: 0;
+	}
+
+	.block-header{
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		cursor: pointer;
+	}
+
+	.block-caption{
+		font-size: 16px;
+		line-height: 1.75;
+		font-weight: 400;
+		color: $accent;
+	}
+
+	.block-content{
+		display: none;
+		padding-top: 13px;
+	}
+
+	.ac-opener{
+		width: 15px;
+		height: 10px;
+		flex: none;
+		display: block;
+		margin-left: 20px;
+		background: url("data:image/svg+xml,%3Csvg fill='none' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 15 10'%3E%3Cpath d='m8.33 9.06 6.24-6.25c.24-.23.36-.51.36-.86 0-.36-.12-.63-.36-.87l-.72-.73a1.26 1.26 0 0 0-1.74 0L7.46 5.01 2.8.36a1.26 1.26 0 0 0-1.74 0l-.72.73c-.23.24-.35.53-.35.87 0 .34.12.63.35.86L6.6 9.07c.25.24.53.35.88.35.34 0 .63-.12.86-.36Z' fill='%23660091'/%3E%3C/svg%3E") no-repeat center center / contain;
+		transition: all $t;
+	}
+
+	&.opened{
+		.ac-opener{
+			transform: rotate(-180deg);
+		}
+	}
+
+	.small-search-block{
+		margin-bottom: 13px;
+	}
+
+	.checkboxes-list{
+		.list-caption{
+			font-size: 20px;
+			line-height: 1.4;
+			font-weight: 600;
+			color: #222;
+			margin-bottom: 6px;
+		}
+
+		.checkbox{
+			margin-bottom: 16px;
+
+			&:last-child{
+				margin-bottom: 0;
+			}
+		}
+	}
+}
+
+.product-card{
+	padding: 16px 16px 26px;
+	border: 1px solid #E4E4E4;
+	border-radius: 5px;
+
+	.card-image{
+		margin-bottom: 23px;
+
+		img{
+			display: block;
+			max-width: 100%;
+			height: auto;
+		}
+	}
+
+	.card-info{
+		margin-bottom: 20px;
+		color: #000;
+		font-weight: 600;
+		font-size: 14px;
+		line-height: 24px;
+
+		li{
+			display: flex;
+			align-items: baseline;
+		}
+
+		strong{
+			font-weight: inherit;
+		}
+
+		.item-value{
+			color: #55A73F;
+			margin-left: 0.3em;
+
+			&.excellent,
+			&.good,
+			&.poor{
+				display: flex;
+				align-items: center;
+
+				&:after{
+					content: '';
+					display: block;
+					width: 18px;
+					height: 18px;
+					background: no-repeat;
+					background-position: center center;
+					background-size: contain;
+					flex: none;
+					margin-left: 5px;
+				}
+			}
+
+			&.excellent{
+				&:after{
+					background-image: url(../img/content-images/emoji/love.png);
+				}
+			}
+
+			&.good{
+				&:after{
+					background-image: url(../img/content-images/emoji/smile.png);
+				}
+			}
+
+			&.poor{
+				color: #E64747;
+
+				&:after{
+					background-image: url(../img/content-images/emoji/sad.png);
+				}
+			}
+		}
+	}
+
+	.card-description{
+		font-size: 14px;
+		line-height: 1.4;
+		color: #222;
+	}
+}
