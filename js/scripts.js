@@ -307,3 +307,16 @@ function getInternetExplorerVersion() {
 	}
 	return rv;
 }
+
+
+
+
+
+
+/*==================switch-tabs==================*/
+const switchBtn = document.querySelector('.block-middle');
+
+switchBtn.addEventListener('click', () => {
+	switchBtn.classList.toggle('left');
+});
+/*==================/switch-tabs==================*/
