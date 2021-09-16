@@ -29,6 +29,8 @@ document.addEventListener('DOMContentLoaded', function(){
 		return Math.max.apply(null, numArray);
 	}
 
+	$('.checkbox a').click(e => e.stopPropagation());
+
 	// Tabs
 	function goToTab(tabId, handler){
 		if (handler == undefined) {
@@ -309,14 +311,24 @@ function getInternetExplorerVersion() {
 }
 
 
+$('.switch-tabs-block').each(function(i, el){
+	$(el).find('.left-btn').click(function(e){
+		e.preventDefault();
 
+		if ($(this).hasClass('monthly')) {
+			$(el).find('.block-middle').removeClass('right');
+		} else{
+			$(el).find('.block-middle').addClass('right');
+		}
+	});
 
+	$(el).find('.block-middle').click(function(e){
+		e.preventDefault();
 
-
-/*==================switch-tabs==================*/
-const switchBtn = document.querySelector('.block-middle');
-
-switchBtn.addEventListener('click', () => {
-	switchBtn.classList.toggle('left');
+		if ($(this).hasClass('right')) {
+			$(el).find('.left-btn').eq(0).trigger('click');
+		} else{
+			$(el).find('.left-btn').eq(1).trigger('click');
+		}
+	});
 });
-/*==================/switch-tabs==================*/

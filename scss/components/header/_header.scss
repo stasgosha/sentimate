@@ -91,9 +91,11 @@
 		}
 	}
 
-	&:hover,
-	&:focus{
-		color: $accent;
+	&:is(a){
+		&:hover,
+		&:focus{
+			color: $accent;
+		}
 	}
 
 	@media screen and (max-width: 575px){

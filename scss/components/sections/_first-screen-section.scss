@@ -29,6 +29,10 @@
 		max-width: 730px;
 		margin: 0 auto 34px;
 		@include p-big;
+
+		&:last-child{
+			margin-bottom: 0;
+		}
 	}
 
 	.section-stats{

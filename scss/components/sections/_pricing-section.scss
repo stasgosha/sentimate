@@ -49,14 +49,12 @@
 		}
 	}
 
-	.block-middle.left:before{
+	.block-middle.right:before{
 		transform: translateX(30px);
 		transition: all $t;
 	}
-	
-	
+
 	.annual {
-		margin-right: 72px;
 		position: relative;
 
 		&:before{
@@ -68,21 +66,21 @@
 			width: 28px;
 			height: 28px;
 		}
-	}
 
-	.save-up {
-		position: absolute;
-		bottom: 45px;
-		left: 97px;
-		white-space: nowrap;
-		font-weight: 600;
-		font-size: 14px;
-		line-height: 1.42;
-		color: #FFFFFF;
-		text-transform: uppercase;
-		background: #660091;
-		border-radius: 48px;
-		padding: 4px 10px;
+		.save-up {
+			position: absolute;
+			bottom: 45px;
+			left: 97px;
+			white-space: nowrap;
+			font-weight: 600;
+			font-size: 14px;
+			line-height: 1.42;
+			color: #FFFFFF;
+			text-transform: uppercase;
+			background: #660091;
+			border-radius: 48px;
+			padding: 4px 10px;
+		}
 	}
 }
 
@@ -108,6 +106,7 @@
 		border-radius: 5px;
 		transform: translateY(-30px);
 		height: 430px;
+		padding-top: 31px;
 	}
 
 	.card-label{
@@ -177,7 +176,7 @@
 }
 
 
-@media(max-width: 1199px){
+@media screen and (max-width: 1199px){
 	.plans-grid {
 		grid-template-columns: repeat(2, 255px);
 	}
@@ -193,17 +192,89 @@
 	}
 }
 
-@media(max-width: 767px){
+@media screen and (max-width: 767px){
 	.switch-tabs-block{
-		flex-direction: column-reverse;
-		align-items: flex-start;
+		flex-direction: column;
+
+		.switch-wrapper{
+			flex-direction: column;
+			margin-bottom: 16px;
+
+			.block-middle{
+				margin-top: 16px;
+			}
+		}
+
+		.annual{
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			text-align: center;
+
+			&:before{
+				display: none;
+			}
+
+			.save-up{
+				position: static;
+			}
+		}
 	}
 }
 
-
-@media(max-width: 575px){
+@media screen and (max-width: 575px){
 	.plans-grid {
-		grid-template-columns: repeat(1, 255px);
+		grid-template-columns: 1fr;
 	}
 }
 
+
+.contact-sales-block{
+	.logo-block{
+		margin-bottom: 40px;
+	}
+
+	.block-caption{
+		@include h1;
+		color: #222;
+		margin-bottom: 15px;
+	}
+
+	> .block-text{
+		@include p-big;
+		margin-bottom: 53px;
+	}
+}
+
+.contact-form{
+	.form-fields{
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		grid-gap: 40px 30px;
+
+		.wide{
+			grid-column: 1 / -1;
+		}
+
+		.form-label{
+			font-size: 14px;
+			line-height: 2;
+			margin-bottom: 15px;
+			color: #3a3a3a;
+		}
+	}
+
+	.form-footer{
+		margin-top: 45px;
+
+		.btn{
+			width: 100%;
+		}
+	}
+
+	@media screen and (max-width: 575px){
+		.form-fields{
+			grid-template-columns: 1fr;
+		}
+	}
+}

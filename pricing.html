@@ -211,7 +211,7 @@
 
 								<div class="plan-card">
 									<h3 class="card-name">Plan №4</h3>
-									<p class="card-price">$10000</p>
+									<p class="card-price">$9000</p>
 									<p class="card-description">Per Month, paid annualy</p>
 
 									<ul class="card-features">
@@ -225,7 +225,7 @@
 					</div>
 
 					<div class="section-footer">
-						<button class="btn">CONTACT SALES</button>
+						<button class="btn" data-modal="#contact-sales-modal">CONTACT SALES</button>
 					</div> 
 				</div>
 			</section>
@@ -388,6 +388,66 @@
 				</div>
 			</div>
 		</footer>
+	</div>
+
+	<div class="modal white-bg" id="contact-sales-modal" tabindex="-1">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<button class="modal-close" aria-label="Close modal"></button>
+				
+				<div class="contact-sales-block">
+					<div class="logo-block">
+						<img src="img/logo.svg" alt="">
+						<div class="block-text">
+							Senti<strong>Mate</strong>
+						</div>
+					</div>
+
+					<h2 class="block-caption">Contact Us</h2>
+
+					<div class="block-text">
+						<p>Info about how we will answer and how cool we are</p>
+					</div>
+
+					<div class="contact-form form">
+						<form action="">
+							<div class="form-fields">
+								<div class="form-field">
+									<p class="form-label">First Name</p>
+									<input type="text" class="input-field" placeholder="Lara">
+								</div>
+
+								<div class="form-field">
+									<p class="form-label">Last Name</p>
+									<input type="text" class="input-field" placeholder="Croft">
+								</div>
+
+								<div class="form-field wide">
+									<p class="form-label">Email</p>
+									<input type="text" class="input-field" placeholder="laracroft@email.com">
+								</div>
+
+								<div class="form-field wide">
+									<p class="form-label">Message</p>
+									<textarea></textarea>
+								</div>
+
+								<div class="form-field wide">
+									<label class="checkbox">
+										<input type="checkbox" class="visually-hidden">
+										<span class="fake-label">I have read and agree to teh <a href="#" target="_blank">Terms of Service</a>.</span>
+									</label>
+								</div>
+							</div>
+
+							<div class="form-footer">
+								<button type="submit" class="btn">send</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 
 	<div class="modal video-modal" id="video-modal" tabindex="-1">
