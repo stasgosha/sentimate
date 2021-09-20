@@ -31,6 +31,11 @@ document.addEventListener('DOMContentLoaded', function(){
 
 	$('.checkbox a').click(e => e.stopPropagation());
 
+	$('.pagination-wrapper').each(function(i, el){
+		$(el).find('.next').parent().addClass('next');
+		$(el).find('.prev').parent().addClass('prev');
+	});
+
 	// Tabs
 	function goToTab(tabId, handler){
 		if (handler == undefined) {
