@@ -825,118 +825,118 @@ function imageExists(image_url){
          * competitive products drawing
          * **/
 
-         
-        // $.ajax({
-        //     url: myajax.url,
-        //     type: 'POST',
-        //     data: {
-        //         action: 'get_competitive_products',
-        //         product_id: productGuid,
-        //     },
-        //     success: function (competitive) {
-        //         var data = JSON.parse(competitive);
-        //         var uniqueCompetitors = [];
-        //         data.forEach(item => {uniqueCompetitors.push(...item.uuids)})
-        //         uniqueCompetitors = uniqueCompetitors.filter((v, i, a) => a.indexOf(v) === i).slice(0, 10);
+        $.ajax({
+            url: ajaxurl,
+            type: 'POST',
+            data: {
+                action: 'get_competitive_products',
+                product_id: productGuid,
+            },
+            success: function (competitive) {
+                var data = JSON.parse(competitive);
+                var uniqueCompetitors = [];
 
-        //         uniqueCompetitors.forEach(competitor => {
-        //             $.ajax({
-        //                 url: myajax.url,
-        //                 type: 'POST',
-        //                 data: {
-        //                     action: 'get_product_data',
-        //                     product_id: competitor,
-        //                 },
-        //                 success: function (response) {
-        //                     var data = JSON.parse(response);
+                data.forEach(item => {uniqueCompetitors.push(...item.uuids)})
+                uniqueCompetitors = uniqueCompetitors.filter((v, i, a) => a.indexOf(v) === i).slice(0, 10);
 
-        //                     var competotorHtmlLine = `
-        //                         <tr class="tr">
-        //                             <td class="td__col td__prod">
-        //                               <div class="t_flbox"><img src="${data["image"]}" alt="product"> <span>${data["name"]}</span></div>
-        //                             </td>`;
+                uniqueCompetitors.forEach(competitor => {
+                    $.ajax({
+                        url: ajaxurl,
+                        type: 'POST',
+                        data: {
+                            action: 'get_product_data',
+                            product_id: competitor,
+                        },
+                        success: function (response) {
+                            var data = JSON.parse(response);
+
+                            var competotorHtmlLine = `
+                                <tr class="tr">
+                                    <td class="td__col td__prod">
+                                      <div class="t_flbox"><img src="${data["image"]}" alt="product"> <span>${data["name"]}</span></div>
+                                    </td>`;
 
 
-        //                     $.ajax({
-        //                         url: myajax.url,
-        //                         type: 'POST',
-        //                         data: {
-        //                             action: 'get_monthly_reviews',
-        //                             product_id: competitor,
-        //                         },
-        //                         success: function (response) {
-        //                             response = JSON.parse(response);
-        //                             var totalReviews     = 0;
-        //                             var deviations = {
-        //                                 "negative": 0,
-        //                                 "neutral": 0,
-        //                                 "positive": 0,
-        //                             };
+                            $.ajax({
+                                url: ajaxurl,
+                                type: 'POST',
+                                data: {
+                                    action: 'get_monthly_reviews',
+                                    product_id: competitor,
+                                },
+                                success: function (response) {
+                                    response = JSON.parse(response);
+                                    var totalReviews     = 0;
+                                    var deviations = {
+                                        "negative": 0,
+                                        "neutral": 0,
+                                        "positive": 0,
+                                    };
 
-        //                             response.forEach(month => {
-        //                                 totalReviews += month["volume"];
-        //                                 if ( month["sentiments"]["negative"] !== undefined )
-        //                                     deviations["negative"] += month["sentiments"]["negative"] * 100;
-        //                                 if ( month["sentiments"]["neutral"] !== undefined )
-        //                                     deviations["neutral"]  += month["sentiments"]["neutral"] * 100;
-        //                                 if ( month["sentiments"]["positive"] !== undefined )
-        //                                     deviations["positive"] += month["sentiments"]["positive"] * 100;
-        //                             });
+                                    response.forEach(month => {
+                                        totalReviews += month["volume"];
+                                        if ( month["sentiments"]["negative"] !== undefined )
+                                            deviations["negative"] += month["sentiments"]["negative"] * 100;
+                                        if ( month["sentiments"]["neutral"] !== undefined )
+                                            deviations["neutral"]  += month["sentiments"]["neutral"] * 100;
+                                        if ( month["sentiments"]["positive"] !== undefined )
+                                            deviations["positive"] += month["sentiments"]["positive"] * 100;
+                                    });
 
-        //                             let satisfaction =  (deviations["positive"] / response.length).toFixed(2);
-        //                             competotorHtmlLine += `<td class="td__col">234</td>
-        //                                 <td class="td__col">${ totalReviews }</td>
-        //                                 <td class="td__col">${ satisfaction }</td>
-        //                                 <td class="td__col td__last">`;
+                                    let satisfaction =  (deviations["positive"] / response.length).toFixed(2);
+                                    competotorHtmlLine += `<td class="td__col">234</td>
+                                        <td class="td__col">${ totalReviews }</td>
+                                        <td class="td__col">${ satisfaction }</td>
+                                        <td class="td__col td__last">`;
 
-        //                             competotorHtmlLine += `<div class="line_progress">
-        //                                                         <div class="lp lp__red" style="width: ${ deviations["negative"] / response.length + '%' }"></div>
-        //                                                         <div class="lp lp__gray" style="width: ${ deviations["neutral"] / response.length + '%' }"></div>
-        //                                                         <div class="lp lp__green" style="width: ${ deviations["positive"] / response.length + '%' }"></div>
-        //                                                         </div>
+                                    competotorHtmlLine += `<div class="line_progress">
+                                                                <div class="lp lp__red" style="width: ${ deviations["negative"] / response.length + '%' }"></div>
+                                                                <div class="lp lp__gray" style="width: ${ deviations["neutral"] / response.length + '%' }"></div>
+                                                                <div class="lp lp__green" style="width: ${ deviations["positive"] / response.length + '%' }"></div>
+                                                                </div>
                                                             
-        //                                                     </td>`;
-        //                             competotorHtmlLine += '</tr>'
+                                                            </td>`;
+                                    competotorHtmlLine += '</tr>'
 
-        //                             $(parentSelectorId + ' tbody[data-id="competitiveProducts"]').append(competotorHtmlLine);
+                                    $(parentSelectorId + ' tbody[data-id="competitiveProducts"]').append(competotorHtmlLine);
 
-        //                             scatteredGraphArray.push(JSON.parse(`
-        //                                 { "sentiment": ${satisfaction},
-        //                                   "volume": ${totalReviews},
-        //                                   "uuid": "${competitor}",
-        //                                   "tooltip": {
-        //                                     "name" : "${data["name"]}",
-        //                                     "list" : { "sentiment": "${satisfaction}%", "volume": ${totalReviews} }
-        //                                   }
-        //                                 }`));
-        //                         },
-        //                         complete: function() {
+                                    scatteredGraphArray.push(JSON.parse(`
+                                        { "sentiment": ${satisfaction},
+                                          "volume": ${totalReviews},
+                                          "uuid": "${competitor}",
+                                          "tooltip": {
+                                            "name" : "${data["name"]}",
+                                            "list" : { "sentiment": "${satisfaction}%", "volume": ${totalReviews} }
+                                          }
+                                        }`));
+                                },
+                                complete: function() {
 
-        //                             let volumeArray = scatteredGraphArray.map(obj => {return obj});
-        //                             if (scatteredGraphArray.length >= 5) {
-        //                                 scatteredGraph(parentSelectorId + ' #scatteredGraph', scatteredGraphArray, Math.max(...volumeArray),  productGuid);
-        //                             }
-        //                             console.log(scatteredGraphArray)
-        //                             console.log( Math.max(...volumeArray))
-        //                             console.log( productGuid)
-        //                         }
-        //                     });
-        //                 },
-        //                 error: function () {
-        //                     console.log("Error");
-        //                 }
-        //             });
-        //         })
+                                    let volumeArray = scatteredGraphArray.map(obj => {return obj});
+                                    if (scatteredGraphArray.length >= 5) {
+                                        scatteredGraph(parentSelectorId + ' #scatteredGraph', scatteredGraphArray, Math.max(...volumeArray),  productGuid);
+                                    }
+                                    console.log(scatteredGraphArray)
+                                    console.log( Math.max(...volumeArray))
+                                    console.log( productGuid)
+                                }
+                            });
+                        },
+                        error: function () {
+                            console.log("Error");
+                        }
+                    });
+                })
 
-        //     },
-        //     error: function () {
-        //         console.log("Error");
-        //     },
-        // });
+            },
+            error: function () {
+                console.log("Error");
+            },
+        });
 
 
-var sccc= [];
-scatteredGraph(parentSelectorId + ' #scatteredGraph', sccc, null,  productGuid);
+// var sccc= [];
+// scatteredGraph(parentSelectorId + ' #scatteredGraph', sccc, null,  productGuid);
         /** END COMPETITIVE DRAWING **/
 
     }

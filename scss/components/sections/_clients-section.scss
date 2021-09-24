@@ -60,6 +60,7 @@
 .client-logo{
 	transition: all $t;
 	filter: saturate(0);
+	opacity: .25;
 
 	img{
 		display: block;
@@ -68,5 +69,6 @@
 	&:hover,
 	&:focus{
 		filter: saturate(1);
+		opacity: 1;
 	}
 }

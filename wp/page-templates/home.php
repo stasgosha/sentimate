@@ -7,10 +7,10 @@ get_header(); ?>
     <main class="page-content">
         <section class="first-screen-section">
             <div class="container">
-                <h1 class="page-caption"><strong>Free</strong> statistics for all.</h1>
+                <h1 class="page-caption"><?php echo get_field('search_title');?></h1>
 
                 <div class="section-text">
-                    <p>Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.</p>
+                    <p><?php echo get_field('search_text');?></p>
                 </div>
 
                 <div class="component-search-with-autocomplete">
@@ -18,90 +18,64 @@ get_header(); ?>
                         <svg class="field-icon">
                             <use xlink:href="<?php echo get_template_directory_uri(); ?>/img/icons-sprite.svg#search"></use>
                         </svg>
-                        <input type="text" placeholder="Example: Samsung Galaxy S21">
+                        <input type="text" placeholder="<?php echo get_field('placeholder_field');?>" id="searchinput">
                     </div>
                     <div class="cmp-suggestions">
-                        <ul>
-                            <li>
-                                <a href="#">
-										<span class="item-image">
-											<img src="" alt="">
-										</span>
-                                    <span class="item-text">TP-Link AC1750 Smart WiFi Router (Archer A7) Statistics</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-										<span class="item-image">
-											<img src="" alt="">
-										</span>
-                                    <span class="item-text">TP-Link AC1750 Smart WiFi Router (Archer A7) Statistics</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-										<span class="item-image">
-											<img src="" alt="">
-										</span>
-                                    <span class="item-text">TP-Link AC1750 Smart WiFi Router (Archer A7) Statistics</span>
-                                </a>
-                            </li>
+                        <ul id="search_rezult">
+
                         </ul>
                     </div>
                 </div>
 
                 <div class="section-stats">
-                    <div class="item">
-                        <svg class="item-icon">
-                            <use xlink:href="<?php echo get_template_directory_uri(); ?>/img/icons-sprite.svg#grid"></use>
-                        </svg>
-                        <div class="item-text"><strong>25+</strong> Categories</div>
-                    </div>
-                    <div class="item">
-                        <svg class="item-icon">
-                            <use xlink:href="<?php echo get_template_directory_uri(); ?>/img/icons-sprite.svg#article"></use>
-                        </svg>
-                        <div class="item-text"><strong>238,121</strong> Products</div>
-                    </div>
-                    <div class="item">
-                        <svg class="item-icon">
-                            <use xlink:href="<?php echo get_template_directory_uri(); ?>/img/icons-sprite.svg#person"></use>
-                        </svg>
-                        <div class="item-text"><strong>18,213,123</strong> Reviews</div>
-                    </div>
+                    <?php if( have_rows('counters') ): ?>
+                        <?php
+                        $i=0;
+                        while( have_rows('counters') ): the_row(); ?>
+                            <div class="item">
+                                <svg class="item-icon">
+                                    <use xlink:href="<?php echo get_template_directory_uri(); ?>/img/icons-sprite.svg#<?php echo get_sub_field('icon');?>"></use>
+                                </svg>
+                                <div class="item-text"><strong><?php echo get_sub_field('number');?></strong> <?php echo get_sub_field('text');?></div>
+                            </div>
+                        <?php endwhile; ?>
+                    <?php endif; ?>
                 </div>
             </div>
         </section>
 
         <section class="clients-section">
             <div class="container">
-                <h2 class="small-caption">Hundreds of leading companies use SentiMate</h2>
+                <h2 class="small-caption"><?php echo get_field('companies_title');?></h2>
+            </div>
 
-                <div class="clients-slider">
-                    <div class="slider-inner">
-                        <div class="slide">
-                            <div class="client-logo">
-                                <img src="<?php echo get_template_directory_uri(); ?>/img/content-images/clients/Rexroth-1.png" alt="">
+            <div class="clients-slider">
+                <div class="slider-inner">
+                    <?php if( have_rows('companies') ): ?>
+                        <?php
+                        $i=0;
+                        while( have_rows('companies') ): the_row(); ?>
+                            <div class="slide">
+                                <div class="client-logo">
+                                    <img src="<?php echo get_sub_field('logo')['url'];?>" alt="<?php echo get_sub_field('logo')['alt'];?>">
+                                </div>
                             </div>
-                        </div>
-                        <div class="slide">
-                            <div class="client-logo">
-                                <img src="<?php echo get_template_directory_uri(); ?>/img/content-images/clients/martinrea_logo-1.png" alt="">
+                        <?php endwhile; ?>
+                    <?php endif; ?>
+                </div>
+                <div class="slider-inner">
+
+                    <?php if( have_rows('companies') ): ?>
+                        <?php
+                        $i=0;
+                        while( have_rows('companies') ): the_row(); ?>
+                            <div class="slide">
+                                <div class="client-logo">
+                                    <img src="<?php echo get_sub_field('logo')['url'];?>" alt="<?php echo get_sub_field('logo')['alt'];?>">
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="slider-inner">
-                        <div class="slide">
-                            <div class="client-logo">
-                                <img src="<?php echo get_template_directory_uri(); ?>/img/content-images/clients/Rexroth-1.png" alt="">
-                            </div>
-                        </div>
-                        <div class="slide">
-                            <div class="client-logo">
-                                <img src="<?php echo get_template_directory_uri(); ?>/img/content-images/clients/martinrea_logo-1.png" alt="">
-                            </div>
-                        </div>
-                    </div>
+                        <?php endwhile; ?>
+                    <?php endif; ?>
                 </div>
             </div>
         </section>
@@ -109,75 +83,36 @@ get_header(); ?>
         <section class="dashboard-preview-section">
             <div class="container">
                 <div class="section-caption">
-                    <h2 class="sc-title">Product Dashboard</h2>
+                    <h2 class="sc-title"><?php echo get_field('product_dashboard_title');?></h2>
                 </div>
 
                 <div class="tabs-nav-wrapper">
                     <div class="tabs-nav">
-                        <button class="tab-btn" data-tab="#tab-overview">
-                            <svg class="btn-icon">
-                                <use xlink:href="<?php echo get_template_directory_uri(); ?>/img/icons-sprite.svg#chart"></use>
-                            </svg>
-                            <span class="btn-text">Overview</span>
-                        </button>
-
-                        <button class="tab-btn" data-tab="#tab-landscape">
-                            <svg class="btn-icon">
-                                <use xlink:href="<?php echo get_template_directory_uri(); ?>/img/icons-sprite.svg#list"></use>
-                            </svg>
-                            <span class="btn-text">Competitive Landscape</span>
-                        </button>
-
-                        <button class="tab-btn" data-tab="#tab-discussions">
-                            <svg class="btn-icon">
-                                <use xlink:href="<?php echo get_template_directory_uri(); ?>/img/icons-sprite.svg#heart"></use>
-                            </svg>
-                            <span class="btn-text">Discussions</span>
-                        </button>
-
-                        <button class="tab-btn" data-tab="#tab-rating">
-                            <svg class="btn-icon">
-                                <use xlink:href="<?php echo get_template_directory_uri(); ?>/img/icons-sprite.svg#star"></use>
-                            </svg>
-                            <span class="btn-text">Star Rating</span>
-                        </button>
-
-                        <button class="tab-btn" data-tab="#tab-coverage">
-                            <svg class="btn-icon">
-                                <use xlink:href="<?php echo get_template_directory_uri(); ?>/img/icons-sprite.svg#coverage"></use>
-                            </svg>
-                            <span class="btn-text">Coverage</span>
-                        </button>
-
-                        <button class="tab-btn" data-tab="#tab-comparison">
-                            <svg class="btn-icon">
-                                <use xlink:href="<?php echo get_template_directory_uri(); ?>/img/icons-sprite.svg#comparsion"></use>
-                            </svg>
-                            <span class="btn-text">Comparison</span>
-                        </button>
+                        <?php if( have_rows('product_dashboard') ): ?>
+                            <?php
+                            $i=0;
+                            while( have_rows('product_dashboard') ): the_row(); ?>
+                                <button class="tab-btn" data-tab="#tab-<?php echo get_sub_field('icon');?>">
+                                    <svg class="btn-icon">
+                                        <use xlink:href="<?php echo get_template_directory_uri(); ?>/img/icons-sprite.svg#<?php echo get_sub_field('icon');?>"></use>
+                                    </svg>
+                                    <span class="btn-text"><?php echo get_sub_field('tab_title');?></span>
+                                </button>
+                            <?php endwhile; ?>
+                        <?php endif; ?>
                     </div>
                 </div>
 
                 <div class="tabs-container">
-                    <div class="tab" id="tab-overview">
-                        <!-- Тут будут видео вместо картинок -->
-                        <img src="" alt="">
-                    </div>
-                    <div class="tab" id="tab-landscape">
-                        <img src="" alt="">
-                    </div>
-                    <div class="tab" id="tab-discussions">
-                        <img src="" alt="">
-                    </div>
-                    <div class="tab" id="tab-rating">
-                        <img src="" alt="">
-                    </div>
-                    <div class="tab" id="tab-coverage">
-                        <img src="" alt="">
-                    </div>
-                    <div class="tab" id="tab-comparison">
-                        <img src="" alt="">
-                    </div>
+                    <?php if( have_rows('product_dashboard') ): ?>
+                        <?php
+                        $i=0;
+                        while( have_rows('product_dashboard') ): the_row(); ?>
+                            <div class="tab" id="tab-<?php echo get_sub_field('icon');?>">
+                                <img src="<?php echo get_sub_field('image')['url'];?>" alt="<?php echo get_sub_field('image')['alt'];?>">
+                            </div>
+                        <?php endwhile; ?>
+                    <?php endif; ?>
                 </div>
             </div>
         </section>
@@ -185,57 +120,43 @@ get_header(); ?>
         <section class="big-stats-section">
             <div class="container">
                 <div class="stats-grid">
-                    <div class="stats-card">
-                        <h3 class="card-caption"><strong>25+</strong> Categories</h3>
 
-                        <div class="card-text">
-                            <p>Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.</p>
-                        </div>
+                    <?php if( have_rows('product_counters') ): ?>
+                        <?php
+                        $i=0;
+                        while( have_rows('product_counters') ): the_row(); ?>
+                            <div class="stats-card">
+                                <h3 class="card-caption"><strong style="color: <?php echo get_sub_field('color_counter');?>;"><?php echo get_sub_field('counter');?></strong> <?php echo get_sub_field('title');?></h3>
 
-                        <ul class="card-tags">
-                            <li>CPG</li>
-                            <li>Fashion</li>
-                            <li>Sport</li>
-                            <li>Personal Care</li>
+                                <div class="card-text">
+                                    <p><?php echo get_sub_field('text');?></p>
+                                </div>
 
-                            <li class="pale">and much more</li>
-                        </ul>
-                    </div>
-
-                    <div class="stats-card">
-                        <h3 class="card-caption"><strong>238K+</strong> Products</h3>
-
-                        <div class="card-text">
-                            <p>Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.</p>
-                        </div>
-
-                        <ul class="card-tags">
-                            <li>Headphones</li>
-                            <li>Laptops</li>
-                            <li>Mobile Phones</li>
-
-                            <li class="pale">and much more</li>
-                        </ul>
-                    </div>
-
-                    <div class="stats-card">
-                        <h3 class="card-caption"><strong>18M+</strong> Reviews</h3>
-
-                        <div class="card-text">
-                            <p>Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.</p>
-                        </div>
-
-                        <ul class="card-tags">
-                            <li></li>
-                            <li></li>
-                            <li></li>
-                            <li></li>
-                        </ul>
-                    </div>
+                                <ul class="card-tags">
+                                    <?php if( get_sub_field('tags') ): ?>
+                                        <?php while( has_sub_field('tags') ): ?>
+                                            <li>
+                                                <?php if(get_sub_field('image')['url']){ ?>
+                                                <img src="<?php echo get_sub_field('image')['url']; ?>" alt="<?php echo get_sub_field('image')['alt']; ?>">
+                                                <?php }elseif(get_sub_field('category')){ ?>
+                                                    <a href="<?php echo get_term_link(get_sub_field('category'),'product_category')?>"><?php echo get_term(get_sub_field('category'),'product_category')->name; ?></a>
+                                                <?php }else{?>
+                                                    <?php echo get_sub_field('text');?>
+                                                <?php } ?>
+                                            </li>
+                                        <?php endwhile; ?>
+                                    <?php endif; ?>
+                                    <?php if(get_sub_field('text_tags')){ ?>
+                                    <li class="pale"><?php echo get_sub_field('text_tags');?></li>
+                                    <?php } ?>
+                                </ul>
+                            </div>
+                        <?php endwhile; ?>
+                    <?php endif; ?>
                 </div>
 
                 <div class="section-footer">
-                    <a href="#" class="btn">Start for free</a>
+                    <a href="<?php echo get_field('product_button_link');?>" data-modal="#contact-sales-modal" class="btn"><?php echo get_field('product_button');?></a>
                 </div>
             </div>
         </section>
@@ -243,197 +164,53 @@ get_header(); ?>
         <section class="use-cases-section">
             <div class="container">
                 <div class="section-caption">
-                    <h2 class="sc-title">Use Cases</h2>
-                    <p class="sc-subtitle">Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.</p>
+                    <h2 class="sc-title"><?php echo get_field('use_cases_title');?></h2>
+                    <p class="sc-subtitle"><?php echo get_field('use_cases_text');?></p>
                 </div>
 
                 <div class="tabs-nav-wrapper">
                     <div class="tabs-nav">
-                        <button class="tab-btn" data-tab="#tab-marketing">
-                            <svg class="btn-icon">
-                                <use xlink:href="<?php echo get_template_directory_uri(); ?>/img/icons-sprite.svg#chart"></use>
-                            </svg>
-                            <span class="btn-text">Marketing</span>
-                        </button>
-
-                        <button class="tab-btn" data-tab="#tab-product-marketing">
-                            <svg class="btn-icon">
-                                <use xlink:href="<?php echo get_template_directory_uri(); ?>/img/icons-sprite.svg#target"></use>
-                            </svg>
-                            <span class="btn-text">Product Marketing</span>
-                        </button>
-
-                        <button class="tab-btn" data-tab="#tab-product-development">
-                            <svg class="btn-icon">
-                                <use xlink:href="<?php echo get_template_directory_uri(); ?>/img/icons-sprite.svg#gear"></use>
-                            </svg>
-                            <span class="btn-text">Product Development</span>
-                        </button>
-
-                        <button class="tab-btn" data-tab="#tab-innovation-management">
-                            <svg class="btn-icon">
-                                <use xlink:href="<?php echo get_template_directory_uri(); ?>/img/icons-sprite.svg#bulb"></use>
-                            </svg>
-                            <span class="btn-text">Innovation Management</span>
-                        </button>
-
-                        <button class="tab-btn" data-tab="#tab-brand-marketing">
-                            <svg class="btn-icon">
-                                <use xlink:href="<?php echo get_template_directory_uri(); ?>/img/icons-sprite.svg#megaphone"></use>
-                            </svg>
-                            <span class="btn-text">Brand Marketing</span>
-                        </button>
-
-                        <button class="tab-btn" data-tab="#tab-market-intelligence">
-                            <svg class="btn-icon">
-                                <use xlink:href="<?php echo get_template_directory_uri(); ?>/img/icons-sprite.svg#magnifier"></use>
-                            </svg>
-                            <span class="btn-text">Market Intelligence</span>
-                        </button>
-
-                        <button class="tab-btn" data-tab="#tab-ecommerce">
-                            <svg class="btn-icon">
-                                <use xlink:href="<?php echo get_template_directory_uri(); ?>/img/icons-sprite.svg#bag"></use>
-                            </svg>
-                            <span class="btn-text">eCommerce</span>
-                        </button>
+                        <?php if( have_rows('use_cases') ): ?>
+                            <?php
+                            $i=0;
+                            while( have_rows('use_cases') ): the_row(); ?>
+                                <button class="tab-btn" data-tab="#tab-<?php echo get_sub_field('icon');?>">
+                                    <svg class="btn-icon">
+                                        <use xlink:href="<?php echo get_template_directory_uri(); ?>/img/icons-sprite.svg#<?php echo get_sub_field('icon');?>"></use>
+                                    </svg>
+                                    <span class="btn-text"><?php echo get_sub_field('title_tab');?></span>
+                                </button>
+                            <?php endwhile; ?>
+                        <?php endif; ?>
                     </div>
                 </div>
 
                 <div class="tabs-container">
-                    <div class="tab" id="tab-marketing">
-                        <div class="use-case-tab-card">
-                            <div class="card-content">
-                                <h3 class="card-caption">Be First In Your Industry</h3>
-                                <div class="card-text">
-                                    <p>Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.</p>
-                                </div>
-                                <div class="card-footer">
-                                    <a href="#" class="btn-with-arrow">
-                                        <span class="btn-text">Start for free</span>
-                                    </a>
-                                </div>
-                            </div>
-                            <picture class="card-image">
-                                <source srcset="<?php echo get_template_directory_uri(); ?>/img/content-images/use-cases/use-cases-1-mobile.jpg" media="(max-width: 767px)" />
-                                <img src="<?php echo get_template_directory_uri(); ?>/img/content-images/use-cases/use-cases-1.jpg" alt="">
-                            </picture>
-                        </div>
-                    </div>
-                    <div class="tab" id="tab-product-marketing">
-                        <div class="use-case-tab-card">
-                            <div class="card-content">
-                                <h3 class="card-caption">Boost Your Customer Satisfaction</h3>
-                                <div class="card-text">
-                                    <p>Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.</p>
-                                </div>
-                                <div class="card-footer">
-                                    <a href="#" class="btn-with-arrow">
-                                        <span class="btn-text">Start for free</span>
-                                    </a>
+                    <?php if( have_rows('use_cases') ): ?>
+                        <?php
+                        $i=0;
+                        while( have_rows('use_cases') ): the_row(); $i++;  ?>
+                            <div class="tab" id="tab-<?php echo get_sub_field('icon');?>" <?php if($i!=1){ ?> style="display: none;" <?php  }?>>
+                                <div class="use-case-tab-card">
+                                    <div class="card-content">
+                                        <h3 class="card-caption"><?php echo get_sub_field('title_text');?></h3>
+                                        <div class="card-text">
+                                            <p><?php echo get_sub_field('text');?></p>
+                                        </div>
+                                        <div class="card-footer">
+                                            <a href="<?php echo get_sub_field('link');?>" data-modal="#contact-sales-modal" class="btn-with-arrow">
+                                                <span class="btn-text"><?php echo get_sub_field('text_link');?></span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <picture class="card-image">
+                                        <source srcset="<?php echo get_sub_field('image_mobile')['url'];?>" media="(max-width: 767px)" />
+                                        <img src="<?php echo get_sub_field('image')['url'];?>" alt="<?php echo get_sub_field('image')['alt'];?>">
+                                    </picture>
                                 </div>
                             </div>
-                            <picture class="card-image">
-                                <source srcset="<?php echo get_template_directory_uri(); ?>/img/content-images/use-cases/use-cases-2-mobile.jpg" media="(max-width: 767px)" />
-                                <img src="<?php echo get_template_directory_uri(); ?>/img/content-images/use-cases/use-cases-2.jpg" alt="">
-                            </picture>
-                        </div>
-                    </div>
-                    <div class="tab" id="tab-product-development">
-                        <div class="use-case-tab-card">
-                            <div class="card-content">
-                                <h3 class="card-caption">Made Perfect Product For Your Clients</h3>
-                                <div class="card-text">
-                                    <p>Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.</p>
-                                </div>
-                                <div class="card-footer">
-                                    <a href="#" class="btn-with-arrow">
-                                        <span class="btn-text">Start for free</span>
-                                    </a>
-                                </div>
-                            </div>
-                            <picture class="card-image">
-                                <source srcset="<?php echo get_template_directory_uri(); ?>/img/content-images/use-cases/use-cases-3-mobile.jpg" media="(max-width: 767px)" />
-                                <img src="<?php echo get_template_directory_uri(); ?>/img/content-images/use-cases/use-cases-3.jpg" alt="">
-                            </picture>
-                        </div>
-                    </div>
-                    <div class="tab" id="tab-innovation-management">
-                        <div class="use-case-tab-card">
-                            <div class="card-content">
-                                <h3 class="card-caption">Build a Strong Brand Marketing Strategy</h3>
-                                <div class="card-text">
-                                    <p>Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.</p>
-                                </div>
-                                <div class="card-footer">
-                                    <a href="#" class="btn-with-arrow">
-                                        <span class="btn-text">Start for free</span>
-                                    </a>
-                                </div>
-                            </div>
-                            <picture class="card-image">
-                                <source srcset="<?php echo get_template_directory_uri(); ?>/img/content-images/use-cases/use-cases-4-mobile.jpg" media="(max-width: 767px)" />
-                                <img src="<?php echo get_template_directory_uri(); ?>/img/content-images/use-cases/use-cases-4.jpg" alt="">
-                            </picture>
-                        </div>
-                    </div>
-                    <div class="tab" id="tab-brand-marketing">
-                        <div class="use-case-tab-card">
-                            <div class="card-content">
-                                <h3 class="card-caption">Innovate Like Never Before</h3>
-                                <div class="card-text">
-                                    <p>Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.</p>
-                                </div>
-                                <div class="card-footer">
-                                    <a href="#" class="btn-with-arrow">
-                                        <span class="btn-text">Start for free</span>
-                                    </a>
-                                </div>
-                            </div>
-                            <picture class="card-image">
-                                <source srcset="<?php echo get_template_directory_uri(); ?>/img/content-images/use-cases/use-cases-5-mobile.jpg" media="(max-width: 767px)" />
-                                <img src="<?php echo get_template_directory_uri(); ?>/img/content-images/use-cases/use-cases-5.jpg" alt="">
-                            </picture>
-                        </div>
-                    </div>
-                    <div class="tab" id="tab-market-intelligence">
-                        <div class="use-case-tab-card">
-                            <div class="card-content">
-                                <h3 class="card-caption">Analyze Your Competitors Data</h3>
-                                <div class="card-text">
-                                    <p>Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.</p>
-                                </div>
-                                <div class="card-footer">
-                                    <a href="#" class="btn-with-arrow">
-                                        <span class="btn-text">Start for free</span>
-                                    </a>
-                                </div>
-                            </div>
-                            <picture class="card-image">
-                                <source srcset="<?php echo get_template_directory_uri(); ?>/img/content-images/use-cases/use-cases-6-mobile.jpg" media="(max-width: 767px)" />
-                                <img src="<?php echo get_template_directory_uri(); ?>/img/content-images/use-cases/use-cases-6.jpg" alt="">
-                            </picture>
-                        </div>
-                    </div>
-                    <div class="tab" id="tab-ecommerce">
-                        <div class="use-case-tab-card">
-                            <div class="card-content">
-                                <h3 class="card-caption">Take Your Sales to The Next Level</h3>
-                                <div class="card-text">
-                                    <p>Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.</p>
-                                </div>
-                                <div class="card-footer">
-                                    <a href="#" class="btn-with-arrow">
-                                        <span class="btn-text">Start for free</span>
-                                    </a>
-                                </div>
-                            </div>
-                            <picture class="card-image">
-                                <source srcset="<?php echo get_template_directory_uri(); ?>/img/content-images/use-cases/use-cases-7-mobile.jpg" media="(max-width: 767px)" />
-                                <img src="<?php echo get_template_directory_uri(); ?>/img/content-images/use-cases/use-cases-7.jpg" alt="">
-                            </picture>
-                        </div>
-                    </div>
+                        <?php endwhile; ?>
+                    <?php endif; ?>
                 </div>
             </div>
         </section>
@@ -441,40 +218,29 @@ get_header(); ?>
         <section class="testimonials-section">
             <div class="container">
                 <div class="testimonials-slider">
-                    <div class="slide">
-                        <div class="testimonial-card">
-                            <div class="card-text">
-                                <p>Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.</p>
-                            </div>
+                    <?php if( have_rows('reviews') ): ?>
+                        <?php
+                        $i=0;
+                        while( have_rows('reviews') ): the_row(); ?>
+                            <div class="slide">
+                                <div class="testimonial-card">
+                                    <div class="card-text">
+                                        <p><?php echo get_sub_field('review');?></p>
+                                    </div>
 
-                            <div class="card-author-block">
-                                <div class="block-avatar">
-                                    <img src="" alt="">
-                                </div>
-                                <div class="block-content">
-                                    <h4 class="block-name">Albert Flores</h4>
-                                    <p>Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="slide">
-                        <div class="testimonial-card">
-                            <div class="card-text">
-                                <p>Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.</p>
-                            </div>
-
-                            <div class="card-author-block">
-                                <div class="block-avatar">
-                                    <img src="" alt="">
-                                </div>
-                                <div class="block-content">
-                                    <h4 class="block-name">Albert Flores</h4>
-                                    <p>Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint</p>
+                                    <div class="card-author-block">
+                                        <div class="block-avatar">
+                                            <img src="<?php echo get_sub_field('author_image')['url'];?>" alt="<?php echo get_sub_field('author_image')['alt'];?>">
+                                        </div>
+                                        <div class="block-content">
+                                            <h4 class="block-name"><?php echo get_sub_field('author_name');?></h4>
+                                            <p><?php echo get_sub_field('author_position');?></p>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
+                        <?php endwhile; ?>
+                    <?php endif; ?>
                 </div>
             </div>
         </section>
@@ -483,12 +249,12 @@ get_header(); ?>
             <div class="container">
                 <div class="get-access-block">
                     <div class="section-caption">
-                        <h2 class="sc-title">Get Access to Statistics of <strong>238K+</strong> Products</h2>
-                        <p class="sc-subtitle">Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat duis enim velit mollit. Exercitation veniam consequat sunt nostrud amet.</p>
+                        <h2 class="sc-title small"><?php echo get_field('access_title');?></h2>
+                        <p class="sc-subtitle"><?php echo get_field('access_text');?></p>
                     </div>
 
                     <div class="block-footer">
-                        <a href="#" class="btn">START FOR FREE</a>
+                        <a href="<?php echo get_field('access_button_link');?>" data-modal="#contact-sales-modal" class="btn"><?php echo get_field('access_button');?></a>
                     </div>
                 </div>
             </div>

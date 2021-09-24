@@ -8,7 +8,8 @@
 	}
 
 	.section-sidebar{
-		padding-top: 70px;
+		margin-top: 70px;
+		border-right: 1px solid #F4F4F4;
 	}
 
 	.filters-row{
@@ -78,7 +79,8 @@
 		}
 
 		.section-sidebar{
-			padding-top: 0;
+			margin-top: 0;
+			border-right: 0;
 		}
 
 		.filters-row{
@@ -103,10 +105,14 @@
 }
 
 .sidebar-category-block{
-	margin-bottom: 30px;
+	padding-bottom: 15px;
+	margin-bottom: 15px;
+	border-bottom: 1px solid #F4F4F4;
 
 	&:last-child{
 		margin-bottom: 0;
+		padding-bottom: 0;
+		border-bottom: 0;
 	}
 
 	.block-header{
@@ -114,6 +120,11 @@
 		align-items: center;
 		justify-content: space-between;
 		cursor: pointer;
+		padding-right: 20px;
+
+		@media screen and (max-width: 767px){
+			padding-right: 0;
+		}
 	}
 
 	.block-caption{
@@ -126,6 +137,11 @@
 	.block-content{
 		display: none;
 		padding-top: 13px;
+		padding-right: 20px;
+
+		@media screen and (max-width: 767px){
+			padding-right: 0;
+		}
 	}
 
 	.ac-opener{
@@ -151,8 +167,9 @@
 	.checkboxes-list{
 		max-height: 80vh;
 		overflow-y: auto;
+		padding-right: 10px;
 
-		scrollbar-color: $accent transparent;
+		scrollbar-color: #ABA6A6 #E1E1E1;
 		scrollbar-width: thin;
 
 		&::-webkit-scrollbar{
@@ -161,11 +178,11 @@
 
 		&::-webkit-scrollbar-track{
 			border-radius: 2px;
-			background: transparent;
+			background: #E1E1E1;
 		}
 
 		&::-webkit-scrollbar-thumb{
-			background: $accent;
+			background: #ABA6A6;
 			border-radius: 2px;
 			width: 4px;
 		}
@@ -179,19 +196,30 @@
 		}
 
 		.checkbox{
-			margin-bottom: 16px;
+			margin-bottom: 16px !important;
 
 			&:last-child{
-				margin-bottom: 0;
+				margin-bottom: 0 !important;
 			}
 		}
 	}
 }
 
 .product-card{
-	padding: 16px 16px 26px;
+	padding: 16px var(--side-padding) 26px;
 	border: 1px solid #E4E4E4;
 	border-radius: 5px;
+	display: flex;
+	flex-direction: column;
+
+	--side-padding: 16px;
+
+	&:hover,
+	&:focus{
+		outline: none;
+		border-color: $accent;
+		box-shadow: 0px 0px 20px rgba(102, 0, 145, 0.05);
+	}
 
 	.card-image{
 		margin-bottom: 23px;
@@ -215,12 +243,28 @@
 		}
 	}
 
+	.card-content{
+		display: flex;
+		flex-direction: column;
+		flex: auto;
+
+		.card-description{
+			flex: auto;
+		}
+	}
+
 	.card-info{
-		margin-bottom: 20px;
+		margin-bottom: 16px;
 		color: #000;
 		font-weight: 600;
 		font-size: 14px;
 		line-height: 24px;
+		padding: 4px var(--side-padding);
+		width: calc(100% + var(--side-padding) * 2);
+		margin-left: calc(var(--side-padding) * -1);
+		margin-right: calc(var(--side-padding) * -1);
+		border-top: 1px solid #f4f4f4;
+		border-bottom: 1px solid #f4f4f4;
 
 		li{
 			display: flex;
