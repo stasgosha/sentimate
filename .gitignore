@@ -2,6 +2,8 @@
 *.css.map
 bootstrap-4-dev/*
 data/*
+dump/*
+wp/*
 node_modules/*
 prepros-6.config
 prepros.config
