@@ -3,7 +3,7 @@
 <div class="mg__item">
     <div class="mg__title">
         <div class="block_title">Customer Satisfaction</div>
-        <a href="#" class="v_all">View All <img src="<?= $baseAssetUrl; ?>img/icons/arrow_pp.svg" alt="arrow"></a>
+        <a href="https://pro.sentimate.com/product-analysis/<?php echo get_field('product_uuid');?>/overview" class="v_all">View All <img src="<?= $baseAssetUrl; ?>img/icons/arrow_pp.svg" alt="arrow"></a>
     </div>
     <div class="mg__content">
         <div class="mg__numbers">

@@ -105,7 +105,146 @@
                 </div>
 
                 <div class="contact-form form">
+                    <?php echo do_shortcode('[contact-form-7 id="3672" title="Contact Us product"]');?>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal white-bg" id="contact-sales-modalpage" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <button class="modal-close" aria-label="Close modal"></button>
+
+            <div class="contact-sales-block">
+                <div class="logo-block">
+                    <img src="<?php echo get_field('logo','option')['url'];?>" alt="<?php echo get_field('logo','option')['alt'];?>">
+                    <div class="block-text">
+                       <?php echo get_field('modal_logo','option');?>
+                    </div>
+                </div>
+
+                <h2 class="block-caption"><?php echo get_field('modal_title','option');?></h2>
+
+                <div class="block-text">
+                    <p><?php echo get_field('modal_text','option');?></p>
+                </div>
+
+                <div class="contact-form form">
                     <?php echo do_shortcode('[contact-form-7 id="9" title="Contact Us"]');?>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal keep-me-posted-modal" id="keep-me-posted-modal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <button class="modal-close" aria-label="Close modal">
+                <svg class="btn-icon">
+                    <use xlink:href="<?= get_template_directory_uri() ?>/img/icons-sprite.svg#modal-close"></use>
+                </svg>
+            </button>
+
+            <div class="keep-me-posted-block">
+                <div class="block-top">
+                    <h3 class="block-caption">Sentimate is a <strong>great resource</strong> if you want to...</h3>
+                    <ul>
+                        <li>Monitor online conversations on retail products</li>
+                        <li>Check how your competitors are doing</li>
+                        <li>Track progress over time</li>
+                    </ul>
+                </div>
+
+                <div class="block-inner">
+                    <div class="block-form">
+                        <div class="keep-me-posted-form form">
+                            <form action="">
+                                <div class="form-fields">
+                                    <div class="form-field wide">
+                                        <p class="form-label">Email</p>
+                                        <input type="text" class="input-field" placeholder="laracroft@email.com">
+                                    </div>
+
+                                    <div class="form-field">
+                                        <p class="form-label">Full Name</p>
+                                        <input type="text" class="input-field" placeholder="Lara Croft">
+                                    </div>
+
+                                    <div class="form-field">
+                                        <p class="form-label">Company Name</p>
+                                        <input type="text" class="input-field" placeholder="Tomb">
+                                    </div>
+                                </div>
+                                <div class="form-footer">
+                                    <button class="btn">Keep me posted</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="block-image">
+                        <img src="<?= get_template_directory_uri() ?>/img/content-images/modals/keep-me-posted-1.jpg" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal keep-me-posted-modal" id="keep-me-posted-modal-2" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <button class="modal-close" aria-label="Close modal">
+                <svg class="btn-icon">
+                    <use xlink:href="<?= get_template_directory_uri() ?>/img/icons-sprite.svg#modal-close"></use>
+                </svg>
+            </button>
+            
+            <div class="keep-me-posted-block">
+                <div class="block-top">
+                    <h3 class="block-caption">Sentimate is a <strong>great resource</strong> if you want to...</h3>
+                    <ul>
+                        <li>Monitor online conversations on retail products</li>
+                        <li>Check how your competitors are doing</li>
+                        <li>Track progress over time</li>
+                    </ul>
+                </div>
+
+                <div class="block-inner">
+                    <div class="block-bg">
+                        <img src="<?= get_template_directory_uri() ?>/img/content-images/modals/keep-me-posted-bg.jpg" alt="">
+                    </div>
+                    <div class="block-form">
+                        <div class="keep-me-posted-form form">
+                            <form action="">
+                                <div class="form-fields">
+                                    <div class="form-field wide">
+                                        <p class="form-label">Email</p>
+                                        <input type="text" class="input-field" placeholder="laracroft@email.com">
+                                    </div>
+
+                                    <div class="form-field">
+                                        <p class="form-label">Full Name</p>
+                                        <input type="text" class="input-field" placeholder="Lara Croft">
+                                    </div>
+
+                                    <div class="form-field">
+                                        <p class="form-label">Company Name</p>
+                                        <input type="text" class="input-field" placeholder="Tomb">
+                                    </div>
+                                </div>
+                                <div class="form-footer">
+                                    <button class="btn">Keep me posted</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="block-image shifted">
+                        <img src="<?= get_template_directory_uri() ?>/img/content-images/modals/keep-me-posted-2.png" alt="">
+                    </div>
                 </div>
             </div>
         </div>

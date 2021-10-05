@@ -9,13 +9,19 @@ get_header(); ?>
 
 <?php while ( have_posts() ) : the_post(); ?>
     <div class="single-products-content">
-        <?php get_template_part( 'revuzeapi/partials-demo/product_navigation' ); ?>
-        
+        <?php if(!get_field('hide_fix_navigation_','option')){  get_template_part( 'revuzeapi/partials-demo/product_navigation' ); }  ?>
+
         <?php get_template_part( 'revuzeapi/partials-demo/share-sidebar' ); ?>
-        
+
         <div id="singleProduct">
+
             <div class="section section__overview" id="overview">
                 <div class="container container__product">
+                    <div class="breadcrumbs">
+                        <?php
+                            if (function_exists('dimox_breadcrumbs')) dimox_breadcrumbs();
+                        ?>
+                    </div>
                     <div class="section__overview__top_info">
                         <div class="prod_img">
                             <img src="<?php echo get_field('product_image');?>" alt="product_img"></div>
@@ -45,7 +51,7 @@ get_header(); ?>
                             </div>
                         </div>
                     </div>
-        
+
                     <div class="get_field">
                         <div class="mini_graphics__box">
                             <?php get_template_part( 'revuzeapi/partials-demo/competitive_landscape_rank' ); ?>
@@ -56,8 +62,8 @@ get_header(); ?>
                     </div>
                 </div>
             </div>
-        
-        
+
+
             <div class="section__competitive_landscape" id="competitive_landscape" data-id="<?php echo get_field('product_uuid');?>">
                 <div class="container container__product">
                     <div class="section_title">
@@ -67,29 +73,34 @@ get_header(); ?>
                     <div class="mg__item mg__item__lg">
                         <div class="mg__title">
                             <div class="block_title">Top 10</div>
-                            <a href="#" class="v_all">View Top 10 Brands <img src="<?= $baseAssetUrl; ?>img/icons/arrow_pp.svg" alt="arrow"></a>
+                            <a href="#" data-modal="#contact-sales-modal"  class="v_all"><?php echo get_field('market_btn','option');?> <img src="<?= $baseAssetUrl; ?>img/icons/arrow_pp.svg" alt="arrow"></a>
                         </div>
                         <div class="mg__content">
+                            <?php
+                            $ddd = get_field('category_top_10_products_data');
+                            $ddd = json_decode($ddd);
+                            ?>
                             <div class="mg__graphic" style="width: 100%;">
-                                <div id="scatteredGraph" style="width: 100%;height: 350px;"></div>
+                                <div id="scatteredGraph"  style="width: 100%;height: 350px;"></div>
                             </div>
+                            <input type="hidden" id="scatteredGraphinput" value='<?php echo json_encode( $ddd );?>'>
                         </div>
                     </div>
-        
+
                     <div class="mg__item mg__item__lg">
                         <div class="mg__title">
                             <div class="block_title">Competing </div>
-        
-                            <a href="#" class="v_all">View Entire List <img src="<?= $baseAssetUrl; ?>img/icons/arrow_pp.svg" alt="arrow"></a>
+
+                            <a href="#" data-modal="#contact-sales-modal" class="v_all"><?php echo get_field('competing_btn','option');?> <img src="<?= $baseAssetUrl; ?>img/icons/arrow_pp.svg" alt="arrow"></a>
                         </div>
                         <div class="mg__content">
-        
+
                             <?php echo get_field('product_competing_table'); ?>
                         </div>
                     </div>
-        
+
                     <div class="view_list">
-                        <a href="https://pro.revuze.it/">View Entire Topics List <span class="to_list"><img src="<?= $baseAssetUrl; ?>img/icons/r_list.svg" alt="to_list"></span></a>
+                        <a href="#" data-modal="#contact-sales-modal"><?php echo get_field('competing_bottom_btn','option');?> <span class="to_list"><img src="<?= $baseAssetUrl; ?>img/icons/r_list.svg" alt="to_list"></span></a>
                     </div>
                 </div>
             </div>
@@ -104,13 +115,13 @@ get_header(); ?>
                         <div class="section_icon"><img src="<?= $baseAssetUrl; ?>img/icons/satisfaction.svg" alt="ci_list"></div>
                         <h2>Customer Satisfaction</h2>
                     </div>
-        
+
                     <?php get_template_part( 'revuzeapi/partials-demo/overall_satisfaction_overtime' ); ?>
-        
+
                     <div class="view_list">
-                        <a href="https://pro.revuze.it/">View Full Report <span class="to_list"><img src="<?= $baseAssetUrl; ?>img/icons/r_list.svg" alt="to_list"></span></a>
+                        <a href="#" data-modal="#contact-sales-modal"><?php echo get_field('customer_satisfaction_bottom_btn','option');?> <span class="to_list"><img src="<?= $baseAssetUrl; ?>img/icons/r_list.svg" alt="to_list"></span></a>
                     </div>
-        
+
                     <div class="mg__item mg__item__lg hidden">
                         <div class="mg__title">
                             <div class="block_title">Main  Conversation Topics</div>
@@ -124,7 +135,7 @@ get_header(); ?>
                                     <td class="td__col td__head">satisfaction</td>
                                     <td class="td__col td__head td__last">Sentiment distribuion</td>
                                 </tr>
-        
+
                                 <tr class="tr">
                                     <td class="td__col td__prod">Shipping</td>
                                     <td class="td__col">
@@ -136,17 +147,17 @@ get_header(); ?>
                                         </div>
                                     </td>
                                     <td class="td__col td__last">
-        
+
                                         <div class="line_progress">
                                             <div class="lp lp__red"></div>
                                             <div class="lp lp__gray"></div>
                                             <div class="lp lp__green"></div>
                                         </div>
-        
+
                                     </td>
                                 </tr>
-        
-        
+
+
                                 <tr class="tr">
                                     <td class="td__col td__prod">Is it recomended?</td>
                                     <td class="td__col">
@@ -156,17 +167,17 @@ get_header(); ?>
                                         <div class="t_flbox">34% <div class="numbers_bottom"><span class="mark mark__red">4%</span></div></div>
                                     </td>
                                     <td class="td__col td__last">
-        
+
                                         <div class="line_progress">
                                             <div class="lp lp__red"></div>
                                             <div class="lp lp__gray"></div>
                                             <div class="lp lp__green"></div>
                                         </div>
-        
+
                                     </td>
                                 </tr>
-        
-        
+
+
                                 <tr class="tr">
                                     <td class="td__col td__prod">Paclaging</td>
                                     <td class="td__col">
@@ -176,17 +187,17 @@ get_header(); ?>
                                         <div class="t_flbox">22% <div class="numbers_bottom"> <span class="mark mark__gr">18%</span></div></div>
                                     </td>
                                     <td class="td__col td__last">
-        
+
                                         <div class="line_progress">
                                             <div class="lp lp__red"></div>
                                             <div class="lp lp__gray"></div>
                                             <div class="lp lp__green"></div>
                                         </div>
-        
+
                                     </td>
                                 </tr>
-        
-        
+
+
                                 <tr class="tr">
                                     <td class="td__col td__prod">Smoother</td>
                                     <td class="td__col">
@@ -196,17 +207,17 @@ get_header(); ?>
                                         <div class="t_flbox">66% <div class="numbers_bottom"><span class="mark mark__gr">9%</span></div></div>
                                     </td>
                                     <td class="td__col td__last">
-        
+
                                         <div class="line_progress">
                                             <div class="lp lp__red"></div>
                                             <div class="lp lp__gray"></div>
                                             <div class="lp lp__green"></div>
                                         </div>
-        
+
                                     </td>
                                 </tr>
-        
-        
+
+
                                 <tr class="tr">
                                     <td class="td__col td__prod">Oily</td>
                                     <td class="td__col">
@@ -216,13 +227,13 @@ get_header(); ?>
                                         <div class="t_flbox">42% <div class="numbers_bottom"><span class="mark mark__red">2%</span></div></div>
                                     </td>
                                     <td class="td__col td__last">
-        
+
                                         <div class="line_progress">
                                             <div class="lp lp__red"></div>
                                             <div class="lp lp__gray"></div>
                                             <div class="lp lp__green"></div>
                                         </div>
-        
+
                                     </td>
                                 </tr>
                                 <tr></tr>
@@ -231,26 +242,26 @@ get_header(); ?>
                     </div>
                 </div>
             </div>
-        
-        
+
+
             <div class="section__star_rating hidden" id="star_rating">
                 <div class="container container__product">
                     <div class="section_title">
                         <div class="section_icon"><img src="<?= $baseAssetUrl; ?>img/icons/star.svg" alt="ci_list"></div>
                         <h2>Star Rating</h2>
                     </div>
-        
+
                     <div class="mg__item mg__item__lg">
                         <div class="mg__title">
                             <div class="block_title">Main  Conversation Topics</div>
-        
+
                             <a href="#" class="v_all">View Full Topics List<img src="<?= $baseAssetUrl; ?>img/icons/arrow_pp.svg" alt="arrow"></a>
                         </div>
                         <div class="mg__content">
                             <div class="mg__numbers">
-        
+
                                 <div class="numbers_mid"><p>4.6</p> <div class="numbers_bottom"><span class="mark mark__gr">0.4%</span></div></div>
-        
+
                                 <div class="numbers_top">
                                     <div class="rating_box">
                                         <img src="<?= $baseAssetUrl; ?>img/icons/star_emt.svg" alt="rating_star">
@@ -258,10 +269,10 @@ get_header(); ?>
                                         <img src="<?= $baseAssetUrl; ?>img/icons/star_emt.svg" alt="rating_star">
                                         <img src="<?= $baseAssetUrl; ?>img/icons/star_emt.svg" alt="rating_star">
                                         <img src="<?= $baseAssetUrl; ?>img/icons/star_emt.svg" alt="rating_star">
-        
+
                                     </div>
                                 </div>
-        
+
                                 <div class="gr__indicator">
                                     <div class="gi_item"><img src="<?= $baseAssetUrl; ?>img/icons/c1.png" alt="color_indicator"> <span>45% Detractors</span></div>
                                     <div class="gi_item"><img src="<?= $baseAssetUrl; ?>img/icons/c2.png" alt="color_indicator"> <span>30% Neutrals</span></div>
@@ -271,16 +282,16 @@ get_header(); ?>
                             <div class="mg__graphic"></div>
                         </div>
                     </div>
-        
-        
+
+
                     <div class="mg__item mg__item__lg">
                         <div class="mg__title">
                             <div class="block_title">The Main Topics that Impact High Star Rating</div>
-        
+
                             <a href="#" class="v_all">View Drivers of Low Rating <img src="<?= $baseAssetUrl; ?>img/icons/arrow_pp.svg" alt="arrow"></a>
                         </div>
                         <div class="mg__content">
-        
+
                             <table class="block__table3" border="1">
                                 <tr class="tr tr__head">
                                     <td class="td__col td__head td__prod">Topic name</td>
@@ -289,7 +300,7 @@ get_header(); ?>
                                     <td class="td__col td__head td__pre_last">1-3 STAR rating</td>
                                     <td class="td__col td__head td__last">4-5 STAR RATING</td>
                                 </tr>
-        
+
                                 <tr class="tr">
                                     <td class="td__col td__prod">Suction</td>
                                     <td class="td__col">14%</td>
@@ -297,171 +308,171 @@ get_header(); ?>
                                         <div class="numbers_bottom"><span class="mark mark__red">-0.03%</span>    </div>
                                     </td>
                                     <td class="td__col td__pre_last">
-        
+
                                         <div class="line_progress">
                                             <div class="lp lp__red"></div>
                                             <div class="lp lp__gray"></div>
                                             <div class="lp lp__green"></div>
                                         </div>
-        
+
                                     </td>
-        
+
                                     <td class="td__col td__last">
-        
+
                                         <div class="line_progress">
                                             <div class="lp lp__red"></div>
                                             <div class="lp lp__gray"></div>
                                             <div class="lp lp__green"></div>
                                         </div>
-        
+
                                     </td>
                                 </tr>
-        
-        
+
+
                                 <tr class="tr">
                                     <td class="td__col td__prod">Surfaces</td>
                                     <td class="td__col">13%</td>
                                     <td class="td__col">
                                         <div class="numbers_bottom"><span class="mark mark__red">-0.02%</span>    </div>
-        
+
                                     </td>
                                     <td class="td__col td__pre_last">
-        
+
                                         <div class="line_progress">
                                             <div class="lp lp__red"></div>
                                             <div class="lp lp__gray"></div>
                                             <div class="lp lp__green"></div>
                                         </div>
-        
+
                                     </td>
-        
+
                                     <td class="td__col td__last">
-        
+
                                         <div class="line_progress">
                                             <div class="lp lp__red"></div>
                                             <div class="lp lp__gray"></div>
                                             <div class="lp lp__green"></div>
                                         </div>
-        
+
                                     </td>
                                 </tr>
-        
-        
+
+
                                 <tr class="tr">
                                     <td class="td__col td__prod">Ease of use</td>
                                     <td class="td__col">12%</td>
                                     <td class="td__col">
                                         <div class="numbers_bottom"> <span class="mark mark__red">-0.04%</span>    </div>
-        
+
                                     </td>
                                     <td class="td__col td__pre_last">
-        
+
                                         <div class="line_progress">
                                             <div class="lp lp__red"></div>
                                             <div class="lp lp__gray"></div>
                                             <div class="lp lp__green"></div>
                                         </div>
-        
+
                                     </td>
-        
-        
+
+
                                     <td class="td__col td__last">
                                         <div class="line_progress">
                                             <div class="lp lp__red"></div>
                                             <div class="lp lp__gray"></div>
                                             <div class="lp lp__green"></div>
                                         </div>
-        
+
                                     </td>
                                 </tr>
-        
-        
+
+
                                 <tr class="tr">
                                     <td class="td__col td__prod">Weight</td>
                                     <td class="td__col">12%</td>
                                     <td class="td__col">
                                         <div class="numbers_bottom"><span class="mark mark__red">-0.04%</span>    </div>
-        
+
                                     </td>
                                     <td class="td__col td__pre_last">
-        
+
                                         <div class="line_progress">
                                             <div class="lp lp__red"></div>
                                             <div class="lp lp__gray"></div>
                                             <div class="lp lp__green"></div>
                                         </div>
-        
+
                                     </td>
-        
-        
+
+
                                     <td class="td__col td__last">
-        
+
                                         <div class="line_progress">
                                             <div class="lp lp__red"></div>
                                             <div class="lp lp__gray"></div>
                                             <div class="lp lp__green"></div>
                                         </div>
-        
+
                                     </td>
                                 </tr>
-        
-        
+
+
                                 <tr class="tr">
                                     <td class="td__col td__prod">Performance</td>
                                     <td class="td__col">22%</td>
                                     <td class="td__col">
                                         <div class="numbers_bottom"><span class="mark mark__red">-0.03%</span>    </div>
-        
+
                                     </td>
                                     <td class="td__col td__pre_last">
-        
+
                                         <div class="line_progress">
                                             <div class="lp lp__red"></div>
                                             <div class="lp lp__gray"></div>
                                             <div class="lp lp__green"></div>
                                         </div>
-        
+
                                     </td>
-        
-        
+
+
                                     <td class="td__col td__last">
-        
+
                                         <div class="line_progress">
                                             <div class="lp lp__red"></div>
                                             <div class="lp lp__gray"></div>
                                             <div class="lp lp__green"></div>
                                         </div>
-        
+
                                     </td>
                                 </tr>
-        
-        
+
+
                                 <tr class="tr">
                                     <td class="td__col td__prod">Attachements</td>
                                     <td class="td__col">17%</td>
                                     <td class="td__col">
                                         <div class="numbers_bottom"><span class="mark mark__red">-0.01%</span>    </div>
-        
+
                                     </td>
                                     <td class="td__col td__pre_last">
-        
+
                                         <div class="line_progress">
                                             <div class="lp lp__red"></div>
                                             <div class="lp lp__gray"></div>
                                             <div class="lp lp__green"></div>
                                         </div>
-        
+
                                     </td>
-        
-        
+
+
                                     <td class="td__col td__last">
-        
+
                                         <div class="line_progress">
                                             <div class="lp lp__red"></div>
                                             <div class="lp lp__gray"></div>
                                             <div class="lp lp__green"></div>
                                         </div>
-        
+
                                     </td>
                                 </tr>
                                 <tr></tr>
@@ -470,20 +481,20 @@ get_header(); ?>
                     </div>
                 </div>
             </div>
-        
-        
-        
+
+
+
             <div class="section__engagement hidden" id="engagement">
                 <div class="container container__product">
                     <div class="section_title">
                         <div class="section_icon"><img src="<?= $baseAssetUrl; ?>img/icons/engagement.svg" alt="ci_list"></div>
                         <h2>Engagement</h2>
                     </div>
-        
+
                     <div class="mg__item mg__item__lg">
                         <div class="mg__title">
                             <div class="block_title">Monthly Reviewers </div>
-        
+
                             <div class="color_indicator_box">
                                 <div class="color_indicator indicator_red"><span></span><p>Negative</p></div>
                                 <div class="color_indicator indicator_gray"><span></span><p>Neutral</p></div>
@@ -496,23 +507,35 @@ get_header(); ?>
                             </div>
                         </div>
                     </div>
-        
-        
+
+
                     <div class="mg__item mg__item__lg">
                         <div class="mg__title">
                             <div class="block_title">Monthly Reviewers </div>
                         </div>
                         <div class="mg__content">
-        
+
                             <div class="mg__graphic"></div>
                         </div>
                     </div>
                     <div class="view_list">
-                        <a href="#">View Full Report <span class="to_list"><img src="<?= $baseAssetUrl; ?>img/icons/r_list.svg" alt="to_list"></span></a>
+                        <a href="#" data-modal="#contact-sales-modal">View Full Report <span class="to_list"><img src="<?= $baseAssetUrl; ?>img/icons/r_list.svg" alt="to_list"></span></a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 <?php endwhile; // end of the loop. ?>
+
+<style>
+	.modal{
+  overflow: auto !important;
+}
+
+.modal .modal-content{
+  box-shadow: none !important;
+  border: 0 !important;
+}
+</style>
+
 <?php get_footer(); ?>
