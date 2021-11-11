@@ -2,8 +2,8 @@
 
 <div class="mg__item mg__item__lg">
     <div class="mg__title">
-        <div class="block_title"><h2>Overall Customer Satisfaction</h2></div>
-        <a href="#" class="v_all">Explore More<img src="<?= $baseAssetUrl; ?>img/icons/arrow_pp.svg" alt="arrow"></a>
+        <!-- <div class="block_title"><h2>Overall Customer Satisfaction</h2></div> -->
+        <a href="#" data-modal="#contact-sales-modal"  class="v_all"><?php echo get_field('customer_satisfaction_big_grafbtn','option');?><img src="<?= $baseAssetUrl; ?>img/icons/arrow_pp.svg" alt="arrow"></a>
     </div>
     <div class="mg__content">
         <div class="mg__graphic" style="flex-wrap: wrap; width: 100%;">

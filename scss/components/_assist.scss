@@ -158,6 +158,9 @@ a[href^="tel"]{
 }
 
 
+.opacity {
+	opacity: 0.5;
+}
 
 
 
@@ -165,5 +168,20 @@ a[href^="tel"]{
 	.mg__content .block__table .td__col span{
 		margin-left: 16px;
 		display: block;
+	}
+}
+
+#scatteredGraph.loading{
+	position: relative;
+
+	&:after{
+		content: '';
+		display: block;
+		position: absolute;
+		width: 128px;
+		height: 16px;
+		left: calc(50% - 128px / 2);
+		top: calc(50% - 16px / 2);
+		background: url(../img/loader.svg) no-repeat center center / contain;
 	}
 }

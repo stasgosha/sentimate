@@ -44,7 +44,7 @@
                     </li>
                     <?php } ?>
                 </ul>
-                <ul class="rating_general">
+                <ul class="rating_general hidden">
                     <li class="detractors">Negative</li>
                     <li class="neutral">Neutral</li>
                     <li class="promouters">Positive</li>

@@ -52,6 +52,7 @@
 .checkbox{
 	display: block;
 	margin: 0 !important;
+	position: relative;
 
 	input{
 		~ .fake-label{

@@ -12,7 +12,7 @@ $product_monthly_reviews_length = count($product_monthly_reviews);
 <div class="mg__item" id="product_monthly_reviews" data-info='<?php echo json_encode($product_monthly_reviews);?>'>
     <div class="mg__title">
         <div class="block_title">Customer Satisfaction</div>
-        <a href="#" class="v_all">View All <img src="<?= $baseAssetUrl; ?>img/icons/arrow_pp.svg" alt="arrow"></a>
+        <a href="#" data-modal="#contact-sales-modal"  class="v_all"><?php echo get_field('customer_satisfaction_btn','option');?> <img src="<?= $baseAssetUrl; ?>img/icons/arrow_pp.svg" alt="arrow"></a>
     </div>
     <div class="mg__content">
         <div class="mg__numbers">

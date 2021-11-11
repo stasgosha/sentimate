@@ -27,13 +27,13 @@
                 <div class="numbers_bottom"><span class="mark" data-id="reviewersRise">154</span></div>
             </div>
         </div>
-        <div class="numbers_top line_bottom">
+        <!-- <div class="numbers_top line_bottom">
             <p>Star Rating distribution</p>
             <div class="line_progress" data-id="ratingDistribution">
                 <div class="lp lp__red"></div>
                 <div class="lp lp__gray"></div>
                 <div class="lp lp__green"></div>
             </div>
-        </div>
+        </div> -->
     </div>
 </div>

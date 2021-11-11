@@ -136,6 +136,23 @@
 				opacity: 1;
 			}
 		}
+
+		.btn{
+			position: absolute;
+			right: 11px;
+			top: 11px;
+			bottom: 11px;
+			text-transform: uppercase;
+			background: $accent;
+			min-height: unset;
+			padding-left: 17px;
+			padding-right: 17px;
+
+			&:hover,
+			&:focus{
+				background: darken($accent, 10%);
+			}
+		}
 	}
 
 	@media screen and (max-width: 575px){

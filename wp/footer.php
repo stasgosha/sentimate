@@ -121,14 +121,14 @@
                 <div class="logo-block">
                     <img src="<?php echo get_field('logo','option')['url'];?>" alt="<?php echo get_field('logo','option')['alt'];?>">
                     <div class="block-text">
-                       <?php echo get_field('modal_logo','option');?>
+                       <?php echo get_field('modal_logo_product','option');?>
                     </div>
                 </div>
 
-                <h2 class="block-caption"><?php echo get_field('modal_title','option');?></h2>
+                <h2 class="block-caption"><?php echo get_field('modal_title_product','option');?></h2>
 
                 <div class="block-text">
-                    <p><?php echo get_field('modal_text','option');?></p>
+                    <p><?php echo get_field('modal_text_product','option');?></p>
                 </div>
 
                 <div class="contact-form form">
@@ -194,7 +194,7 @@
     </div>
 </div>
 
-<div class="modal keep-me-posted-modal" id="keep-me-posted-modal-2" tabindex="-1">
+<!-- <div class="modal keep-me-posted-modal" id="keep-me-posted-modal-2" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
             <button class="modal-close" aria-label="Close modal">
@@ -249,7 +249,7 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="//www.youtube.com/iframe_api"></script>

@@ -1,4 +1,4 @@
-<?php 
+<?php
 $baseAssetUrl = get_stylesheet_directory_uri() . '/Revuze/';
 
 
@@ -40,7 +40,7 @@ $starRatingChangeClass = $starRatingChange > 0 ? 'up mark__gr' : 'down mark__red
 
             </div>
 
-            <a href="#" class="v_all">View All <img src="<?= $baseAssetUrl; ?>img/icons/arrow_pp.svg" alt="arrow"></a>
+        <a href="#" data-modal="#contact-sales-modal" class="v_all"><?php echo get_field('user_rating_btn','option');?><img src="<?= $baseAssetUrl; ?>img/icons/arrow_pp.svg" alt="arrow"></a>
         </div>
     <div class="mg__content">
         <div class="mg__numbers">
@@ -71,7 +71,7 @@ $starRatingChangeClass = $starRatingChange > 0 ? 'up mark__gr' : 'down mark__red
                     </li>
                     <?php } ?>
                 </ul>
-                <ul class="rating_general">
+                <ul class="rating_general hidden">
                     <li class="detractors">Negative</li>
                     <li class="neutral">Neutral</li>
                     <li class="promouters">Positive</li>

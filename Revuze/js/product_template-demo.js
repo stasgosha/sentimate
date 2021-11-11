@@ -837,15 +837,16 @@ function imageExists(image_url){
                 var uniqueCompetitors = [];
 
                 data.forEach(item => {uniqueCompetitors.push(...item.uuids)})
-                uniqueCompetitors = uniqueCompetitors.filter((v, i, a) => a.indexOf(v) === i).slice(0, 10);
+                uniqueCompetitors = uniqueCompetitors.filter((v, i, a) => a.indexOf(v) === i).slice(0, 3);
 
+                let i = 0;
                 uniqueCompetitors.forEach(competitor => {
                     $.ajax({
                         url: ajaxurl,
                         type: 'POST',
                         data: {
                             action: 'get_product_data',
-                            product_id: competitor,
+                            product_id: competitor
                         },
                         success: function (response) {
                             var data = JSON.parse(response);
@@ -856,7 +857,6 @@ function imageExists(image_url){
                                       <div class="t_flbox"><img src="${data["image"]}" alt="product"> <span>${data["name"]}</span></div>
                                     </td>`;
 
-
                             $.ajax({
                                 url: ajaxurl,
                                 type: 'POST',
@@ -865,6 +865,8 @@ function imageExists(image_url){
                                     product_id: competitor,
                                 },
                                 success: function (response) {
+                                    i++;
+
                                     response = JSON.parse(response);
                                     var totalReviews     = 0;
                                     var deviations = {
@@ -911,14 +913,14 @@ function imageExists(image_url){
                                         }`));
                                 },
                                 complete: function() {
-
                                     let volumeArray = scatteredGraphArray.map(obj => {return obj});
                                     if (scatteredGraphArray.length >= 5) {
                                         scatteredGraph(parentSelectorId + ' #scatteredGraph', scatteredGraphArray, Math.max(...volumeArray),  productGuid);
                                     }
-                                    console.log(scatteredGraphArray)
-                                    console.log( Math.max(...volumeArray))
-                                    console.log( productGuid)
+
+                                    if (i == uniqueCompetitors.length) {
+                                        $(parentSelectorId + ' #scatteredGraph').removeClass('loading');
+                                    }
                                 }
                             });
                         },
@@ -926,7 +928,7 @@ function imageExists(image_url){
                             console.log("Error");
                         }
                     });
-                })
+                });
 
             },
             error: function () {
@@ -1199,12 +1201,12 @@ function imageExists(image_url){
             currentProduct["tooltip"]         = {};
             currentProduct["tooltip"]["list"] = {};
 
-        $('.navigation a').click(function(e) {
-            e.preventDefault();
-            e.stopImmediatePropagation();
-            let target = $(this).attr('href');
-            $('html,body').animate({scrollTop: $(target).offset().top - $('.navbar').height()},'');
-        })
+        // $('.navigation a').click(function(e) {
+        //     e.preventDefault();
+        //     e.stopImmediatePropagation();
+        //     let target = $(this).attr('href');
+        //     $('html,body').animate({scrollTop: $(target).offset().top - $('.navbar').height()},'');
+        // })
 
         // if (urlParams.has('productGuid')) {
             // if ($('#singleProduct').length > 0) {

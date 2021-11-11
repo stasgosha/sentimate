@@ -1,6 +1,4 @@
 <?php
-add_action( 'wp_ajax_get_product_data', 'get_product_data' );
-add_action( 'wp_ajax_nopriv_get_product_data', 'get_product_data' );
 
 function get_product_data($id=0) {
     if(!$id){
@@ -12,8 +10,28 @@ function get_product_data($id=0) {
 
 }
 
+
+add_action( 'wp_ajax_get_product_data', 'get_product_dataajax' );
+add_action( 'wp_ajax_nopriv_get_product_data', 'get_product_dataajax' );
+
+function get_product_dataajax($id=0) {
+    if(!$id){
+        $id=$_POST['product_id'];
+    }
+    $product_id = $id;
+    $response   = send_api($product_id , 'GET');
+    echo  $response;
+    die();
+}
+
 function get_products($page) {
     $request     = 'products?page='.$page;
+    $response    = send_api($request, 'GET');
+    return  $response;
+
+}
+function get_categoriesapi() {
+    $request     = 'categories';
     $response    = send_api($request, 'GET');
     return  $response;
 
@@ -34,13 +52,12 @@ function get_industry_data($id=0) {
 
 }
 
-add_action( 'wp_ajax_get_competitive_products', 'get_competitive_products' );
-add_action( 'wp_ajax_nopriv_get_competitive_products', 'get_competitive_products' );
 
 function get_competitive_products($id=0) {
     if(!$id){
         $id=$_POST['product_id'];
     }
+
     $product_id = $id;
     $request     = $product_id . '/competitiveProducts?fromDate='.date("m/Y", mktime(0, 0, 0, date('m'), date('d') , date('Y')-1)).'&toDate=' . date("m/Y");
     //$request     = $product_id . 'competitiveProducts?fromDate=01/2020&toDate=' . date("m/Y");
@@ -48,6 +65,22 @@ function get_competitive_products($id=0) {
 
     return  $response;
 
+}
+add_action( 'wp_ajax_get_competitive_products', 'get_competitive_productsajax' );
+add_action( 'wp_ajax_nopriv_get_competitive_products', 'get_competitive_productsajax' );
+
+function get_competitive_productsajax($id=0) {
+    if(!$id){
+        $id=$_POST['product_id'];
+    }
+
+    $product_id = $id;
+    $request     = $product_id . '/competitiveProducts?fromDate='.date("m/Y", mktime(0, 0, 0, date('m'), date('d') , date('Y')-1)).'&toDate=' . date("m/Y");
+    //$request     = $product_id . 'competitiveProducts?fromDate=01/2020&toDate=' . date("m/Y");
+    $response    = send_api($request, 'GET');
+
+    echo   $response;
+     die();
 }
 
 add_action( 'wp_ajax_get_competitive_brands', 'get_competitive_brands' );
@@ -183,8 +216,7 @@ function get_star_rating($id=0) {
 
 }
 
-add_action( 'wp_ajax_get_monthly_reviews', 'get_monthly_reviews' );
-add_action( 'wp_ajax_nopriv_get_monthly_reviews', 'get_monthly_reviews' );
+
 function get_monthly_reviews($id=0) {
     if(!$id){
         $id=$_POST['product_id'];
@@ -197,15 +229,35 @@ function get_monthly_reviews($id=0) {
     return  $response;
 }
 
-add_action( 'wp_ajax_get_monthly_rank', 'get_monthly_rank' );
-add_action( 'wp_ajax_nopriv_get_monthly_rank', 'get_monthly_rank' );
-function get_monthly_rank($id=0) {
+add_action( 'wp_ajax_get_monthly_reviews', 'get_monthly_reviewsajax' );
+add_action( 'wp_ajax_nopriv_get_monthly_reviews', 'get_monthly_reviewsajax' );
+function get_monthly_reviewsajax($id=0) {
     if(!$id){
         $id=$_POST['product_id'];
     }
     $product_id = $id;
+    // $request     = $product_id . '/monthlyReviews?fromDate=01/2015&toDate=02/2021';
+    $request     = $product_id . '/monthlyReviews?fromDate='.date("m/Y", mktime(0, 0, 0, date('m'), date('d') , date('Y')-1)).'&toDate=' . date("m/Y");
+    $response    = send_api($request, 'GET');
+
+    echo   $response;
+    die();
+}
+
+add_action( 'wp_ajax_get_monthly_rank', 'get_monthly_rank' );
+add_action( 'wp_ajax_nopriv_get_monthly_rank', 'get_monthly_rank' );
+function get_monthly_rank($id=0) {
+
+    if(!$id){
+        $id=$_POST['product_id'];
+    }
+
+    $product_id = $id;
     // $request     = $product_id . '/getMonthlyRank?fromDate=01/2015&toDate=04/2021';
     $request     = $product_id . '/getMonthlyRank?fromDate=01/2015&toDate=' . date("m/Y");
+
+
+
     $response    = send_api($request, 'GET');
 
     return  $response;
@@ -258,6 +310,7 @@ function send_api( $request, $method ) {
     $now = time();
     $datediff = $now - $date_post;
     $days= $datediff / (60 * 60 * 24);
+
     if($days>1){
             curl_setopt_array($curl, array(
             CURLOPT_URL => 'https://api-production.revuze.it/api/auth',
@@ -313,5 +366,6 @@ function send_api( $request, $method ) {
     ));
     $response = curl_exec($curl);
     curl_close($curl);
+
     return $response;
 }
