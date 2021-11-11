@@ -223,4 +223,96 @@
         line-height: 1.4;
     }
 }
->>>>>>> 0ee1f970d101c3b1aa4016a69da6311833b04220
+.feedback__form .hbspt-form {
+    width: 100%;
+}
+.feedback__form .hbspt-form form {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+.feedback__form .hbspt-form form > div {
+    width: 100%;
+    margin-bottom: 35px;
+}
+.feedback__form .hbspt-form form > div.hs_submit {
+    margin-bottom: 0;
+}
+.feedback__form .hbspt-form form > div label {
+    margin: 0;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 28px;
+    color: #3A3A3A;
+}
+.feedback__form .hbspt-form form > div input[type=submit], .feedback__form .hbspt-form form > div button {
+    cursor: pointer;
+    margin-top: 0;
+    background: #4E8EFD;
+    border-radius: 5px;
+    border: 2px solid #4e8efd;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 17px;
+    line-height: 21px;
+    color: #FFFFFF;
+    transition: color 0.4s ease, background-color 0.4s ease;
+}
+.feedback__form .hbspt-form form > div input[type=submit]:hover, .feedback__form .hbspt-form form > div button:hover {
+    color: #4E8EFD;
+    background: #fff;
+    transition: color 0.4s ease, background-color 0.4s ease;
+}
+.feedback__form .hbspt-form form > div input, .feedback__form .hbspt-form form > div textarea {
+    margin-top: 15px;
+    width: 100%;
+    background: #FFFFFF;
+    border: 1px solid #E4E4E4;
+    border-radius: 5px;
+    outline: none;
+    padding: 10px 15px;
+    box-sizing: border-box;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 28px;
+    color: #222222;
+}
+.feedback__form .hbspt-form form > div input::placeholder, .feedback__form .hbspt-form form > div textarea::placeholder {
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 28px;
+    color: #9D9D9D;
+}
+.feedback__form .hbspt-form form > div textarea {
+    width: 100%;
+    height: 165px;
+}
+
+.feedback__form .hbspt-form form > div:nth-child(1), .feedback__form .hbspt-form form > div:nth-child(2) {
+    width: calc(50% - 15px);
+}
+
+@media screen and (max-width: 525px) {
+    .feedback__form .hbspt-form form > div {
+        margin-bottom: 20px;
+    }
+
+    .feedback__form .hbspt-form form > div:nth-child(1), .feedback__form .hbspt-form form > div:nth-child(2) {
+        width: 100%;
+    }
+}
+.feedback__form .hbspt-form {
+    width: 100%;
+}
+/*>>>>>>> 0ee1f970d101c3b1aa4016a69da6311833b04220*/
