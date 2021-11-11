@@ -23,7 +23,7 @@ $currentRankChangeClass = $currentRankChange === 0 ? '' : $currentRankChangeClas
 <div class="mg__item" id="product_monthly_rank" data-info='<?php echo json_encode($product_monthly_rank);?>'>
     <div class="mg__title">
         <div class="block_title">Market Rank</div>
-        <a href="#" class="v_all">View All <img src="<?= $baseAssetUrl; ?>img/icons/arrow_pp.svg" alt="arrow"></a>
+        <a href="#" data-modal="#contact-sales-modal" class="v_all"><?php echo get_field('market_rank_btn','option');?> <img src="<?= $baseAssetUrl; ?>img/icons/arrow_pp.svg" alt="arrow"></a>
     </div>
     <div class="mg__content">
         <div class="mg__numbers">

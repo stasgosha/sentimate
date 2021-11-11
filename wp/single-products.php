@@ -2,10 +2,10 @@
 $baseAssetUrl = get_template_directory_uri().'/';
 get_header(); ?>
 
-<script src="https://cdn.amcharts.com/lib/4/core.js"></script>
-<script src="https://cdn.amcharts.com/lib/4/charts.js"></script>
-<script src="https://cdn.amcharts.com/lib/4/themes/animated.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script src="https://cdn.amcharts.com/lib/4/core.js"></script>
+    <script src="https://cdn.amcharts.com/lib/4/charts.js"></script>
+    <script src="https://cdn.amcharts.com/lib/4/themes/animated.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 
 <?php while ( have_posts() ) : the_post(); ?>
     <div class="single-products-content">
@@ -19,7 +19,7 @@ get_header(); ?>
                 <div class="container container__product">
                     <div class="breadcrumbs">
                         <?php
-                            if (function_exists('dimox_breadcrumbs')) dimox_breadcrumbs();
+                        if (function_exists('dimox_breadcrumbs')) dimox_breadcrumbs();
                         ?>
                     </div>
                     <div class="section__overview__top_info">
@@ -66,11 +66,11 @@ get_header(); ?>
 
             <div class="section__competitive_landscape" id="competitive_landscape" data-id="<?php echo get_field('product_uuid');?>">
                 <div class="container container__product">
-                    <div class="section_title">
+                    <div class="section_title hidden">
                         <div class="section_icon"><img src="<?= $baseAssetUrl; ?>img/icons/cil_list.svg" alt="ci_list"></div>
                         <h2>Market</h2>
                     </div>
-                    <div class="mg__item mg__item__lg">
+                    <div class="mg__item mg__item__lg hidden">
                         <div class="mg__title">
                             <div class="block_title">Top 10</div>
                             <a href="#" data-modal="#contact-sales-modal"  class="v_all"><?php echo get_field('market_btn','option');?> <img src="<?= $baseAssetUrl; ?>img/icons/arrow_pp.svg" alt="arrow"></a>
@@ -81,7 +81,7 @@ get_header(); ?>
                             $ddd = json_decode($ddd);
                             ?>
                             <div class="mg__graphic" style="width: 100%;">
-                                <div id="scatteredGraph"  style="width: 100%;height: 350px;"></div>
+                                <div id="scatteredGraph" class="loading"  style="width: 100%;height: 350px;"></div>
                             </div>
                             <input type="hidden" id="scatteredGraphinput" value='<?php echo json_encode( $ddd );?>'>
                         </div>
@@ -100,7 +100,7 @@ get_header(); ?>
                     </div>
 
                     <div class="view_list">
-                        <a href="#" data-modal="#contact-sales-modal"><?php echo get_field('competing_bottom_btn','option');?> <span class="to_list"><img src="<?= $baseAssetUrl; ?>img/icons/r_list.svg" alt="to_list"></span></a>
+                        <a href="#" data-modal="#contact-sales-modal" class="btn"><?php echo get_field('competing_bottom_btn','option');?></a>
                     </div>
                 </div>
             </div>
@@ -118,14 +118,10 @@ get_header(); ?>
 
                     <?php get_template_part( 'revuzeapi/partials-demo/overall_satisfaction_overtime' ); ?>
 
-                    <div class="view_list">
-                        <a href="#" data-modal="#contact-sales-modal"><?php echo get_field('customer_satisfaction_bottom_btn','option');?> <span class="to_list"><img src="<?= $baseAssetUrl; ?>img/icons/r_list.svg" alt="to_list"></span></a>
-                    </div>
-
-                    <div class="mg__item mg__item__lg hidden">
+                    <div class="mg__item mg__item__lg  hidden">
                         <div class="mg__title">
-                            <div class="block_title">Main  Conversation Topics</div>
-                            <a href="#" class="v_all">View Entire List <img src="<?= $baseAssetUrl; ?>img/icons/arrow_pp.svg" alt="arrow"></a>
+                            <div class="block_title"><?php echo get_field('main_conversation_topics_btn','option');?></div>
+                            <a href="#" data-modal="#contact-sales-modal" class="v_all">View Entire List <img src="<?= $baseAssetUrl; ?>img/icons/arrow_pp.svg" alt="arrow"></a>
                         </div>
                         <div class="mg__content">
                             <table class="block__table2" border="1">
@@ -240,6 +236,10 @@ get_header(); ?>
                             </table>
                         </div>
                     </div>
+
+                    <!-- <div class="view_list">
+                        <a href="#" data-modal="#contact-sales-modal"><?php echo get_field('customer_satisfaction_bottom_btn','option');?> <span class="to_list"><img src="<?= $baseAssetUrl; ?>img/icons/r_list.svg" alt="to_list"></span></a>
+                    </div> -->
                 </div>
             </div>
 
@@ -525,17 +525,32 @@ get_header(); ?>
             </div>
         </div>
     </div>
+
+    <section class="get-access-section">
+        <div class="container">
+            <div class="get-access-block">
+                <div class="section-caption">
+                    <h2 class="sc-title small"><?php echo get_field('product_report_title','option');?></h2>
+                    <p class="sc-subtitle"><?php echo get_field('product_report_text','option');?></p>
+                </div>
+
+                <div class="block-footer">
+                    <a href="#" data-modal="#contact-sales-modal" class="btn"><?php echo get_field('product_report_button','option');?></a>
+                </div>
+            </div>
+        </div>
+    </section>
 <?php endwhile; // end of the loop. ?>
 
-<style>
-	.modal{
-  overflow: auto !important;
-}
+    <style>
+        .modal{
+            overflow: auto !important;
+        }
 
-.modal .modal-content{
-  box-shadow: none !important;
-  border: 0 !important;
-}
-</style>
+        .modal .modal-content{
+            box-shadow: none !important;
+            border: 0 !important;
+        }
+    </style>
 
 <?php get_footer(); ?>

@@ -10,12 +10,24 @@
 	width: calc(100% + 45px * 2);
 	margin-left: -45px;
 	margin-right: -45px;
-	padding: 80px 140px;
+	padding: 80px 90px;
 	background: #EFEDFA;
 	border-radius: 10px;
 
 	.section-caption{
 		margin-bottom: 42px;
+
+		.sc-title{
+			margin-top: 0;
+			margin-bottom: 0;
+		}
+
+		.sc-subtitle{
+			max-width: 920px;
+			margin-left: auto;
+			margin-right: auto;
+			margin-bottom: 0;
+		}
 
 		@media screen and (min-width: 992px){
 			.sc-subtitle{

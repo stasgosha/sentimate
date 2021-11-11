@@ -5,6 +5,10 @@
 		display: grid;
 		grid-template-columns: 255px 1fr;
 		grid-gap: 30px;
+
+		.search-results &{
+			grid-template-columns: 1fr !important;
+		}
 	}
 
 	.section-sidebar{
@@ -99,8 +103,24 @@
 		grid-gap: 16px;
 	}
 
+	.search-results &{
+		grid-template-columns: repeat(4, 1fr);
+
+		@media screen and (max-width: 1199px){
+			grid-template-columns: repeat(3, 1fr);
+		}
+
+		@media screen and (max-width: 767px){
+			grid-template-columns: repeat(2, 1fr);
+		}
+	}
+
 	@media screen and (max-width: 479px){
-		grid-template-columns: 1fr;
+		grid-template-columns: 1fr !important;
+	}
+
+	a{
+		min-width: 255px;
 	}
 }
 
@@ -224,6 +244,10 @@
 	.card-image{
 		margin-bottom: 23px;
 		position: relative;
+		height: 200px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
 		
 		&:before{
 			content: '';
@@ -240,6 +264,10 @@
 			display: block;
 			object-fit: contain;
 			object-position: center center;
+		}
+
+		.search &{
+			margin-bottom: 0;
 		}
 	}
 
@@ -321,6 +349,10 @@
 			&.red{
 				color: #E64747;
 			}
+		}
+
+		.poorstar{
+			color:#E64747;
 		}
 	}
 
@@ -407,85 +439,12 @@
 		--star-bg: var(--empty-bg);
 
 		background: var(--star-bg) no-repeat center center / contain;
-	}
 
-	&.rating-5,
-	&.rating-05{
-		.star:nth-child(1){
-			--star-bg: var(--half-bg);
-		}
-	}
-
-	&.rating-10,
-	&.rating-15,
-	&.rating-20,
-	&.rating-25,
-	&.rating-30,
-	&.rating-35,
-	&.rating-40,
-	&.rating-45,
-	&.rating-50{
-		.star:nth-child(1){
+		&.full{
 			--star-bg: var(--full-bg);
 		}
-	}
 
-	&.rating-20,
-	&.rating-25,
-	&.rating-30,
-	&.rating-35,
-	&.rating-40,
-	&.rating-45,
-	&.rating-50{
-		.star:nth-child(2){
-			--star-bg: var(--full-bg);
-		}
-	}
-
-	&.rating-30,
-	&.rating-35,
-	&.rating-40,
-	&.rating-45,
-	&.rating-50{
-		.star:nth-child(3){
-			--star-bg: var(--full-bg);
-		}
-	}
-
-	&.rating-40,
-	&.rating-45,
-	&.rating-50{
-		.star:nth-child(4){
-			--star-bg: var(--full-bg);
-		}
-	}
-
-	&.rating-50{
-		.star:nth-child(5){
-			--star-bg: var(--full-bg);
-		}
-	}
-
-	&.rating-15{
-		.star:nth-child(2){
-			--star-bg: var(--half-bg);
-		}
-	}
-
-	&.rating-25{
-		.star:nth-child(3){
-			--star-bg: var(--half-bg);
-		}
-	}
-
-	&.rating-35{
-		.star:nth-child(5){
-			--star-bg: var(--half-bg);
-		}
-	}
-
-	&.rating-45{
-		.star:nth-child(5){
+		&.half{
 			--star-bg: var(--half-bg);
 		}
 	}

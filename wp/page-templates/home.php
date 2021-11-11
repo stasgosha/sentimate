@@ -13,22 +13,34 @@ get_header(); ?>
                     <p><?php echo get_field('search_text');?></p>
                 </div>
 
-                <div class="component-search-with-autocomplete">
+                <div class="component-search-with-autocomplete with-link">
                     <div class="cmp-field">
                         <svg class="field-icon">
                             <use xlink:href="<?php echo get_template_directory_uri(); ?>/img/icons-sprite.svg#search"></use>
                         </svg>
-                        <input type="text" placeholder="<?php echo get_field('placeholder_field');?>" id="searchinput">
+                        <input type="text" name="s" placeholder="<?php echo get_field('placeholder_field','option');?>" id="searchinput">
+                        <a href="https://pro.sentimate.com/product-analysis/search-results?q=" class="btn">Go</a>
+                    </div>
+                </div>
+
+                <!-- <div class="component-search-with-autocomplete">
+                    <div class="cmp-field">
+                        <form action="<?php echo get_home_url();?>">
+                            <svg class="field-icon">
+                                <use xlink:href="<?php echo get_template_directory_uri(); ?>/img/icons-sprite.svg#search"></use>
+                            </svg>
+                            <input type="text" name="s" placeholder="<?php echo get_field('placeholder_field','option');?>" id="searchinput">
+                        </form>
                     </div>
                     <div class="cmp-suggestions">
                         <ul id="search_rezult">
 
                         </ul>
                     </div>
-                </div>
+                </div> -->
 
                 <div class="section-stats">
-                    <?php if( have_rows('counters') ): ?>
+                    <?php if( have_rows('counters','option') ): ?>
                         <?php
                         $i=0;
                         while( have_rows('counters') ): the_row(); ?>
@@ -46,15 +58,15 @@ get_header(); ?>
 
         <section class="clients-section">
             <div class="container">
-                <h2 class="small-caption"><?php echo get_field('companies_title');?></h2>
+                <h2 class="small-caption"><?php echo get_field('companies_title','option');?></h2>
             </div>
 
             <div class="clients-slider">
                 <div class="slider-inner">
-                    <?php if( have_rows('companies') ): ?>
+                    <?php if( have_rows('companies','option') ): ?>
                         <?php
                         $i=0;
-                        while( have_rows('companies') ): the_row(); ?>
+                        while( have_rows('companies','option') ): the_row(); ?>
                             <div class="slide">
                                 <div class="client-logo">
                                     <img src="<?php echo get_sub_field('logo')['url'];?>" alt="<?php echo get_sub_field('logo')['alt'];?>">
@@ -65,10 +77,10 @@ get_header(); ?>
                 </div>
                 <div class="slider-inner">
 
-                    <?php if( have_rows('companies') ): ?>
+                    <?php if( have_rows('companies','option') ): ?>
                         <?php
                         $i=0;
-                        while( have_rows('companies') ): the_row(); ?>
+                        while( have_rows('companies','option') ): the_row(); ?>
                             <div class="slide">
                                 <div class="client-logo">
                                     <img src="<?php echo get_sub_field('logo')['url'];?>" alt="<?php echo get_sub_field('logo')['alt'];?>">
@@ -121,10 +133,10 @@ get_header(); ?>
             <div class="container">
                 <div class="stats-grid">
 
-                    <?php if( have_rows('product_counters') ): ?>
+                    <?php if( have_rows('product_counters','option') ): ?>
                         <?php
                         $i=0;
-                        while( have_rows('product_counters') ): the_row(); ?>
+                        while( have_rows('product_counters','option') ): the_row(); ?>
                             <div class="stats-card">
                                 <h3 class="card-caption"><strong style="color: <?php echo get_sub_field('color_counter');?>;"><?php echo get_sub_field('counter');?></strong> <?php echo get_sub_field('title');?></h3>
 
@@ -137,17 +149,21 @@ get_header(); ?>
                                         <?php while( has_sub_field('tags') ): ?>
                                             <li>
                                                 <?php if(get_sub_field('image')['url']){ ?>
-                                                <img src="<?php echo get_sub_field('image')['url']; ?>" alt="<?php echo get_sub_field('image')['alt']; ?>">
-                                                <?php }elseif(get_sub_field('category')){ ?>
-                                                    <a href="<?php echo get_term_link(get_sub_field('category'),'product_category')?>"><?php echo get_term(get_sub_field('category'),'product_category')->name; ?></a>
-                                                <?php }else{?>
-                                                    <?php echo get_sub_field('text');?>
+                                                    <img src="<?php echo get_sub_field('image')['url']; ?>" alt="<?php echo get_sub_field('image')['alt']; ?>">
+                                                <?php }else{ ?>
+                                                    <?php if(get_sub_field('link')){ ?>
+                                                        <a href="<?php echo get_sub_field('link');?>">
+                                                    <?php } ?>
+                                                          <?php echo get_sub_field('text');?>
+                                                    <?php if(get_sub_field('link')){ ?>
+                                                         </a>
+                                                    <?php } ?>
                                                 <?php } ?>
                                             </li>
                                         <?php endwhile; ?>
                                     <?php endif; ?>
                                     <?php if(get_sub_field('text_tags')){ ?>
-                                    <li class="pale"><?php echo get_sub_field('text_tags');?></li>
+                                        <li class="pale"><?php echo get_sub_field('text_tags');?></li>
                                     <?php } ?>
                                 </ul>
                             </div>
@@ -156,7 +172,7 @@ get_header(); ?>
                 </div>
 
                 <div class="section-footer">
-                    <a href="<?php echo get_field('product_button_link');?>" data-modal="#contact-sales-modal" class="btn"><?php echo get_field('product_button');?></a>
+                    <a href="<?php echo get_field('product_button_link','option');?>"  class="btn"><?php echo get_field('product_button','option');?></a>
                 </div>
             </div>
         </section>
@@ -198,7 +214,7 @@ get_header(); ?>
                                             <p><?php echo get_sub_field('text');?></p>
                                         </div>
                                         <div class="card-footer">
-                                            <a href="<?php echo get_sub_field('link');?>" data-modal="#contact-sales-modal" class="btn-with-arrow">
+                                            <a href="<?php echo get_sub_field('link');?>"  class="btn-with-arrow">
                                                 <span class="btn-text"><?php echo get_sub_field('text_link');?></span>
                                             </a>
                                         </div>
@@ -254,7 +270,7 @@ get_header(); ?>
                     </div>
 
                     <div class="block-footer">
-                        <a href="<?php echo get_field('access_button_link');?>" data-modal="#contact-sales-modal" class="btn"><?php echo get_field('access_button');?></a>
+                        <a href="<?php echo get_field('access_button_link');?>"  class="btn"><?php echo get_field('access_button');?></a>
                     </div>
                 </div>
             </div>
