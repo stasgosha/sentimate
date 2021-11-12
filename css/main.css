@@ -16,7 +16,7 @@
 .feedback > img {
     position: absolute;
     bottom: 0;
-    right: 0;
+    right: 13%;
     z-index: 1;
     width: auto;
     height: 98%;
@@ -28,6 +28,7 @@
     padding: 70px 0;
     box-sizing: border-box;
     z-index: 2;
+    margin: 0 -48px;
 }
 .feedback__body .feedback__form {
     width: 100%;
@@ -55,6 +56,11 @@
         display: none;
     }
 }
+@media screen and (max-width: 650px) {
+    .feedback__body {
+        margin: 0;
+    }
+}
 @media screen and (max-width: 600px) {
     .feedback__body {
         padding-top: 30px;
@@ -66,6 +72,7 @@
     }
     .feedback > img {
         height: 300px;
+        right: 0;
     }
 }
 .location {
@@ -77,6 +84,7 @@
     border-radius: 10px;
     display: flex;
     justify-content: space-between;
+    margin: 0 -48px;
 }
 .location .location__body .location__content {
     flex: 0 0 25%;
@@ -140,6 +148,11 @@
 
     .location .location__body {
         padding: 30px 20px;
+    }
+}
+@media screen and (max-width: 900px) {
+    .location .location__body {
+        margin: 0;
     }
 }
 .privacy-policy {
