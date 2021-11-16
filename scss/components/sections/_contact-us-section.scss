@@ -9,7 +9,7 @@
     position: absolute;
 
     bottom: 0;
-    right: 0;
+    right: 13%;
     z-index: 1;
     width: auto;
 
@@ -26,6 +26,7 @@
   padding: 70px 0;
   box-sizing: border-box;
   z-index: 2;
+  margin: 0 -48px;
 
 
   .feedback__form {
@@ -56,7 +57,11 @@
     }
   }
 }
-
+@media screen and (max-width: 650px) {
+  .feedback__body {
+    margin: 0;
+  }
+}
 @media screen and (max-width: 600px) {
   .feedback__body {
     padding-top: 30px;
@@ -78,9 +83,9 @@
     border-radius: 10px;
     display: flex;
     justify-content: space-between;
-
+    margin: 0 -48px;
     .location__content {
-      flex: 0 0 25%;
+      flex: 0 0 27%;
       .content__caption {
         margin-bottom: 20px;
         font-size: 36px;
@@ -195,6 +200,11 @@
         }
       }
     }
+  }
+}
+@media screen and (max-width: 900px) {
+  .location .location__body {
+    margin: 0;
   }
 }
 @media screen and (max-width: 767px) {

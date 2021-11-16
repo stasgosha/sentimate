@@ -7,14 +7,15 @@
   margin: 95px 0 180px;
   h1 {
     font-size: 50px;
+    line-height: 60px;
     font-weight: 700;
-    margin-bottom: 4px;
+    margin-bottom: 7px;
   }
 
   h2 {
     font-size: 26px;
     font-weight: 600;
-    margin: 155px 0 20px;
+    margin: 155px 0 13px;
     color: #660091;
     text-transform: uppercase;
   }
@@ -39,8 +40,13 @@
     font-size: 16px;
     color: #999999;
     display: block;
-    margin-bottom: 50px;
+    margin-bottom: 51px;
   }
+}
+.privacy-policy__body h4, .privacy-policy__body h5, .privacy-policy__body h6 {
+  font-size:18px;
+  font-weight: 600;
+  margin-bottom: 11px;
 }
 @media screen and (max-width: 992px) {
   .privacy-policy .privacy-policy__body {
@@ -78,4 +84,100 @@
       line-height: 1.4;
     }
   }
+}
+
+.feedback__form {
+  .hbspt-form {
+    width: 100%;
+    form {
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      align-items: stretch;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      > div {
+        width: 100%;
+        margin-bottom: 35px;
+        &.hs_submit {
+          margin-bottom: 0;
+        }
+        label {
+          margin: 0;
+
+          font-style: normal;
+          font-weight: normal;
+          font-size: 14px;
+          line-height: 28px;
+          color: #3A3A3A;
+        }
+        input[type="submit"], button {
+          cursor: pointer;
+          margin-top: 0;
+          background: #4E8EFD;
+          border-radius: 5px;
+          border: 2px solid #4e8efd;
+          box-sizing: border-box;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          text-align: center;
+
+          font-style: normal;
+          font-weight: bold;
+          font-size: 17px;
+          line-height: 21px;
+          color: #FFFFFF;
+          transition: color 0.4s ease, background-color 0.4s ease;
+          &:hover {
+            color: #4E8EFD;
+            background: #fff;
+            transition: color 0.4s ease, background-color 0.4s ease;
+
+          }
+        }
+        input, textarea {
+          margin-top: 15px;
+          width: 100%;
+          background: #FFFFFF;
+          border: 1px solid #E4E4E4;
+          border-radius: 5px;
+          outline: none;
+          padding: 10px 15px;
+          box-sizing: border-box;
+          font-style: normal;
+          font-weight: normal;
+          font-size: 16px;
+          line-height: 28px;
+          color: #222222;
+
+          &::placeholder {
+            font-style: normal;
+            font-weight: normal;
+            font-size: 16px;
+            line-height: 28px;
+            color: #9D9D9D;
+          }
+        }
+        textarea {
+          width: 100%;
+          height: 165px;
+        }
+        &:nth-child(1), &:nth-child(2) {
+          width: calc(50% - 15px);
+        }
+      }
+    }
+  }
+}
+@media screen and (max-width: 525px) {
+  .feedback__form .hbspt-form form > div {
+    margin-bottom: 20px;
+  }
+  .feedback__form .hbspt-form form > div:nth-child(1), .feedback__form .hbspt-form form > div:nth-child(2) {
+    width: 100%;
+  }
+}
+.feedback__form .hbspt-form {
+  width: 100%;
 }
