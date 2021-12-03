@@ -1,0 +1,89 @@
+.top-ranked-products-component{
+	background: #EFEDFA;
+	margin-top: 35px;
+	margin-bottom: 50px;
+	width: calc(100% + 46px * 2);
+	padding: 46px;
+	border-radius: 10px;
+
+	.cmp-caption{
+		margin-bottom: 40px;
+		font-size: 16px;
+		line-height: 1.25;
+		font-family: $second-font;
+		color: #222;
+
+		&:before{
+			content: '';
+			display: inline-block;
+			width: 14px;
+			height: 14px;
+			margin-right: 7px;
+			background: url("data:image/svg+xml,%3Csvg fill='none' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M0 0h.88v13.13H14V14H0V0Zm8.75 3.06a.44.44 0 0 1 .44-.44h3.5a.44.44 0 0 1 .44.44v3.5a.44.44 0 0 1-.88 0V4.3L9.09 8.15a.44.44 0 0 1-.65.03L6.18 5.92l-3.2 4.4a.44.44 0 0 1-.7-.51l3.5-4.82a.44.44 0 0 1 .65-.05l2.29 2.28 3.04-3.72H9.2a.44.44 0 0 1-.44-.44Z' fill='%234C4F57'/%3E%3C/svg%3E") no-repeat center center / contain;
+		}
+
+		a{
+			font-weight: 600;
+			color: $accent;
+
+			&:hover,
+			&:focus{
+				text-decoration: underline;
+			}
+		}
+	}
+
+	.top-ranked-slider{
+		width: calc(100% + 15px * 2);
+		margin-left: -15px;
+		margin-right: -15px;
+
+		.slide{
+			padding: 0 15px;
+		}
+
+		.slick-arrow{
+			width: 32px;
+			height: 32px;
+			border-radius: 50%;
+			background: #F7E3FF;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			top: 114px;
+			transition: all $t;
+
+			svg{
+				width: 8px;
+				height: 13px;
+				fill: $accent;
+				transition: all $t;
+			}
+
+			&:hover,
+			&:focus{
+				background: $accent;
+
+				svg{
+					fill: #fff;
+				}
+			}
+
+			&.slick-prev{
+				left: -1px;
+
+				svg{
+					transform: translateX(-7%);
+				}
+			}
+
+			&.slick-next{
+				right: -1px;
+
+				svg{
+					transform: translateX(7%);
+				}
+			}
+		}
+	}
+}

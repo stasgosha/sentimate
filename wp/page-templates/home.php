@@ -19,7 +19,8 @@ get_header(); ?>
                             <use xlink:href="<?php echo get_template_directory_uri(); ?>/img/icons-sprite.svg#search"></use>
                         </svg>
                         <input type="text" name="s" placeholder="<?php echo get_field('placeholder_field','option');?>" id="searchinput">
-                        <a href="https://pro.sentimate.com/product-analysis/search-results?q=" class="btn">Go</a>
+                        <!-- <a href="https://pro.sentimate.com/product-analysis/search-results?q=" class="btn">Go</a> -->
+                        <button class="btn" data-modal="#popUp">Go</button>
                     </div>
                 </div>
 
@@ -214,7 +215,7 @@ get_header(); ?>
                                             <p><?php echo get_sub_field('text');?></p>
                                         </div>
                                         <div class="card-footer">
-                                            <a href="<?php echo get_sub_field('link');?>"  class="btn-with-arrow">
+                                            <a <?php if(get_sub_field('popup__link')) { ?>data-modal="<?php echo get_sub_field('link');?>" <?php } else { ?> href="<?php echo get_sub_field('link');?>" <?php } ?> class="btn-with-arrow">
                                                 <span class="btn-text"><?php echo get_sub_field('text_link');?></span>
                                             </a>
                                         </div>
@@ -277,4 +278,49 @@ get_header(); ?>
         </section>
     </main>
 <?php endwhile; // end of the loop. ?>
+
+<script>
+    $('.component-search-with-autocomplete:not(.with-link) #searchinput').keyup(function(){
+        var val=$(this).val();
+        $('.cmp-suggestions').removeClass('visible');
+        if(val.length>3){
+            var data = {
+                'action': 'loadsearch',
+                'val': val,
+
+            };
+            $.ajax({
+                url: ajaxurl,
+                data: data,
+                type: 'POST',
+                beforeSend: function (xhr) {
+                    $('body').addClass('loading');
+                },
+                success: function (data) {
+                    if (data) {
+                        $('.cmp-suggestions').addClass('visible');
+                        $('#search_rezult').html(data);
+                    }
+                },
+            });
+        }
+
+    });
+
+    $('.component-search-with-autocomplete.with-link').each(function(i, el){
+        const input = $(el).find('#searchinput');
+        const link = $(el).find('a.btn');
+        const form = $(el).find('form');
+
+        input.keyup(function(e){
+            link.attr('href', 'https://pro.sentimate.com/product-analysis/search-results?q=' + encodeURIComponent(input.val()));
+
+            if (e.key == "Enter") {
+                window.location.href = 'https://pro.sentimate.com/product-analysis/search-results?q=' + encodeURIComponent(input.val());
+            }
+        });
+
+    });
+</script>
+
 <?php get_footer(); ?>

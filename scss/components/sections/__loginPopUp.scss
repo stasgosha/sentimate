@@ -1,0 +1,218 @@
+.popUp{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+
+	.modal-dialog{
+		width: 100%;
+        // margin: 0;
+		max-width:671px;
+	}
+
+    .modal-content{
+        padding: 0;
+    }
+
+    .popUp-dialog{
+        position: relative;
+        @media (max-width:700px) {
+            padding: 0 10px 0 15px;
+        }
+    }
+
+    .popUp-close{
+        position: absolute;
+        z-index: 10;
+        right: 18px;
+        top: 18px;
+        width: 20px;
+        height: 20px;
+    }
+
+    @media only screen and (min-device-width: 0px) and (max-device-width: 480px) and (-webkit-min-device-pixel-ratio: 2){
+        form {
+            width: 100%;
+        }
+    }
+
+    
+    
+    .popUp-wrapper{
+        width: 100%;
+        height: 100%;
+        background-color: #fff;
+        @media (max-width:700px) {
+            border-radius: 10px;
+        }
+    }
+
+    .popUp-form{
+        display: flex;
+        @media (max-width:700px) {
+            justify-content: center;
+        }
+    }
+
+    .popUp-form__main{
+        max-width: 410px;
+        @media (max-width:700px) {
+            max-width: 80%;
+        }
+        @media (max-width:550px) {
+            max-width: 100%;
+        }
+
+        #login_wrapper{
+            .form__header{
+                font-weight: bold;
+                font-size: 28px;
+                line-height: 1.21;
+                color: #000000;
+                margin-bottom: 16px;
+                @media(max-width:450px){
+                    font-size: 20px;
+                }
+            }
+            .forgot-password{
+                font-size: 11px;
+            }
+        }
+
+        .wrapper{
+            min-height: 100%;
+            padding: 38px 63px 37px 37px;
+            @media (max-width:700px) {
+                max-width: 100%;
+                padding: 30px 20px 30px 22px;
+            }
+        }
+        .form__wrapper{
+            padding: 0;
+
+            .form__label{
+                font-family: "Inter";
+                font-style: normal;
+                font-weight: normal;
+                font-size: 11px;
+                color: #3A3A3A;
+            }
+            input{
+                font-family: "Inter";
+                font-style: normal;
+                font-weight: normal;
+                font-size: 12px;
+                color: #9D9D9D;
+                border-radius: 3.78804px;
+                border: 0.757609px solid #E4E4E4;
+                padding-left: 5px;
+                padding-right: 5px;
+                &::placeholder{
+                    font-family: "Inter";
+                    font-style: normal;
+                    font-weight: normal;
+                    font-size: 12px;
+                    color: #9D9D9D;
+                }
+                &:focus{
+                    border: 0.757609px solid #660091;
+                }
+            }
+            .footer-menu{
+                div{
+                    padding-bottom: 18px;
+                    text-align: left;
+                    font-family: "Inter";
+                    font-style: normal;
+                    font-weight: normal;
+                    font-size: 11px;
+                    line-height: 1.4;
+                    color: #000000;
+
+                    a{
+                        font-size: 11px;
+                    }
+                }
+            }
+            .buttons-wrapper{
+                margin-bottom: 14px;
+                button{
+                    font-family: "Montserrat";
+                    font-style: normal;
+                    font-weight: bold;
+                    font-size: 12px;
+                    color: #FFFFFF; 
+                    text-transform: uppercase;
+                    background: #4E8EFD;
+                    border-radius: 3.78804px;
+                    padding: 0 12px;
+                }
+            }
+            .noAccount{
+                text-align: left;
+                .noAccount__text{
+                    font-family: "Inter";
+                    font-style: normal;
+                    font-weight: normal;
+                    font-size: 11.0781px;
+                    color: #000000;
+                }
+                .noAccount__link{
+                    font-family: "Inter";
+                    font-style: normal;
+                    font-weight: normal;
+                    font-size: 11.0781px;
+                }
+            }
+            .error-message{
+                font-size: 12px;
+            }
+        }
+        .register_wrapper__title{
+            margin-bottom: 13px;
+            h1{
+                font-family: "Inter";
+                font-style: normal;
+                font-weight: 600;
+                font-size: 28px;
+                line-height: 34px;                
+                color: #000000; 
+                @media (max-width:700px) {
+                    font-size: 24px;
+                }
+            }
+        }
+    }
+
+    .popUp-form__side{
+        padding: 42px 42px 38px 42px;
+        background-color: #F4F8FB;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        @media (max-width:700px) {
+            display: none;
+        }
+
+        .popUp-form__side-list{
+            ul{
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-direction: column;
+            }
+        }
+
+    }
+
+    #login_wrapper, #register_wrapper{
+        height: 100%;
+    }
+
+}
+
+// .popUp.open{
+//     visibility: visible;
+//     transform: scale(1);
+// }

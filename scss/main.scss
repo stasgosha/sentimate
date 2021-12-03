@@ -1,3 +1,9 @@
+
+@import url(../Revuze/css/reset-demo.css);
+@import url(../Revuze/css/main.css);
+@import url(../Revuze/css/custom.css);
+
+
 @import "components/fonts";
 @import "components/vars";
 @import "components/assist";
@@ -10,7 +16,7 @@
 
 // Footer
 @import "components/footer/footer";
- 
+
 // Common
 @import "components/common/buttons";
 @import "components/common/forms";
@@ -34,3 +40,9 @@
 @import "components/sections/about-section";
 @import "components/sections/contact-us-section";
 @import "components/sections/legal";
+@import "components/sections/login";
+@import "components/sections/_loginPopUp";
+@import "components/sections/overview-section";
+@import "components/sections/product-page-section";
+@import "components/sections/top-ranked-products-component";
+@import "components/sections/industries-section";

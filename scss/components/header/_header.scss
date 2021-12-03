@@ -75,7 +75,7 @@
 
 	img{
 		display: block;
-		height: 30px;
+		height: 46px;
 		width: auto;
 		margin-right: 8px;
 		flex: none;
@@ -101,7 +101,7 @@
 	@media screen and (max-width: 575px){
 		.header &{
 			img{
-				height: 23px;
+				height: 40px;
 				margin-right: 6px;
 			}
 
@@ -164,8 +164,6 @@
 	align-items: center;
 	color: #222;
 	font-family: $second-font;
-
-	display: none !important;
 
 	.btn-icon{
 		width: 17px;

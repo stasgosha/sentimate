@@ -129,6 +129,7 @@
 	color: #4E8EFD;
 	display: flex;
 	align-items: center;
+	cursor: pointer;
 
 	&:before,
 	&:after{
@@ -153,6 +154,8 @@
 
 	&:hover,
 	&:focus{
+		color: #4E8EFD;
+
 		&:before{
 			margin-left: 0;
 			opacity: 1;

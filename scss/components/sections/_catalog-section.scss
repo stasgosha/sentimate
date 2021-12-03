@@ -231,6 +231,7 @@
 	border-radius: 5px;
 	display: flex;
 	flex-direction: column;
+	background: #fff;
 
 	--side-padding: 16px;
 
@@ -377,6 +378,7 @@
 		align-items: center;
 		color: $accent;
 		font-weight: 600;
+		white-space: nowrap;
 
 		&:before,
 		&:after{
@@ -422,8 +424,9 @@
 
 .star-rating{
 	display: grid;
-	grid-template-columns: repeat(5, 11px);
+	grid-template-columns: repeat(5, var(--star-size));
 	grid-gap: 4px;
+	--star-size: 11px;
 
 	--empty-bg: url("data:image/svg+xml,%3Csvg fill='none' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 11 11'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M7.805 6.7a.546.546 0 0 1 .157-.483l2.135-2.08-2.95-.428a.546.546 0 0 1-.412-.299L5.416.737 4.097 3.41a.546.546 0 0 1-.411.299l-2.95.428 2.134 2.08a.546.546 0 0 1 .157.484l-.504 2.938 2.639-1.387a.546.546 0 0 1 .508 0l2.64 1.387-.505-2.938ZM.327 3.646l3.28-.477L5.074.195c.129-.26.556-.26.684 0l1.467 2.973 3.28.477a.382.382 0 0 1 .212.65L8.343 6.609l.561 3.268a.381.381 0 0 1-.553.401L5.416 8.735l-2.934 1.543a.38.38 0 0 1-.553-.402l.56-3.268L.115 4.295a.381.381 0 0 1 .212-.65ZM5.268.437Z' fill='%234C4F57'/%3E%3C/svg%3E");
 
@@ -433,8 +436,8 @@
 
 	.star{
 		display: block;
-		width: 11px;
-		height: 11px;
+		width: var(--star-size);
+		height: var(--star-size);
 
 		--star-bg: var(--empty-bg);
 
@@ -447,6 +450,10 @@
 		&.half{
 			--star-bg: var(--half-bg);
 		}
+	}
+
+	&.big{
+		--star-size: 16px;
 	}
 }
 

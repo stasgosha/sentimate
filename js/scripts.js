@@ -36,6 +36,8 @@ document.addEventListener('DOMContentLoaded', function(){
 		$(el).find('.prev').parent().addClass('prev');
 	});
 
+	$('.fancybox').fancybox();
+
 	// Single product
 	if ($('body').hasClass('single-products')) {
 		function setNavigationPosition() {
@@ -168,6 +170,16 @@ document.addEventListener('DOMContentLoaded', function(){
 		slidesToScroll: 1,
 		arrows: true,
 		...arrowsButtons
+	});
+
+	$('.top-ranked-products-component').each(function(i, cmp){
+		$(cmp).find('.top-ranked-slider').slick({
+			infinite: true,
+			slidesToShow: 4,
+			slidesToScroll: 1,
+			arrows: true,
+			...arrowsButtons
+		});
 	});
 
 	// Scroll to anchor
