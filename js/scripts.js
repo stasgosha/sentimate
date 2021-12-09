@@ -1,5 +1,20 @@
 document.addEventListener('DOMContentLoaded', function(){
 
+	
+	
+	let productText = document.querySelectorAll('.product-analysis .product-name');	
+
+
+	productText.forEach(item => {
+		if(item.innerText.length > 90){
+			item.innerText = item.innerText.slice(0, 108) + '...';
+		}
+	});
+
+
+
+
+
 	const isRTL = $('html').attr('dir') == 'rtl';
 	const isMobile = $(window).width() < 992;
 
@@ -178,7 +193,31 @@ document.addEventListener('DOMContentLoaded', function(){
 			slidesToShow: 4,
 			slidesToScroll: 1,
 			arrows: true,
-			...arrowsButtons
+			...arrowsButtons,
+			responsive: [
+				{
+				  breakpoint: 1130,
+				  settings: {
+					slidesToShow: 3,
+					slidesToScroll: 1,
+				  }
+				},
+				{
+				  breakpoint: 880,
+				  settings: {
+					slidesToShow: 2,
+					slidesToScroll: 1,
+				  }
+				},
+				{
+				  breakpoint: 740,
+				  settings: {
+					slidesToShow: 1,
+					slidesToScroll: 1,
+					arrows:false
+				  }
+				}
+			  ]
 		});
 	});
 
