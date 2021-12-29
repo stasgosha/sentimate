@@ -1,10 +1,12 @@
 <?php
 
-function get_product_data($id=0) {
+function get_product_data($id) {
+
     if(!$id){
         $id=$_POST['product_id'];
     }
     $product_id = $id;
+
     $response   = send_api($product_id , 'GET');
     return  $response;
 
@@ -21,7 +23,6 @@ function get_product_dataajax($id=0) {
     $product_id = $id;
     $response   = send_api($product_id , 'GET');
     echo  $response;
-    die();
 }
 
 function get_products($page) {
@@ -80,7 +81,7 @@ function get_competitive_productsajax($id=0) {
     $response    = send_api($request, 'GET');
 
     echo   $response;
-     die();
+
 }
 
 add_action( 'wp_ajax_get_competitive_brands', 'get_competitive_brands' );
@@ -241,7 +242,7 @@ function get_monthly_reviewsajax($id=0) {
     $response    = send_api($request, 'GET');
 
     echo   $response;
-    die();
+
 }
 
 add_action( 'wp_ajax_get_monthly_rank', 'get_monthly_rank' );
@@ -277,6 +278,69 @@ function get_topic_monthly_sentiment($id=0) {
     return  $response;
 
 }
+add_action( 'wp_ajax_get_topic_monthly_sentiment', 'get_topic_monthly_sentiment' );
+add_action( 'wp_ajax_nopriv_get_topic_monthly_sentiment', 'get_topic_monthly_sentiment' );
+
+function get_most_discussed_topics($id=0) {
+    if(!$id){
+        $id=$_POST['product_id'];
+    }
+    $product_id = $id;
+    // $request     = $product_id . '/getMonthlyRank?fromDate=01/2015&toDate=04/2021';
+    $request     = $product_id . '/topic/mostLiked?fromDate='.date("m/Y", mktime(0, 0, 0, date('m'), date('d') , date('Y')-1)).'&toDate=' . date("m/Y");
+    $response    = send_api($request, 'GET',1);
+    $most_discussed_topics=array();
+    $discussed_topics = json_decode($response);
+    foreach($discussed_topics as $value){
+        foreach($value as $val) {
+            foreach ($val as $v) {
+                if(!in_array($v,$most_discussed_topics) ){
+                    $most_discussed_topics[]=$v;
+                }
+
+            }
+        }
+    }
+    $topics_of_product_arr=array();
+    foreach($most_discussed_topics as $value){
+        $topics_of_product=get_most_discussed_topics_of_product($product_id,$value);
+        $topics_of_product_arr[$value]=json_decode($topics_of_product);
+    }
+
+    $response='['.json_encode($topics_of_product_arr).']';
+    return  $response;
+
+}
+
+function get_most_discussed_topics_of_product($id=0,$topicUuid) {
+    if(!$id){
+        $id=$_POST['product_id'];
+    }
+    $product_id = $id;
+    $request     = $product_id .'/topic/'.$topicUuid. '/reviews?fromDate='.date("m/Y", mktime(0, 0, 0, date('m'), date('d') , date('Y')-1)).'&toDate=' . date("m/Y");
+    $response    = send_api($request, 'GET',1);
+
+    return  $response;
+
+}
+
+function get_topicsAdvDisadv($id=0) {
+    if(!$id){
+        $id=$_POST['product_id'];
+    }
+    $product_id = $id;
+    // $request     = $product_id . '/getMonthlyRank?fromDate=01/2015&toDate=04/2021';
+    $request     = $product_id . '/topicsAdvDisadv?fromDate='.date("m/Y", mktime(0, 0, 0, date('m'), date('d') , date('Y')-1)).'&toDate=' . date("m/Y");
+    $response    = send_api($request, 'GET',1);
+
+    return  $response;
+
+}
+
+
+
+
+
 add_action( 'wp_ajax_get_topic_monthly_sentiment_compare', 'get_topic_monthly_sentiment_compare' );
 add_action( 'wp_ajax_nopriv_get_topic_monthly_sentiment_compare', 'get_topic_monthly_sentiment_compare' );
 function get_topic_monthly_sentiment_compare($id=0) {
@@ -300,7 +364,7 @@ function get_topic_monthly_sentiment_compare($id=0) {
 }
 
 
-function send_api( $request, $method ) {
+function send_api( $request, $method , $newapi=0) {
 
     $curl = curl_init();
     $date = get_field('data_update_token', 'option', false);
@@ -340,20 +404,25 @@ function send_api( $request, $method ) {
         update_field('data_update_token', date('Y-m-d H:i:s'), 'option');
     }
 
+    $link='https://api-production.revuze.it/api/entities/';
+
+//
+//    if($newapi){
+//        $link='https://api-production.revuze.it/api/entities/';
+//    }else{
+//        $link='https://api-production.revuze.it/api/entities/';
+//    }
 
 
 
-
-
-
-        $headers = array(
+    $headers = array(
         'Authorization:'.get_field('token','option'),
         'cache-control: no-cache',
         'content-type: application/json'
     );
 
     curl_setopt_array($curl, array(
-      CURLOPT_URL => 'https://api-production.revuze.it/api/entities/' . $request,
+      CURLOPT_URL => $link . $request,
 
       CURLOPT_RETURNTRANSFER => true,
       CURLOPT_HTTPHEADER => $headers,
@@ -364,8 +433,50 @@ function send_api( $request, $method ) {
       CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
       CURLOPT_CUSTOMREQUEST => $method,
     ));
+
+
+
+
     $response = curl_exec($curl);
+    $http_status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
     curl_close($curl);
 
+//    print_R('</br>');
+//    print_R($method);
+//    print_R('</br>');
+//    print_R('</br>');
+//    print_R($headers);
+//    print_R('</br>');
+//
+//    print_R($request);
+//    print_R('</br>');
+//    print_R('</br>');
+//    print_R($response);
+//    if($request=='70625acbb6b2962a96e1572230bcc73162cbcd3ce9fbba3cc714b6059c41c2b4/topicsAdvDisadv?fromDate=12/2020&toDate=12/2021') {
+//        echo get_field('token','option');
+//        print_R('<strong>');
+//        print_R('</br>');
+//        print_R('////////////////////////////////////////////////');
+//        print_R('</br>');
+//        echo 'Status:'.$http_status;
+//        print_R('</br>');
+//        print_R('////////////////////////////////////////////////');
+//        print_R('</br>');
+//        print_R('</br>');
+//        print_R('////////////////////////////////////////////////');
+//        print_R('</br>');
+//        print_R('Link request: '.$link . $request);
+//        print_R('</br>');
+//        print_R('////////////////////////////////////////////////');
+//        print_R('</br>');
+//        print_R('</br>');
+//        print_R('////////////////////////////////////////////////');
+//        print_R('</br>');
+//        print_R('Response:'.$response);
+//        print_R('</br>');
+//        print_R('////////////////////////////////////////////////');
+//        print_R('</br>');
+//        print_R('</strong>');
+//    }
     return $response;
 }

@@ -501,6 +501,7 @@ function scatteredGraph(selector, data, maxValue = 100, selectedProduct) {
 
 function overtimeTopicGraph(selector, data, size = 1, stroke, data2 = []) {
     // container?.dispose();
+    if (!document.querySelector(selector)) { return false; }
     document.querySelector(selector).parentElement.parentElement.style.background = `linear-gradient( 0deg, ${stroke}, hsla(0,0%,100%,0) 80%)`;
     const container = am4core.create(document.querySelector(selector), am4core.Container);
     container.width = am4core.percent(106 * size);
@@ -593,7 +594,7 @@ function imageExists(image_url){
 
 (function($) {
     function drawOverview(parentSelectorId, productGuid, urlParams, currentProduct) {
-        am4core.addLicense('CH211379993');
+    //    am4core.addLicense('CH211379993');
 
         let biggestHeight = 0;
         $('.section__overview__top_info').each(function() {
@@ -609,12 +610,12 @@ function imageExists(image_url){
          * **/
    
         let json = $('#product_monthly_rank').data('info');
-    
+
             let tempData     = [];
             let arrayOfDates = Object.keys(json.values);
 
-            am4core.addLicense('CH211379993');
-            am4core.useTheme(am4themes_animated);
+          //  am4core.addLicense('CH211379993');
+           // am4core.useTheme(am4themes_animated);
 
             let chart        = am4core.create((document.querySelector(parentSelectorId + ' #rankOverTime')), am4charts.XYChart);
             gengraph(chart, 'date', Math.max(...Object.values(json.values)) + 100);
@@ -635,10 +636,12 @@ function imageExists(image_url){
                 let currentRankChangeClass = currentRankChange < 0 ? 'up mark__gr' : 'down mark__red';
                     currentRankChangeClass = currentRankChange === 0 ? '' : currentRankChangeClass;
 
+
                 $(parentSelectorId + ' p[data-id="currentRank"]').text(json.rank);
-                $(parentSelectorId + ' span[data-id="rankOutOf"]').text('/ ' + json.total);
-                $(parentSelectorId + ' span[data-id="currentRankChange"]').text( currentRankChange );
-                $(parentSelectorId + ' span[data-id="currentRankChange"]').addClass( currentRankChangeClass );
+
+                $(parentSelectorId + ' [data-id="rankOutOf"]').text('/ ' + json.total);
+                $(parentSelectorId + ' [data-id="currentRankChange"]').text( currentRankChange );
+                $(parentSelectorId + ' [data-id="currentRankChange"]').addClass( currentRankChangeClass );
 
                 create_line('#1d60ff', 'rank', 'Rank', 'date', chart );
                 chart.data = tempData;
@@ -707,8 +710,8 @@ function imageExists(image_url){
                 $(parentSelectorId + ' span[data-id="starRatingChange"]').text( starRatingChange );
                 $(parentSelectorId + ' span[data-id="starRatingChange"]').addClass( starRatingChangeClass );
 
-
-                // $(parentSelectorId + ' p[data-id="productStarRating"]').html(avarageRating)
+                // alert(avarageRating);
+                 $(parentSelectorId + ' p[data-id="productStarRating"]').html(avarageRating)
                 startRatingPieShart(parentSelectorId + " #chartdiv", chartData1, chartData2);
 
         /** END PRODUCT STAR RATING DRAWING **/
@@ -778,7 +781,11 @@ function imageExists(image_url){
                     let satisfactionChangeClass = satisfactionChange > 0 ? 'up mark__gr' : 'down mark__red';
 
                     $(parentSelectorId + ' p[data-id="satisfactionScore"]').text(avarageSatisfaction + '%');
-                    $(parentSelectorId + ' span[data-id="satisfactionChange"]').text( satisfactionChange + '%' );
+                    if(isNaN(satisfactionChange)) {
+                        $(parentSelectorId + ' span[data-id="satisfactionChange"]').text('-');
+                    }else{
+                        $(parentSelectorId + ' span[data-id="satisfactionChange"]').text(satisfactionChange + '%');
+                    }
                     $(parentSelectorId + ' span[data-id="satisfactionChange"]').addClass( satisfactionChangeClass );
                     currentProduct["sentiment"] = parseFloat( avarageSatisfaction );
                     currentProduct["tooltip"]["list"]["sentiment"] = parseFloat( avarageSatisfaction );
@@ -834,6 +841,9 @@ function imageExists(image_url){
             },
             success: function (competitive) {
                 var data = JSON.parse(competitive);
+
+                if (!data) { return false; }
+
                 var uniqueCompetitors = [];
 
                 data.forEach(item => {uniqueCompetitors.push(...item.uuids)})
@@ -994,9 +1004,29 @@ function imageExists(image_url){
 
                 $(parentSelectorId + ' div[data-id="overallSatisfactionStat"]').text( getAvarage(overallSatisfaction, "sentiment")  + '%');
                 $(parentSelectorId + ' div[data-id="brandEquityStat"]').text( getAvarage(brandEquity, "sentiment")  + '%');
-                $(parentSelectorId + ' div[data-id="valueForMoneyStat"]').text( getAvarage(valueForMoney, "sentiment")  + '%');
-                $(parentSelectorId + ' div[data-id="productQualityStat"]').text( getAvarage(productQuality, "sentiment")  + '%');
-                $(parentSelectorId + ' div[data-id="shoppingExperienceStat"]').text( getAvarage(shoppingExperience, "sentiment")  + '%');
+
+                console.log(getAvarage(valueForMoney, "sentiment"));
+
+                if(isNaN(getAvarage(valueForMoney, "sentiment")) || !getAvarage(valueForMoney, "sentiment") || getAvarage(valueForMoney, "sentiment") === "" || getAvarage(valueForMoney, "sentiment") === null ){
+                    $(parentSelectorId + ' div[data-id="valueForMoneyStat"]').text( '-');
+                }else{
+                    $(parentSelectorId + ' div[data-id="valueForMoneyStat"]').text( getAvarage(valueForMoney, "sentiment")  + '%');
+                }
+
+                if(isNaN(getAvarage(productQuality, "sentiment")) || !getAvarage(productQuality, "sentiment") || getAvarage(productQuality, "sentiment") === "" || getAvarage(productQuality, "sentiment") === null ){
+                    $(parentSelectorId + ' div[data-id="productQualityStat"]').text( '-');
+                }else{
+                    $(parentSelectorId + ' div[data-id="productQualityStat"]').text( getAvarage(productQuality, "sentiment")  + '%');
+                }
+
+                if(isNaN(getAvarage(shoppingExperience, "sentiment")) || !getAvarage(shoppingExperience, "sentiment") || getAvarage(shoppingExperience, "sentiment") === "" || getAvarage(shoppingExperience, "sentiment") === null ){
+                    $(parentSelectorId + ' div[data-id="shoppingExperienceStat"]').text( '-');
+                }else{
+                    $(parentSelectorId + ' div[data-id="shoppingExperienceStat"]').text( getAvarage(shoppingExperience, "sentiment")  + '%');
+                }
+
+
+
 
                 overtimeTopicGraph(parentSelectorId + ' #overallSatisfaction',  overallSatisfaction, 1, '#ff8802');
                 overtimeTopicGraph(parentSelectorId + ' #brandEquity',  brandEquity, 1, '#1d60ff');
@@ -1132,7 +1162,15 @@ function imageExists(image_url){
 
                 $(parentSelectorId + ' div[data-id="overallSatisfactionStat"]').text( getAvarage(overallSatisfaction[0], "sentiment")  + '%');
                 $(parentSelectorId + ' div[data-id="brandEquityStat"]').text( getAvarage(brandEquity[0], "sentiment")  + '%');
-                $(parentSelectorId + ' div[data-id="valueForMoneyStat"]').text( getAvarage(valueForMoney[0], "sentiment")  + '%');
+
+
+                if(isNaN(getAvarage(valueForMoney[0], "sentiment") )){
+                    $(parentSelectorId + ' div[data-id="valueForMoneyStat"]').text( '-');
+                }else{
+                    $(parentSelectorId + ' div[data-id="valueForMoneyStat"]').text( getAvarage(valueForMoney[0], "sentiment")  + '%');
+                }
+
+
                 $(parentSelectorId + ' div[data-id="productQualityStat"]').text( getAvarage(productQuality[0], "sentiment")  + '%');
                 $(parentSelectorId + ' div[data-id="shoppingExperienceStat"]').text( getAvarage(shoppingExperience[0], "sentiment")  + '%');
 
@@ -1209,11 +1247,11 @@ function imageExists(image_url){
         // })
 
         // if (urlParams.has('productGuid')) {
-            // if ($('#singleProduct').length > 0) {
+            if ($('#singleProduct').length > 0) {
                 currentProduct = drawOverview('#singleProduct #overview', '', urlParams, currentProduct);
                 drawCompetitors('#singleProduct #competitive_landscape', jQuery('#competitive_landscape').data('id'), urlParams, currentProduct);
                 drawMegatopicSentiment('#singleProduct #product_satisfaction', '', urlParams);
-            // }
+            }
         // }
 
         // if (urlParams.has('productGuid1')) {
@@ -1236,6 +1274,47 @@ function imageExists(image_url){
         })
     });
 })(window.jQuery)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

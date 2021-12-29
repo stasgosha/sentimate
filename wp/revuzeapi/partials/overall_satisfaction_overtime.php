@@ -2,7 +2,7 @@
 
 <div class="mg__item mg__item__lg">
     <div class="mg__title">
-        <!-- <div class="block_title"><h2>Overall Customer Satisfaction</h2></div> -->
+         <div class="block_title"><!--<h2>Overall Customer Satisfaction</h2>--></div>
         <a href="#" class="v_all">Explore More<img src="<?= $baseAssetUrl; ?>img/icons/arrow_pp.svg" alt="arrow"></a>
     </div>
     <div class="mg__content">

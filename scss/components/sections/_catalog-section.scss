@@ -225,6 +225,112 @@
 	}
 }
 
+.category-card{
+	width: 100%;
+	background: #fff;
+	border: 1px solid #E4E4E4;
+	border-radius: 5px;
+	display: block;
+	transition: all $t;
+
+	&:hover,
+	&:focus{
+		border-color: $accent;
+	}
+
+	.card-image{
+		height: 130px;
+		padding: 16px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border-bottom: 1px solid #F7F7F7;
+
+		img{
+			max-width: 100%;
+			max-height: 100%;
+			display: block;
+			object-fit: contain;
+			object-position: center center;
+		}
+	}
+
+	.card-content{
+		padding: 10px 12px 20px;
+	}
+
+	.card-name{
+		font-size: 16px;
+		line-height: 1.4;
+		font-weight: 500;
+		color: #222;
+		margin-bottom: 10px;
+	}
+
+	.products-count{
+		font-size: 14px;
+		line-height: 1.43;
+		color: #26252D;
+		font-weight: 300;
+		margin-bottom: 15px;
+
+		strong{
+			font-weight: bold;
+		}
+	}
+
+	.more-link{
+		font-size: 12px;
+		line-height: 2;
+		display: flex;
+		align-items: center;
+		color: $accent;
+		font-weight: 500;
+		white-space: nowrap;
+		font-family: $second-font;
+
+		&:before,
+		&:after{
+			content: '';
+			display: block;
+			width: 13px;
+			height: 13px;
+			background: url("data:image/svg+xml,%3Csvg fill='none' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 13 14'%3E%3Cpath d='M6.5 13.5a6.5 6.5 0 1 0 0-13 6.5 6.5 0 0 0 0 13Z' fill='%23660091'/%3E%3Cpath d='M8.62 6.61 5.84 3.84a.5.5 0 0 0-.39-.16.5.5 0 0 0-.38.16l-.32.32c-.11.1-.16.23-.16.38s.05.28.16.4L6.82 7 4.75 9.07a.56.56 0 0 0 0 .78l.32.32c.1.1.24.15.39.15.15 0 .28-.05.39-.15l2.78-2.78c.1-.1.15-.24.15-.39a.55.55 0 0 0-.16-.39Z' fill='%23fff'/%3E%3C/svg%3E") no-repeat center center / contain;
+			flex: none;
+			transition: all $t;
+		}
+
+		&:before{
+			margin-right: 6px;
+			margin-left: -18px;
+			opacity: 0;
+			visibility: hidden;
+		}
+
+		&:after{
+			margin-left: 6px;
+		}
+
+		&:hover,
+		&:focus{
+			&:before{
+				margin-left: 0;
+				opacity: 1;
+				visibility: visible;
+			}
+
+			&:after{
+				opacity: 0;
+				visibility: hidden;
+			}
+		}
+
+		.link-text{
+			display: block;
+		}
+	}
+}
+
 .product-card{
 	padding: 16px var(--side-padding) 26px;
 	border: 1px solid #E4E4E4;

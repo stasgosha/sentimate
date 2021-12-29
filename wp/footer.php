@@ -396,8 +396,9 @@
 <!--<script src="//www.youtube.com/iframe_api"></script>-->
 <script src="<?php echo get_template_directory_uri(); ?>/js/iframe_api.js"></script>
 <script src="<?php echo get_template_directory_uri(); ?>/js/slick.min.js"></script>
-<script src="<?php echo get_template_directory_uri(); ?>/js/scripts.js"></script>
-<script src="<?php echo get_template_directory_uri(); ?>/js/main.js?v=6"></script>
+<script src="<?php echo get_template_directory_uri(); ?>/js/main.js?v=100"></script>
+<script src="<?php echo get_template_directory_uri(); ?>/js/scripts.js?v=100"></script>
+
 <script src="<?php echo get_template_directory_uri(); ?>/Revuze/js/product_template-demo.js"></script>
 
 <!--[if lte IE 8]>
@@ -409,7 +410,55 @@
 <script src="https://cdn.auth0.com/js/polyfills/1.0/object-assign.min.js"></script>
 
 <script>
+    $('.component-search-with-autocomplete:not(.with-link) #searchinput').keyup(function(){
+        var val=$(this).val();
+        $('.cmp-suggestions').removeClass('visible');
+        if(val.length>3){
+            var data = {
+                'action': 'loadsearch',
+                'val': val,
+
+            };
+            $.ajax({
+                url: ajaxurl,
+                data: data,
+                type: 'POST',
+                beforeSend: function (xhr) {
+                    $('body').addClass('loading');
+                },
+                success: function (data) {
+                    if (data) {
+                        $('.cmp-suggestions').addClass('visible');
+                        $('#search_rezult').html(data);
+                    }
+                },
+            });
+        }
+
+    });
+
+    $('.component-search-with-autocomplete.with-link').each(function(i, el){
+        const input = $(el).find('#searchinput');
+        const link = $(el).find('a.btn');
+        const form = $(el).find('form');
+
+        input.keyup(function(e){
+            link.attr('href', 'https://pro.sentimate.com/product-analysis/search-results?q=' + encodeURIComponent(input.val()));
+
+            if (e.key == "Enter") {
+                window.location.href = 'https://pro.sentimate.com/product-analysis/search-results?q=' + encodeURIComponent(input.val());
+            }
+        });
+
+    });
+</script>
+
+<script>
     var ajaxurl = '<?php echo site_url() ?>/wp-admin/admin-ajax.php';
+    var uuid='';
+    <?php if(is_singular('products')){ ?>
+    var uuid='<?php echo get_field('product_uuid');?>';
+    <?php } ?>
 </script>
 <?php wp_footer(); ?>
 </body>

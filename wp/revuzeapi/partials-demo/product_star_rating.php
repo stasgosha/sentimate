@@ -40,7 +40,7 @@ $starRatingChangeClass = $starRatingChange > 0 ? 'up mark__gr' : 'down mark__red
 
             </div>
 
-        <a href="#" data-modal="#contact-sales-modal" class="v_all"><?php echo get_field('user_rating_btn','option');?><img src="<?= $baseAssetUrl; ?>img/icons/arrow_pp.svg" alt="arrow"></a>
+        <a href="https://pro.sentimate.com/" class="v_all"><?php echo get_field('user_rating_btn','option');?><img src="<?= $baseAssetUrl; ?>img/icons/arrow_pp.svg" alt="arrow"></a>
         </div>
     <div class="mg__content">
         <div class="mg__numbers">

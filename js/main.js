@@ -1,16 +1,44 @@
 $(function () {
 
 
+    console.log(document.domain.toLowerCase());
+    if (document.domain.toLowerCase().indexOf("sentimate.com") != -1){
+        ///live
+        var url = 'https://pro.sentimate.com/product-analysis/search?';
+        var tenant='revuze';
+        var token_issuer='https://auth.sentimate.com/';
+        var domain='auth.sentimate.com';
+        var clientID='HKFVDCp1lL0Xk4F72quWxMlhAyX67OrO';
+        var audience='https://revuze.us.auth0.com/api/v2/';
+    }else{
+        ///staging
+        var url = 'https://pro-staging.sentimate.com/product-analysis/search?';
+        var tenant='revuze-staging';
+        var token_issuer='https://auth-staging.sentimate.com/';
+        var domain='auth-staging.sentimate.com';
+        var clientID='85IVkPcs9dUoPCt1SvTA7oZqByEZkXu8';
+        var audience='https://revuze-staging.us.auth0.com/api/v2/';
+    }
+    var starturl=url;
 
 
 
-    var utm_source = getUrlParameter('utm_source');
-    var utm_medium = getUrlParameter('utm_medium');
-    var utm_campaign = getUrlParameter('utm_campaign');
-    var utm_term = getUrlParameter('utm_term');
-    var utm_content = getUrlParameter('utm_content');
-    var hubspotutk = getUrlParameter('hubspotutk');
-    var input = getUrlParameter('input');
+
+    var utm_source = getQueryParam('utm_source');
+    var utm_medium = getQueryParam('utm_medium');
+    var utm_campaign = getQueryParam('utm_campaign');
+    var utm_term = getQueryParam('utm_term');
+    var utm_content = getQueryParam('utm_content');
+    var hubspotutk = getQueryParam('hubspotutk');
+    var industry = getQueryParam('industry');
+    var category = getQueryParam('category');
+    var q = getQueryParam('q');
+    var permalink = getQueryParam('permalink');
+    var compBcat = getQueryParam('compBcat');
+    var compBuuid = getQueryParam('compBuuid');
+
+
+    var input = getQueryParam('input');
     if(utm_source){
         createCookie('utm_source',utm_source,3);
 
@@ -30,13 +58,35 @@ $(function () {
     if(hubspotutk){
         createCookie('hubspotutk',hubspotutk,3);
     }
+    if(hubspotutk){
+        createCookie('hubspotutk',hubspotutk,3);
+    }
+    if(category){
+        createCookie('category',category,3);
+    }
+    if(industry){
+        createCookie('industry',industry,3);
+    }
+    if(permalink){
+        createCookie('permalink',permalink,3);
+    }
+    if(compBcat){
+        createCookie('compBcat',compBcat,3);
+    }
+    if(compBuuid){
+        createCookie('compBuuid',compBuuid,3);
+    }
+    if(q){
+        createCookie('q',q,3);
+    }
+
     if(input || input==0 ){
         createCookie('input',input,3);
     }
 
-    if(!readCookie('input')) {
-        var url = 'https://pro-staging.sentimate.com/category-analysis/search';
-    }
+
+
+
     var utm={};
     if(readCookie('utm_source')){
         utm['utm_source']=readCookie('utm_source');
@@ -53,9 +103,7 @@ $(function () {
     if(readCookie('utm_content')){
         utm['utm_content']=readCookie('utm_content');
     }
-    if(readCookie('hubspotutk')){
-        utm['hubspotutk']=readCookie('hubspotutk');
-    }
+
 
     var params='';
     for (const [key, value] of Object.entries(utm)) {
@@ -66,8 +114,20 @@ $(function () {
         }
 
     }
-    url=url+params;
-    console.log(url);
+    //url = url + params;
+
+
+    var industry = getQueryParam('industry');
+    var category = getQueryParam('category');
+    var compBcat = getQueryParam('compBcat');
+    var compBuuid = getQueryParam('compBuuid');
+    var permalink = getQueryParam('permalink');
+    var q = getQueryParam('q');
+
+
+
+
+
     function createCookie(name, value, days) {
         var expires;
 
@@ -99,72 +159,193 @@ $(function () {
     }
 
 
+    const togglePasswordLogin = document.querySelector(".togglePassword_login")
+    togglePasswordLogin.addEventListener("click", function (e) {
+        const input = document.getElementById("password_login");
+        const type =
+            input.getAttribute("type") === "password"
+                ? "text"
+                : "password";
+        input.setAttribute("type", type);
+        this.classList.toggle("eye-icon--show");
+    });
+
+    const togglePasswordSignin = document.querySelector(".togglePassword_signin")
+    togglePasswordSignin.addEventListener("click", function (e) {
+        const input = document.getElementById("signin_password");
+        const type =
+            input.getAttribute("type") === "password"
+                ? "text"
+                : "password";
+        input.setAttribute("type", type);
+        this.classList.toggle("eye-icon--show");
+    });
+
+    const togglePasswordSigninConfirm = document.querySelector(".togglePassword_signin_confirm")
+    togglePasswordSigninConfirm.addEventListener("click", function (e) {
+        const input = document.getElementById("password-confirmation");
+        const type =
+            input.getAttribute("type") === "password"
+                ? "text"
+                : "password";
+        input.setAttribute("type", type);
+        this.classList.toggle("eye-icon--show");
+    });
+
+   function api(autologinparams=0,link=0,params=0) {
+
+       var redirectUrl='';
+
+        if(uuid !== "" && !params ){
+
+            var redirectUrl = '/product-analysis/'+uuid;
+            if(link){
+                redirectUrl=redirectUrl+link;
+            }
+            if($('.product-name').length){
+                redirectUrl=redirectUrl+'?q='+$('.product-name').text();
+            }
+        }else {
+
+            if(params){
+                redirectUrl=redirectUrl+link;
+            }else {
+                if ($('#searchinput').val()) {
+                    var redirectUrl = '/product-analysis/search-results?q=' + $('#searchinput').val();
+                } else {
+                    if (readCookie('permalink')) {
+                        var redirectUrl = readCookie('permalink');
+                    } else {
+                        var redirectUrl = '/category-analysis/top-ranking-products';
+                    }
+                }
+            }
+
+        }
+        var gets={};
+        if(industry){
+            gets['industry']=readCookie('industry');
+        }
+        if(category){
+            gets['category']=readCookie('category');
+        }
+        if(compBcat){
+            gets['compBcat']=readCookie('compBcat');
+        }
+        if(compBuuid){
+            gets['compBuuid']=readCookie('compBuuid');
+        }
+        if(permalink){
+            gets['permalink']=readCookie('permalink');
+        }
+        if(q){
+            gets['q']=readCookie('q');
+        }
+        var params='';
+        for (const [key, value] of Object.entries(gets)) {
+            if(key!='permalink'){
+                if(params){
+                    params=params+'&'+key+'='+value;
+                }else{
+                    params='?'+key+'='+value;
+                }
+            }
+        }
 
 
-    window.addEventListener('load', function () {
+        redirectUrl = redirectUrl + params;
+
+        var encode = encodeURIComponent(redirectUrl);
+        var redirectQuery = `${!params ? '' : ''}redirect=${encode}`;
+        // if(params ){
+        urlnew= url +redirectQuery;
+        // }
+
+        ///////////////////////////////////
+
+        var params = {
+            overrides: {
+                __tenant: tenant,
+                __token_issuer: token_issuer
+            },
+            domain: domain,
+            clientID: clientID,
+            audience: audience,
+            redirectUri: "",
+            responseType: "code",
+            scope: 'openid profile email',
+            skipRedirectCallback: true,
+            responseMode: 'web_message',
+            prompt: 'none'
+        };
+
+
+        if(starturl==urlnew){
+            urllogin = urlnew+'login=true';
+        }else{
+            urllogin = urlnew+'&login=true';
+        }
+
+        console.log('||||||||||');
+        console.log(urlnew);
+        console.log('||||||||||');
+        console.log(urllogin);
+        console.log('||||||||||');
+        console.log(redirectUrl);
+
+
+        const webAuthCallback = customWebAuth(window.location.origin);
+        const webAuth = customWebAuth(urlnew);
+        const webAuthLogin = customWebAuth(urllogin);
+
+        // console.log('///////////////');
+        // console.log(webAuth);
+        function customWebAuth(redirectUri) {
+            var params = {
+                overrides: {
+                    __tenant: tenant,
+                    __token_issuer: token_issuer
+                },
+                domain: domain,
+                clientID: clientID,
+                audience: audience,
+                redirectUri: "",
+                responseType: "code",
+                scope: 'openid profile email',
+            };
+            params.redirectUri = redirectUri;
+            return new auth0.WebAuth(params);
+        }
+
+        webAuthCallback.parseHash({ nonce: '1234' }, function (err, authResult) {
+
+            if (err || !authResult) {
+                return console.log(err);
+            }
+
+            webAuthCallback.client.userInfo(authResult.accessToken, function (err, user) {
+                // create form to HS here:
+                //
+                // user.email
+                // user.family_name
+                // user.given_name
+                // user.sub
+
+
+                webAuth.authorize({
+                    connection: 'google-oauth2',
+                }, function (err, res) {
+                    if (err) displayError(err, 'error-message-signin');
+                    if (res) console.log(res);
+                });
+            });
+        });
+
+
         const DEFAULT_THEME = 'light';
         let activeTheme = DEFAULT_THEME;
         initTheme();
         initKeyboardShortcuts();
-
-        const togglePasswordLogin = document.querySelector(".togglePassword_login")
-        togglePasswordLogin.addEventListener("click", function (e) {
-            const input = document.getElementById("password_login");
-            const type =
-                input.getAttribute("type") === "password"
-                    ? "text"
-                    : "password";
-            input.setAttribute("type", type);
-            this.classList.toggle("eye-icon--show");
-        });
-
-        const togglePasswordSignin = document.querySelector(".togglePassword_signin")
-        togglePasswordSignin.addEventListener("click", function (e) {
-            const input = document.getElementById("signin_password");
-            const type =
-                input.getAttribute("type") === "password"
-                    ? "text"
-                    : "password";
-            input.setAttribute("type", type);
-            this.classList.toggle("eye-icon--show");
-        });
-
-        const togglePasswordSigninConfirm = document.querySelector(".togglePassword_signin_confirm")
-        togglePasswordSigninConfirm.addEventListener("click", function (e) {
-            const input = document.getElementById("password-confirmation");
-            const type =
-                input.getAttribute("type") === "password"
-                    ? "text"
-                    : "password";
-            input.setAttribute("type", type);
-            this.classList.toggle("eye-icon--show");
-        });
-
-        var config = JSON.parse(
-            decodeURIComponent(escape(window.atob('eyJhc3NldHNVcmwiOiIiLCJhdXRoMERvbWFpbiI6InJldnV6ZS1zdGFnaW5nLnVzLmF1dGgwLmNvbSIsImF1dGgwVGVuYW50IjoicmV2dXplLXN0YWdpbmciLCJjbGllbnRDb25maWd1cmF0aW9uQmFzZVVybCI6Imh0dHBzOi8vcmV2dXplLXN0YWdpbmcudXMuYXV0aDAuY29tLyIsImNhbGxiYWNrT25Mb2NhdGlvbkhhc2giOmZhbHNlLCJjYWxsYmFja1VSTCI6Imh0dHBzOi8vcHJvLXN0YWdpbmcuc2VudGltYXRlLmNvbSIsImNkbiI6Imh0dHBzOi8vY2RuLmF1dGgwLmNvbS8iLCJjbGllbnRJRCI6Ijg1SVZrUGNzOWRVb1BDdDFTdlRBN29acUJ5RVprWHU4IiwiZGljdCI6eyJzaWduaW4iOnsidGl0bGUiOiJTZW50aW1hdGUifX0sImV4dHJhUGFyYW1zIjp7InByb3RvY29sIjoib2F1dGgyIiwiYXVkaWVuY2UiOiJodHRwczovL3JldnV6ZS1zdGFnaW5nLnVzLmF1dGgwLmNvbS9hcGkvdjIvIiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSBlbWFpbCIsInJlc3BvbnNlX3R5cGUiOiJjb2RlIiwicmVzcG9uc2VfbW9kZSI6InF1ZXJ5Iiwibm9uY2UiOiJRVTVtTUU0MFVqUmFjbmwrZW5OWlMxQjFSblY0VDA5MGVFdGtmbk4wZDFwQk4wTkZRMWhwV1Vsa1RRPT0iLCJjb2RlX2NoYWxsZW5nZSI6Ik1IOTJkemZVYV9IRlZuYTRpLURXVGtteHJGQkR6NnJPV0MwdDlPT0lua0EiLCJjb2RlX2NoYWxsZW5nZV9tZXRob2QiOiJTMjU2IiwiYXV0aDBDbGllbnQiOiJleUp1WVcxbElqb2lRR0YxZEdnd0wyRjFkR2d3TFdGdVozVnNZWElpTENKMlpYSnphVzl1SWpvaU1TNHpMakVpZlE9PSIsIl9jc3JmIjoiQ0ltVndmck0tUVQ2aWFONF81OW14RVlDRjhGX3VkTGF3OU5RIiwiX2ludHN0YXRlIjoiZGVwcmVjYXRlZCIsInN0YXRlIjoiaEtGbzJTQndOelV4UWtkQ1lsTXRlbFkyWjFWTGNWUlFhVUZNWjJ4WU9GWklSMHBrTnFGdXBXeHZaMmx1bzNScFpOa2dYME0xZUhoeFprbGFjRzVrVWtReWVVSlpTSEpFZDNOWkxVOVBjV1ZZVEVlalkybGsyU0E0TlVsV2ExQmpjemxrVlc5UVEzUXhVM1pVUVRkdlduRkNlVVZhYTFoMU9BIn0sImludGVybmFsT3B0aW9ucyI6eyJwcm90b2NvbCI6Im9hdXRoMiIsImF1ZGllbmNlIjoiaHR0cHM6Ly9yZXZ1emUtc3RhZ2luZy51cy5hdXRoMC5jb20vYXBpL3YyLyIsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUgZW1haWwiLCJyZXNwb25zZV90eXBlIjoiY29kZSIsInJlc3BvbnNlX21vZGUiOiJxdWVyeSIsIm5vbmNlIjoiUVU1bU1FNDBValJhY25sK2VuTlpTMUIxUm5WNFQwOTBlRXRrZm5OMGQxcEJOME5GUTFocFdVbGtUUT09IiwiY29kZV9jaGFsbGVuZ2UiOiJNSDkyZHpmVWFfSEZWbmE0aS1EV1RrbXhyRkJEejZyT1dDMHQ5T09JbmtBIiwiY29kZV9jaGFsbGVuZ2VfbWV0aG9kIjoiUzI1NiIsImF1dGgwQ2xpZW50IjoiZXlKdVlXMWxJam9pUUdGMWRHZ3dMMkYxZEdnd0xXRnVaM1ZzWVhJaUxDSjJaWEp6YVc5dUlqb2lNUzR6TGpFaWZRPT0iLCJfY3NyZiI6IkNJbVZ3ZnJNLVFUNmlhTjRfNTlteEVZQ0Y4Rl91ZExhdzlOUSIsIl9pbnRzdGF0ZSI6ImRlcHJlY2F0ZWQiLCJzdGF0ZSI6ImhLRm8yU0J3TnpVeFFrZENZbE10ZWxZMloxVkxjVlJRYVVGTVoyeFlPRlpJUjBwa05xRnVwV3h2WjJsdW8zUnBaTmtnWDBNMWVIaHhaa2xhY0c1a1VrUXllVUpaU0hKRWQzTlpMVTlQY1dWWVRFZWpZMmxrMlNBNE5VbFdhMUJqY3psa1ZXOVFRM1F4VTNaVVFUZHZXbkZDZVVWYWExaDFPQSJ9LCJ3aWRnZXRVcmwiOiJodHRwczovL2Nkbi5hdXRoMC5jb20vdzIvYXV0aDAtd2lkZ2V0LTUuMS5taW4uanMiLCJpc1RoaXJkUGFydHlDbGllbnQiOmZhbHNlLCJhdXRob3JpemF0aW9uU2VydmVyIjp7InVybCI6Imh0dHBzOi8vcmV2dXplLXN0YWdpbmcudXMuYXV0aDAuY29tIiwiaXNzdWVyIjoiaHR0cHM6Ly9yZXZ1emUtc3RhZ2luZy51cy5hdXRoMC5jb20vIn0sImNvbG9ycyI6e319')))
-        )
-
-        var leeway = config.internalOptions.leeway;
-        if (leeway) {
-            var convertedLeeway = parseInt(leeway);
-
-            if (!isNaN(convertedLeeway)) {
-                config.internalOptions.leeway = convertedLeeway;
-            }
-        }
-
-        var webAuth = new auth0.WebAuth(
-            {
-                overrides: {
-                    __tenant: "revuze-staging",
-                    __token_issuer: "https://auth-staging.sentimate.com/"
-                },
-                domain: "auth-staging.sentimate.com",
-                clientID: "85IVkPcs9dUoPCt1SvTA7oZqByEZkXu8",
-                redirectUri: 'https://pro-staging.sentimate.com?redirect='+url,
-                responseType: "code"
-            }
-        );
 
 
 
@@ -205,7 +386,6 @@ $(function () {
                 connection: databaseConnection,
                 email: username
             }, function (err, resp) {
-
                 if (err) {
                     displayError(err, 'error-message-login');
                 } else {
@@ -219,21 +399,116 @@ $(function () {
             var button = this;
             var username = document.getElementById('email').value;
             var password = document.getElementById('password_login').value;
-            button.disabled = true;
-            webAuth.login({
-                realm: databaseConnection,
-                username: username,
-                password: password,
-            }, function (err) {
-                if (err) displayError(err, 'error-message-login');
-                button.disabled = false;
-            });
+            redirectLogin(username, password);
+
         }
 
         var user = {};
 
+        if(readCookie('userdata') && $('body').hasClass('page-template-singup')) {
+            $('body').css('opacity','0.5');
+            autologin();
+
+        }
+
+        $('[data-modal]').click(function(e){
+            e.preventDefault();
+            e.stopPropagation();
+            window.dataLayer = window.dataLayer || [];
+            window.dataLayer.push({
+                'event': 'signup-popup',
+            });
+            if($(this).data('modal')=='#popUp' ){
+                if(readCookie('userdata')) {
+                    autologinparams = 1;
+                }else{
+                    autologinparams = 0;
+                }
+                if($(this).attr('data-link')){
+                    var link=$(this).attr('data-link');
+                }else{
+                    var link='';
+                }
+                if($(this).hasClass('slick-arrow')){
+                    params=1;
+                }else{
+                    params=0;
+                }
+                api(autologinparams,link,params);
+            }else{
+                hideModal('.modal');
+
+                if ($(this).data('modal-tab') != undefined) {
+                    goToTab($(this).data('modal-tab'));
+                }
+                showModal( $(this).data('modal') );
+            }
+        });
 
 
+       $('#search').submit(function(e){
+           e.preventDefault();
+           window.dataLayer = window.dataLayer || [];
+           window.dataLayer.push({
+               'event': 'signup-popup',
+           });
+           // hideModal('.modal');
+           // showModal( '#popUp' );
+
+           if( readCookie('userdata')){
+               autologinparams=1;
+               api(autologinparams);
+               return;
+           }else{
+               hideModal('.modal');
+               showModal( '#popUp' );
+           }
+           api();
+
+       })
+
+       if(autologinparams){
+           autologin();
+       }
+        function autologin(){
+            var actual = JSON.parse(atob(readCookie('userdata')));
+            console.log(webAuthLogin);
+            webAuthLogin.login({
+                realm: databaseConnection,
+                username: actual.email,
+                password: actual.pass,
+            }, function (err) {
+                if (err){
+
+                }
+            });
+        }
+
+        function loginWithGoogle() {
+
+            webAuthCallback.parseHash({nonce: '1234'}, function (err, authResult) {
+                // debugger
+                if (err || !authResult) {
+                    return console.log(err);
+                }
+
+                webAuthCallback.client.userInfo(authResult.accessToken, function (err, user) {
+                    // create form to HS here:
+                    //
+                    // user.email
+                    // user.family_name
+                    // user.given_name
+                    // user.sub
+
+                    webAuth.authorize({
+                        connection: 'google-oauth2',
+                    }, function (err, res) {
+                        if (err) displayError(err, 'error-message-signin');
+                        if (res) console.log(res);
+                    });
+                });
+            });
+        }
 
         function signup() {
             var button = this;
@@ -246,9 +521,10 @@ $(function () {
                 return;
             }
 
+
             button.disabled = true;
             // webAuth.redirect.signupAndLogin({
-             webAuth.signup ({
+            webAuth.signup ({
                 connection: databaseConnection,
                 email: email,
                 password: password,
@@ -258,6 +534,13 @@ $(function () {
                     button.disabled = false;
                 } else if (res && res.Id && res.email) {
                     createHsForm(res.Id, res.email);
+                    var user={"email": email, "pass": password}
+                    var encoded = btoa(JSON.stringify(user));
+                    createCookie('userdata',encoded,3);
+                    window.dataLayer = window.dataLayer || [];
+                    window.dataLayer.push({
+                        'event': 'signup-success',
+                    });
                     webAuth.login({
                         realm: databaseConnection,
                         username: email,
@@ -270,7 +553,27 @@ $(function () {
             });
         }
 
+        function redirectLogin(userEmail, userPassword) {
+            var user={"email": userEmail, "pass": userPassword}
+            var encoded = btoa(JSON.stringify(user));
+            createCookie('userdata',encoded,3);
+            webAuthLogin.login({
+                realm: databaseConnection,
+                username: userEmail,
+                password: userPassword,
+            }, function (err,res) {
+                if (err) displayError(err, 'error-message-login');
+            });
+
+        }
+
         function switchToLoginPage() {
+            window.dataLayer = window.dataLayer || [];
+            window.dataLayer.push({
+                'event': 'login-popup',
+                'eventCategory' : 'login',
+                'eventAction' : 'page',
+            });
             const registerEl = document.getElementById('register_wrapper');
             registerEl.style.display = "none";
             const loginEl = document.getElementById('login_wrapper');
@@ -284,33 +587,9 @@ $(function () {
             loginEl.style.display = "none";
         }
 
-        function loginWithGoogle() {
-            webAuth.authorize({
-                connection: 'google-oauth2',
-                user_metadata: {
-                    hsForm: {
-                        utm_source: readCookie('utm_source'),
-                        utm_medium: readCookie('utm_medium'),
-                        utm_campaign: readCookie('utm_campaign'),
-                        utm_term: readCookie('utm_term'),
-                        utm_content: readCookie('utm_content'),
-                        hutk: readCookie('hubspotutk'),
-                        pageUri: window.location.href,
-                        pageName: document.title
-                    }
-                }
-            }, function (err, res) {
-                if (err) displayError(err, 'error-message-signin');
-                if (res) console.log(res);
-            });
-        }
-
-
-
-
         function displayError(err, elId) {
             var errorMessage = document.getElementById(elId);
-         //   console.log(err);
+            console.log(err);
             let message;
             if (err.policy) {
                 message = err.policy;
@@ -383,7 +662,7 @@ $(function () {
                 },
                 method: "POST",
                 body: JSON.stringify({
-                        fields,
+                    fields,
                     "context": {
                         "hutk": getCookie("hubspotutk"),
                         "pageUri": window.location.href,
@@ -393,9 +672,9 @@ $(function () {
             }).then(res => {
                 console.log("Request complete! response:", res);
             })
-            .catch((error) => {
-                console.error('Error:', error);
-            });
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
         }
 
         function getCookie(name) {
@@ -404,31 +683,21 @@ $(function () {
             if (parts.length === 2) return parts.pop().split(';').shift();
         }
 
-        document.getElementById('signup').addEventListener('click', switchToSignupPage);
-        document.getElementById('switchToSignIn').addEventListener('click', switchToLoginPage);
+
         document.getElementById('login').addEventListener('click', login);
         document.getElementById('signin').addEventListener('click', signup);
         document.getElementById('signin_google').addEventListener('click', loginWithGoogle);
         document.getElementById('signup_google').addEventListener('click', loginWithGoogle);
         document.getElementById('reset_password').addEventListener('click', resetPassword);
-    });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        if($('#signup').length) {
+            document.getElementById('signup').addEventListener('click', switchToSignupPage);
+        }
+        if($('#switchToSignIn').length) {
+            document.getElementById('switchToSignIn').addEventListener('click', switchToLoginPage);
+        }
+    }
+    api();
 
 
 
@@ -462,20 +731,6 @@ $(function () {
 
     });
 
-    $('.component-search-with-autocomplete.with-link').each(function(i, el){
-        const input = $(el).find('#searchinput');
-        const link = $(el).find('a.btn');
-        const form = $(el).find('form');
-
-        input.keyup(function(e){
-            link.attr('href', 'https://pro.sentimate.com/product-analysis/search-results?q=' + encodeURIComponent(input.val()));
-
-            if (e.key == "Enter") {
-                window.location.href = 'https://pro.sentimate.com/product-analysis/search-results?q=' + encodeURIComponent(input.val());
-            }
-        });
-
-    });
 
 
     $('.categoryes input').change(function(){
@@ -504,7 +759,7 @@ $(function () {
 
     function loadcatalog(){
         var url=$('#link').val();
-     //   console.log($('.brands_wrap input').val());
+        //   console.log($('.brands_wrap input').val());
         var brands='';
         var category='';
         var sort='';
@@ -537,7 +792,7 @@ $(function () {
 
             // setTimeout(function(){
             //     $('.sidebar-category-block .checkboxes-list').each(function(i, el){
-            //         const checkboxesHtml = '<div class="checkboxes-list">'+$(el).html()+'</div>';
+            //         const checkboxesHtml = '<div class="checes-list">'+$(el).html()+'</div>';
             //         const parent = $(el).parent();
 
             //         $(el).remove();
@@ -547,14 +802,14 @@ $(function () {
             // }, 300);
         });
     }
- $('#brands_search').on("keyup keydown",function(){
+    $('#brands_search').on("keyup keydown",function(){
         var val=$(this).val().toLowerCase();
 
         $('.brands_wrap').removeClass('hidden');
         $('.brands_wrap label').removeClass('hidden');
-         if(val) {
-             var first = val[0].toLowerCase();
-         }
+        if(val) {
+            var first = val[0].toLowerCase();
+        }
         if(first) {
             $('.brands_wrap .list-caption').each(function(){
                 if ($(this).text().toLowerCase() != first) {
@@ -575,9 +830,9 @@ $(function () {
         }
 
     });
-$('.applied-tags-list .remove-btn').click(function(){
-     loadfilter($(this).attr('data-id'));
-});
+    $('.applied-tags-list .remove-btn').click(function(){
+        loadfilter($(this).attr('data-id'));
+    });
 });
 
 
@@ -591,37 +846,15 @@ document.addEventListener( 'wpcf7mailsent', function( event ) {
 }, false );
 
 
-var getUrlParameter = function getUrlParameter(sParam) {
-    var sPageURL = decodeURIComponent(window.location.search.substring(1)),
-        sURLVariables = sPageURL.split('&'),
-        sParameterName,
-        i;
-    for (i = 0; i < sURLVariables.length; i++) {
-        sParameterName = sURLVariables[i].split('=');
 
-        if (sParameterName[0] === sParam) {
-            return sParameterName[1] === undefined ? true : sParameterName[1];
-        }
-    }
-};
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+function getQueryParam(param, defaultValue = undefined) {
+    location.search.substr(1)
+        .split("&")
+        .some(function(item) { // returns first occurence and stops
+            return item.split("=")[0] == param && (defaultValue = item.split("=")[1], true)
+        })
+    return defaultValue
+}
 
 
 

@@ -501,6 +501,7 @@ function scatteredGraph(selector, data, maxValue = 100, selectedProduct) {
 
 function overtimeTopicGraph(selector, data, size = 1, stroke, data2 = []) {
     // container?.dispose();
+    if (!document.querySelector(selector)) { return false; }
     document.querySelector(selector).parentElement.parentElement.style.background = `linear-gradient( 0deg, ${stroke}, hsla(0,0%,100%,0) 80%)`;
     const container = am4core.create(document.querySelector(selector), am4core.Container);
     container.width = am4core.percent(106 * size);
@@ -709,7 +710,7 @@ function imageExists(image_url){
                 $(parentSelectorId + ' span[data-id="starRatingChange"]').text( starRatingChange );
                 $(parentSelectorId + ' span[data-id="starRatingChange"]').addClass( starRatingChangeClass );
 
-                alert(avarageRating);
+                // alert(avarageRating);
                  $(parentSelectorId + ' p[data-id="productStarRating"]').html(avarageRating)
                 startRatingPieShart(parentSelectorId + " #chartdiv", chartData1, chartData2);
 
@@ -774,13 +775,19 @@ function imageExists(image_url){
                             tempData.push(JSON.parse(`{ "satisfaction": ${satisfaction},"date": "${item.month}","month": "${convertDate(item.month)}"}`));
                         }
                     });
-
                     let avarageSatisfaction     = ( satisfactionSum / json.length ).toFixed(1);
                     let satisfactionChange      = (json[0].sentiments.positive * 100 - json[1].sentiments.positive * 100).toFixed(1);
                     let satisfactionChangeClass = satisfactionChange > 0 ? 'up mark__gr' : 'down mark__red';
 
                     $(parentSelectorId + ' p[data-id="satisfactionScore"]').text(avarageSatisfaction + '%');
-                    $(parentSelectorId + ' span[data-id="satisfactionChange"]').text( satisfactionChange + '%' );
+
+                    if (!satisfactionChange) {
+                        $(parentSelectorId + ' span[data-id="satisfactionChange"]').text( '0' );
+                    } else {
+                        $(parentSelectorId + ' span[data-id="satisfactionChange"]').text( satisfactionChange + '%' );
+                    }
+
+                    // $(parentSelectorId + ' span[data-id="satisfactionChange"]').text( satisfactionChange + '%' );
                     $(parentSelectorId + ' span[data-id="satisfactionChange"]').addClass( satisfactionChangeClass );
                     currentProduct["sentiment"] = parseFloat( avarageSatisfaction );
                     currentProduct["tooltip"]["list"]["sentiment"] = parseFloat( avarageSatisfaction );
@@ -836,6 +843,9 @@ function imageExists(image_url){
             },
             success: function (competitive) {
                 var data = JSON.parse(competitive);
+
+                if (!data) { return false; }
+
                 var uniqueCompetitors = [];
 
                 data.forEach(item => {uniqueCompetitors.push(...item.uuids)})

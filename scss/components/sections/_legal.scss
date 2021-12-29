@@ -15,14 +15,23 @@
   h2 {
     font-size: 26px;
     font-weight: 600;
-    margin: 155px 0 13px;
+    margin: 30px 0 13px;
     color: #660091;
     text-transform: uppercase;
+
+    &:first-child{
+      margin-top: 0;
+    }
   }
   h3 {
     font-size: 20px;
     font-weight: 600;
     margin-bottom: 15px;
+    margin-top: 20px;
+
+    &:first-child{
+      margin-right: 0;
+    }
   }
   p {
     line-height: 25px;

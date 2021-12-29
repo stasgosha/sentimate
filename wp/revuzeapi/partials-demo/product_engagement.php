@@ -3,7 +3,7 @@
 <div class="mg__item">
     <div class="mg__title">
         <div class="block_title">User Engagement</div>
-        <a href="#" data-modal="#contact-sales-modal" class="v_all"><?php echo get_field('user_engagement_btn','option');?> <img src="<?= $baseAssetUrl; ?>img/icons/arrow_pp.svg" alt="arrow"></a>
+        <a href="https://pro.sentimate.com/"  class="v_all"><?php echo get_field('user_engagement_btn','option');?> <img src="<?= $baseAssetUrl; ?>img/icons/arrow_pp.svg" alt="arrow"></a>
     </div>
     <div class="mg__content mg__content2">
         <div class="mg__numbers mg__custom">

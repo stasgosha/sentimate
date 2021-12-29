@@ -14,14 +14,14 @@ get_header(); ?>
                 </div>
 
                 <div class="component-search-with-autocomplete with-link">
-                    <div class="cmp-field">
+                    <form id="search" class="cmp-field">
                         <svg class="field-icon">
                             <use xlink:href="<?php echo get_template_directory_uri(); ?>/img/icons-sprite.svg#search"></use>
                         </svg>
                         <input type="text" name="s" placeholder="<?php echo get_field('placeholder_field','option');?>" id="searchinput">
                         <!-- <a href="https://pro.sentimate.com/product-analysis/search-results?q=" class="btn">Go</a> -->
-                        <button class="btn" data-modal="#popUp">Go</button>
-                    </div>
+                        <button class="btn" type="submit">Go</button>
+                    </form>
                 </div>
 
                 <!-- <div class="component-search-with-autocomplete">
@@ -44,7 +44,7 @@ get_header(); ?>
                     <?php if( have_rows('counters','option') ): ?>
                         <?php
                         $i=0;
-                        while( have_rows('counters') ): the_row(); ?>
+                        while( have_rows('counters','option') ): the_row(); ?>
                             <div class="item">
                                 <svg class="item-icon">
                                     <use xlink:href="<?php echo get_template_directory_uri(); ?>/img/icons-sprite.svg#<?php echo get_sub_field('icon');?>"></use>
@@ -53,6 +53,34 @@ get_header(); ?>
                             </div>
                         <?php endwhile; ?>
                     <?php endif; ?>
+                </div>
+
+                <div class="top-ranked-products-component">
+                    <h3 class="cmp-caption"><?php echo get_field('categoryes_title');?></h3>
+
+                    <div class="top-categories-slider" data-slides-count="6">
+                        <?php if( have_rows('categoryes') ): ?>
+                            <?php
+                            $i=0;
+                            while( have_rows('categoryes') ): the_row(); ?>
+                                <div class="slide">
+                                    <a href="<?php echo get_sub_field('link');?>" class="category-card">
+                                        <div class="card-image">
+                                            <img src="<?php echo get_sub_field('image')['url'];?>" alt="<?php echo get_sub_field('image')['alt'];?>">
+                                        </div>
+                                        <div class="card-content">
+                                            <h3 class="card-name"><?php echo get_sub_field('name');?></h3>
+                                            <p class="products-count"><strong><?php echo get_sub_field('count_products');?></strong> Products</p>
+
+                                            <div class="more-link">
+                                                <span class="link-text">Explore</span>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            <?php endwhile; ?>
+                        <?php endif; ?>
+                    </div>
                 </div>
             </div>
         </section>
@@ -278,49 +306,5 @@ get_header(); ?>
         </section>
     </main>
 <?php endwhile; // end of the loop. ?>
-
-<script>
-    $('.component-search-with-autocomplete:not(.with-link) #searchinput').keyup(function(){
-        var val=$(this).val();
-        $('.cmp-suggestions').removeClass('visible');
-        if(val.length>3){
-            var data = {
-                'action': 'loadsearch',
-                'val': val,
-
-            };
-            $.ajax({
-                url: ajaxurl,
-                data: data,
-                type: 'POST',
-                beforeSend: function (xhr) {
-                    $('body').addClass('loading');
-                },
-                success: function (data) {
-                    if (data) {
-                        $('.cmp-suggestions').addClass('visible');
-                        $('#search_rezult').html(data);
-                    }
-                },
-            });
-        }
-
-    });
-
-    $('.component-search-with-autocomplete.with-link').each(function(i, el){
-        const input = $(el).find('#searchinput');
-        const link = $(el).find('a.btn');
-        const form = $(el).find('form');
-
-        input.keyup(function(e){
-            link.attr('href', 'https://pro.sentimate.com/product-analysis/search-results?q=' + encodeURIComponent(input.val()));
-
-            if (e.key == "Enter") {
-                window.location.href = 'https://pro.sentimate.com/product-analysis/search-results?q=' + encodeURIComponent(input.val());
-            }
-        });
-
-    });
-</script>
 
 <?php get_footer(); ?>

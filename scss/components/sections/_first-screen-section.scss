@@ -92,6 +92,24 @@
 			margin-right: auto;
 		}
 	}
+
+	.home &{
+		@media screen and (min-width: 576px){
+			margin-bottom: 185px;
+
+			.top-ranked-products-component{
+				margin-bottom: calc(-185px - 100px);
+			}
+		}
+
+		@media screen and (max-width: 575px){
+			padding-bottom: 0;
+
+			.top-ranked-products-component{
+				margin-bottom: 0;
+			}
+		}
+	}
 }
 
 .component-search-with-autocomplete{
