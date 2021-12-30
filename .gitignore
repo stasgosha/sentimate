@@ -12,4 +12,4 @@ css/main.css.map
 scss/main.css
 scss/main.css.map
 css/components/*
-*.html
+# *.html
