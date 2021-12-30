@@ -153,6 +153,7 @@
 					background: url("data:image/svg+xml,%3Csvg fill='none' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 9 7'%3E%3Cpath d='m5.02 6.12 3.76-3.76c.15-.15.22-.31.22-.53a.68.68 0 0 0-.22-.52L8.35.87a.76.76 0 0 0-1.05 0l-2.8 2.8L1.7.88a.76.76 0 0 0-1.05 0l-.44.45a.71.71 0 0 0-.21.52c0 .2.07.38.21.52l3.76 3.77c.15.14.32.21.53.21.2 0 .38-.08.52-.22Z' fill='%23660091'/%3E%3C/svg%3E") no-repeat center center / contain;
 					transition: all $t;
 					margin-left: -5px;
+					flex: none;
 				}
 
 				&:hover,
