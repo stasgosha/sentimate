@@ -9,6 +9,7 @@ prepros-6.config
 prepros.config
 css/main.css
 css/main.css.map
-# scss/main.css
-# scss/main.css.map
-# css/components/*
+scss/main.css
+scss/main.css.map
+css/components/*
+*.html
