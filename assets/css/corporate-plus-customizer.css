@@ -1,0 +1,102 @@
+/**
+ * Customizer Custom CSS
+ */
+ @font-face {
+	font-display: swap;
+	font-family: 'Gotham Pro';
+	src: url('/fonts/GothamPro-Medium.eot');
+	src: local('Gotham Pro Medium'), local('GothamPro-Medium'),
+		url('/fonts/GothamPro-Medium.eot?#iefix') format('embedded-opentype'),
+		url('/fonts/GothamPro-Medium.woff') format('woff'),
+		url('/fonts/GothamPro-Medium.ttf') format('truetype');
+	font-weight: 500;
+	font-style: normal;
+}
+@font-face {
+	font-display: swap;
+	font-family: 'Gotham Pro';
+	src: url('/fonts/GothamPro-MediumItalic.eot');
+	src: local('Gotham Pro Medium Italic'), local('GothamPro-MediumItalic'),
+		url('/fonts/GothamPro-MediumItalic.eot?#iefix') format('embedded-opentype'),
+		url('/fonts/GothamPro-MediumItalic.woff') format('woff'),
+		url('/fonts/GothamPro-MediumItalic.ttf') format('truetype');
+	font-weight: 500;
+	font-style: italic;
+}
+@font-face {
+	font-display: swap;
+	font-family: 'Gotham Pro';
+	src: url('/fonts/GothamPro-BoldItalic.eot');
+	src: local('Gotham Pro Bold Italic'), local('GothamPro-BoldItalic'),
+		url('/fonts/GothamPro-BoldItalic.eot?#iefix') format('embedded-opentype'),
+		url('/fonts/GothamPro-BoldItalic.woff') format('woff'),
+		url('/fonts/GothamPro-BoldItalic.ttf') format('truetype');
+	font-weight: bold;
+	font-style: italic;
+}
+
+@font-face {
+	font-display: swap;
+	font-family: 'Gotham Pro';
+	src: url('/fonts/GothamPro-Bold.eot');
+	src: local('Gotham Pro Bold'), local('GothamPro-Bold'),
+		url('/fonts/GothamPro-Bold.eot?#iefix') format('embedded-opentype'),
+		url('/fonts/GothamPro-Bold.woff') format('woff'),
+		url('/fonts/GothamPro-Bold.ttf') format('truetype');
+	font-weight: bold;
+	font-style: normal;
+}
+@font-face {
+	font-display: swap;
+	font-family: 'Gotham Pro';
+	src: url('/fonts/GothamPro.eot');
+	src: local('Gotham Pro'), local('GothamPro'),
+		url('/fonts/GothamPro.eot?#iefix') format('embedded-opentype'),
+		url('/fonts/GothamPro.woff') format('woff'),
+		url('/fonts/GothamPro.ttf') format('truetype');
+	font-weight: 400;
+	font-style: normal;
+}
+@font-face {
+	font-display: swap;
+    font-family: 'Roboto';
+    src: url('/fonts/RobotoMedium.eot');
+    src: url('/fonts/RobotoMedium.eot') format('embedded-opentype'),
+         url('/fonts/RobotoMedium.woff2') format('woff2'),
+         url('/fonts/RobotoMedium.woff') format('woff'),
+         url('/fonts/RobotoMedium.ttf') format('truetype'),
+         url('/fonts/RobotoMedium.svg#RobotoMedium') format('svg');
+    font-weight: 500;
+    font-style: normal;
+}
+@font-face {
+	font-display: swap;
+    font-family: 'Roboto';
+    src: url('/fonts/RobotoMediumItalic.eot');
+    src: url('/fonts/RobotoMediumItalic.eot') format('embedded-opentype'),
+         url('/fonts/RobotoMediumItalic.woff2') format('woff2'),
+         url('/fonts/RobotoMediumItalic.woff') format('woff'),
+         url('/fonts/RobotoMediumItalic.ttf') format('truetype'),
+         url('/fonts/RobotoMediumItalic.svg#RobotoMediumItalic') format('svg');
+    font-weight: 500;
+    font-style: italic;
+}
+.acme-ads {
+	background-color: #f88c00;
+	text-align: center;
+}
+.acme-ads .button {
+	background-color: #1a8b0b;
+	border: 1px solid #1a8b0b;
+	border-radius: 4px;
+	color: #ffffff;
+	margin: 15px 0;
+	transition: all 0.5s ease-in-out 0s;
+	-webkit-transition:all 0.5s ease-in-out 0s;
+	-moz-transition:all 0.5s ease-in-out 0s;
+}
+.acme-ads .button:hover,
+.acme-ads .button:focus {
+	background-color: #71b02f ;
+	color: #ffffff;
+}

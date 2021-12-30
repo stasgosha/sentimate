@@ -200,7 +200,7 @@ if ( ! function_exists( 'corporate_plus_header' ) ) :
                 </div>
                 <div class="main-navigation navbar-collapse collapse"> 
                     <div class="header-search-button-wrap">
-                        <a class="search-field-button" href="https://pro.revuze.it/home" target="_blank" title="" style="cursor: pointer;">Search any Product</a>
+                        <a class="search-field-button" href="https://pro.sentimate.com/home" target="_blank" title="" style="cursor: pointer;">Search any Product</a>
                     </div>
                     <?php
                     if( 1 == $corporate_plus_is_woocommerce_active && 1 == $corporate_plus_customizer_all_values['corporate-plus-enable-woo-menu'] ){

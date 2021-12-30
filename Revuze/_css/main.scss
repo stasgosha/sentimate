@@ -1,0 +1,55 @@
+//COLOR
+$or: #FF8802;
+$bl: #1D60FF;
+$gr: #55A73F;
+$pp: #6256AA;
+$pk: #FF4181;
+$yl: #FFD12F;
+$lbl: #67C5ED;
+$pp2: #AB00C7;
+$red: #E64747;
+
+//FONTS
+
+$mr: 'Montserrat-Regular';
+$mb: 'Montserrat-Bold';
+$msb: 'Montserrat-SemiBold';
+$mm: 'Montserrat-Medium';
+$ir: 'Inter-Regular';
+$il: 'Inter-Light';
+$ib: 'Inter-Bold';
+$im: 'Inter-Medium';
+$isb: 'Inter-SemiBold';
+
+
+//LAYOUT
+@import "layout/normalize.scss";
+@import "layout/adjustment.scss";
+@import "layout/fonts.scss";
+@import "layout/mixsin.scss";
+
+//SECTIONS
+@import "sections/components.scss";
+@import "sections/first_screen.scss";
+@import "sections/overview.scss";
+@import "sections/sections.scss";
+//@import "sections/ ";
+//@import "sections/ ";
+//@import "sections/ ";
+//@import "sections/ ";
+//@import "sections/ ";
+//@import "sections/ ";
+//@import "sections/ ";
+//@import "sections/ ";
+
+//MEDIA
+@import "media/desktop.scss";
+//@import "media/laptop.scss";
+//@import "media/tablets.scss";
+//@import "media/phones.scss";
+
+
+
+
+
+
