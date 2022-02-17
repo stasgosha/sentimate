@@ -344,7 +344,7 @@
 <!--            </button>-->
 <!--            <div class="login-page__main-bar">-->
 <!--                <div class="right">-->
-<!--                    <div id="register_wrapper"  --><?php //if(get_field('signup_page','option') == get_the_ID()){ ?><!-- style="display: none" --><?php //} ?><!-->-->
+<!--                    <div id="register_wrapper"  --><?php //if(get_field('signup_page','option') == get_the_ID()){ ?><!-- style="display: none" --><?php //} ?><!-->
 <!--                        <div class="wrapper">-->
 <!--                            <div class="register_wrapper__title">-->
 <!--                                <h2>Create a Free Account </h2>-->

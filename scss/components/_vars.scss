@@ -27,3 +27,13 @@ $body-bg: #fff; // site background
 $t: .3s; // animation duration
 $r: 0; // default border radius
 $shadow: unset; // default card shadow
+
+:root{
+	--header-height: 86px;
+	--sticky-header-height: 66px;
+
+	@media screen and (max-width: 991px){
+		--header-height: 75px;
+		--sticky-header-height: 60px;
+	}
+}

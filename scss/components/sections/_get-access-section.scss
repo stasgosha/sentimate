@@ -29,6 +29,10 @@
 			margin-bottom: 0;
 		}
 
+		.email__subscribe-section &{
+			margin-bottom: 30px;
+		}
+
 		@media screen and (min-width: 992px){
 			.sc-subtitle{
 				margin-top: 28px;
@@ -39,6 +43,137 @@
 	.block-footer{
 		display: flex;
 		justify-content: center;
+	}
+
+	.single__block-subscribe{
+		.hbspt-form{
+			width: 100%;
+			max-width: 560px;
+		}
+
+		.hs-error-msgs{
+			margin-top: 5px;
+			padding-left: 20px;
+		}
+
+		.hs-form-field{
+			position: relative;
+
+			.hs-error-msgs{
+				position: absolute;
+				left: 0;
+				top: calc(100% + 5px);
+			}
+		}
+
+		.hs_error_rollup{
+			display: none !important;
+		}
+
+		.hbspt-form form{
+			display: flex;
+			width: 100%;
+
+			.hs-email{
+				flex: auto;
+			}
+
+			.hs-input{
+				border: 1px solid #fff;
+				appearance: none;
+				background: #fff;
+				border-radius: 5px;
+				flex: auto;
+				height: 53px;
+				font-size: 16px;
+				font-weight: 400;
+				color: #222;
+				font-family: inherit;
+				padding: 0 20px;
+				outline: none !important;
+				transition: all $t;
+				width: 100%;
+				box-shadow: none;
+
+				&::placeholder{
+					opacity: 1;
+					color: #8C8B8B;
+				}
+
+				&:focus{
+					border-color: $accent;
+				}
+			}
+
+			.hs-submit{
+				margin-left: 8px;
+				flex: none;
+			}
+
+			.hs-button{
+				text-align: center;
+				padding: 8px 25px;
+				min-height: 53px;
+
+				border: 0;
+				border-radius: 5px !important;
+
+				display: inline-flex !important;
+				align-items: center;
+				justify-content: center;
+
+				transition: all $t;
+				cursor: pointer;
+				appearance: none;
+				white-space: nowrap;
+
+				background: $primary;
+				color: #fff;
+
+				position: relative;
+
+				font-family: $second-font;
+				font-weight: bold !important;
+				font-size: 17px;
+				line-height: 1.2;
+				text-transform: uppercase;
+
+				.btn-text{
+					position: relative;
+					z-index: 2;
+				}
+
+				@media screen and (max-width: 575px){
+					padding-left: 18px;
+					padding-right: 18px;
+				}
+
+				&:hover,
+				&:focus{
+					outline: none;
+					color: #fff !important;
+					background: #155BD2;
+				}
+
+				&:active{
+					transform: translateY(2px);
+				}
+			}
+
+			@media screen and (max-width: 575px){
+				flex-direction: column;
+				align-items: center;
+
+				.hs-email{
+					width: 100%;
+				}
+
+				.hs-submit{
+					margin-top: 30px;
+					margin-left: 0;
+				}
+			}
+		}
 	}
 
 	@media screen and (max-width: 767px){

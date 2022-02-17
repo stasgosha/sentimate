@@ -31,6 +31,18 @@ body .btn{
 		z-index: 2;
 	}
 
+	&.btn-stroke{
+		background: transparent;
+		color: $primary;
+		border: 1px solid $primary;
+
+		&:hover,
+		&:focus{
+			background: $primary;
+			color: #fff;
+		}
+	}
+
 	&:hover,
 	&:focus{
 		outline: none;

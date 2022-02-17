@@ -250,28 +250,33 @@
 	.plans-grid-new{
 		grid-template-columns: repeat(3, 255px);
 	}
-	.card-price {
-		font-size: 40px;
-	}
-	.card-description{
-		margin-bottom: 13px;
-	}
-	.btn {
-		margin-top: 14px;
+	.plan-card{
+		.card-price {
+			font-size: 40px;
+		}
+		.card-description{
+			margin-bottom: 13px;
+		}
+		.btn {
+			margin-top: 14px;
+		}
 	}
 }
 @media screen and (max-width: 991px){
 	.plans-grid-new{
 		grid-template-columns: repeat(1, 600px);
 	}
-	.card-price {
-		font-size: 50px;
-	}
-	.card-description{
-		margin-bottom: 23px;
-	}
-	.btn {
-		margin-top: 34px;
+
+	.plan-card{
+		.card-price {
+			font-size: 50px;
+		}
+		.card-description{
+			margin-bottom: 23px;
+		}
+		.btn {
+			margin-top: 34px;
+		}
 	}
 }
 
