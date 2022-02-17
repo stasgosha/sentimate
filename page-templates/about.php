@@ -64,7 +64,7 @@ get_header(); ?>
                                 <div class="card-text">
                                     <?php echo get_sub_field('text');?>
                                 </div>
-                                <?php if (get_sub_field('link_button')) { ?>
+                                <?php if (get_sub_field('popup__link')) { ?>
                                     <a <?php if(get_sub_field('popup__link')) { ?>data-modal="<?php echo get_sub_field('link_button');?>" <?php } else { ?> href="<?php echo get_sub_field('link_button');?>" <?php } ?> class="btn-with-arrow" >
                                         <span class="btn-text"><?php echo get_sub_field('text_button');?></span>
                                     </a>

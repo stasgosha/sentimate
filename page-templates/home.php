@@ -13,32 +13,51 @@ get_header(); ?>
                     <p><?php echo get_field('search_text');?></p>
                 </div>
 
-                <div class="component-search-with-autocomplete with-link">
-                    <form id="search" class="cmp-field">
-                        <svg class="field-icon">
-                            <use xlink:href="<?php echo get_template_directory_uri(); ?>/img/icons-sprite.svg#search"></use>
-                        </svg>
-                        <input type="text" name="s" placeholder="<?php echo get_field('placeholder_field','option');?>" id="searchinput">
-                        <!-- <a href="https://pro.sentimate.com/product-analysis/search-results?q=" class="btn">Go</a> -->
-                        <button class="btn" type="submit">Go</button>
-                    </form>
-                </div>
+<!--                <div class="component-search-with-autocomplete with-link">-->
+<!--                    <form id="search" class="cmp-field">-->
+<!--                        <svg class="field-icon">-->
+<!--                            <use xlink:href="--><?php //echo get_template_directory_uri(); ?><!--/img/icons-sprite.svg#search"></use>-->
+<!--                        </svg>-->
+<!--                        <input type="text" name="s" placeholder="--><?php //echo get_field('placeholder_field','option');?><!--" id="searchinput">-->
+<!--                         <a href="https://pro.sentimate.com/product-analysis/search-results?q=" class="btn">Go</a>-->
+<!--                        <button class="btn" type="submit">Go</button>-->
+<!--                    </form>-->
+<!--                </div>-->
+<!--                --><?php //if (get_field('pro_search') == true) : ?>
+<!--                    <div class="component-search-with-autocomplete">-->
+<!--                        <div class="cmp-field">-->
+<!--                            <form action="">-->
+<!--                                <svg class="field-icon">-->
+<!--                                    <use xlink:href="--><?php //echo get_template_directory_uri(); ?><!--/img/icons-sprite.svg#search"></use>-->
+<!--                                </svg>-->
+<!--                                <input type="text" name="s" autocomplete="off" placeholder="--><?php //echo get_field('placeholder_field','option');?><!--" id="search-new-input">-->
+<!--                                <a class="btn go-pro-results" type="submit">Go</a>-->
+<!--                            </form>-->
+<!--                        </div>-->
+<!--                        <div class="cmp-suggestions">-->
+<!--                            <ul id="search_rezult">-->
+<!---->
+<!--                            </ul>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                --><?php //else: ?>
+                    <div class="component-search-with-autocomplete">
+                        <div class="cmp-field">
+                            <form action="<?php echo get_home_url();?>">
+                                <svg class="field-icon">
+                                    <use xlink:href="<?php echo get_template_directory_uri(); ?>/img/icons-sprite.svg#search"></use>
+                                </svg>
+                                <input type="text" name="s" autocomplete="off" placeholder="<?php echo get_field('placeholder_field','option');?>" id="searchinput">
+                                <button class="btn" type="submit">Go</button>
+                            </form>
+                        </div>
+                        <div class="cmp-suggestions">
+                            <ul id="search_rezult">
 
-                <!-- <div class="component-search-with-autocomplete">
-                    <div class="cmp-field">
-                        <form action="<?php echo get_home_url();?>">
-                            <svg class="field-icon">
-                                <use xlink:href="<?php echo get_template_directory_uri(); ?>/img/icons-sprite.svg#search"></use>
-                            </svg>
-                            <input type="text" name="s" placeholder="<?php echo get_field('placeholder_field','option');?>" id="searchinput">
-                        </form>
+                            </ul>
+                        </div>
                     </div>
-                    <div class="cmp-suggestions">
-                        <ul id="search_rezult">
-
-                        </ul>
-                    </div>
-                </div> -->
+<!--                --><?php //endif; ?>
 
                 <div class="section-stats">
                     <?php if( have_rows('counters','option') ): ?>
@@ -62,14 +81,15 @@ get_header(); ?>
                         <?php if( have_rows('categoryes') ): ?>
                             <?php
                             $i=0;
-                            while( have_rows('categoryes') ): the_row(); ?>
+                            while( have_rows('categoryes') ): the_row();
+                                $cat_term = get_sub_field('cat_link'); ?>
                                 <div class="slide">
-                                    <a href="<?php echo get_sub_field('link');?>" class="category-card">
+                                    <a href="<?php echo $cat_term ? get_term_link($cat_term, 'product_category') : get_sub_field('cat_link');?>" class="category-card">
                                         <div class="card-image">
                                             <img src="<?php echo get_sub_field('image')['url'];?>" alt="<?php echo get_sub_field('image')['alt'];?>">
                                         </div>
                                         <div class="card-content">
-                                            <h3 class="card-name"><?php echo get_sub_field('name');?></h3>
+                                            <h3 class="card-name"><?php echo $cat_term ? $cat_term->name : get_sub_field('name');?></h3>
                                             <p class="products-count"><strong><?php echo get_sub_field('count_products');?></strong> Products</p>
 
                                             <div class="more-link">

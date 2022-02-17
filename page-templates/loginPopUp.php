@@ -23,7 +23,7 @@ get_header('login'); ?>
                             <div class="wrapper">
                                     <div class="form__wrapper">
                                         <form id="login-form" method="GET">
-                                            <h1 class="form__header">Welcome back!<br>Sign into your account</h1>
+                                            <h2 class="form__header">Welcome back!<br>Sign into your account</h2>
                                             <div class="google-button-wrapper">
                                                 <button id="signin_google" type="button"
                                                         class="registration registration-button registration-button--google">
@@ -72,7 +72,7 @@ get_header('login'); ?>
                             <div id="register_wrapper">
                                 <div class="wrapper">
                                     <div class="register_wrapper__title">
-                                        <h1>Create your account</h1>
+                                        <h2>Create your account</h2>
                                     </div>
 
                                     <div class="form__wrapper">

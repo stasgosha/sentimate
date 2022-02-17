@@ -1,0 +1,217 @@
+.pricingForm {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  .pricing-grid {
+    //display: -ms-grid;
+    //display: grid;
+    //-ms-grid-columns: 1fr 2fr;
+    //grid-template-columns: repeat(2,1fr);
+    //grid-gap: 80px;
+    margin-top: 80px;
+    margin-bottom: 40px;
+    //grid-auto-flow: column;
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    @media (max-width:991px) {
+      flex-wrap: wrap;
+      margin-top: 50px;
+    }
+  }
+  .popUp-form {
+    justify-content: center;
+    .register_wrapper__title{
+      margin-bottom: 13px;
+      h2 {
+        font-family: "Inter";
+        font-style: normal;
+        font-weight: 600;
+        font-size: 28px;
+        line-height: 34px;
+        color: #000000;
+        @media (max-width:700px) {
+          font-size: 24px;
+        }
+      }
+    }
+  }
+  .pricing-column_wrapper {
+    //height: 100%;
+    flex: 0 0 calc(50% - 40px);
+    max-width: calc(50% - 40px);
+    @media (max-width:991px) {
+      flex: 0 0 100%;
+      max-width: 100%;
+    }
+  }
+  .popUp-wrapper {
+    height: auto;
+    @media (max-width:991px) {
+      margin-bottom: 80px;
+    }
+  }
+  .popUp-dialog{
+    position: relative;
+    @media (max-width:700px) {
+      padding: 0 10px 0 15px;
+    }
+  }
+  .card-image {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .metrics-card {
+    height: 100%;
+  }
+  @media only screen and (min-device-width: 0px) and (max-device-width: 480px) and (-webkit-min-device-pixel-ratio: 2){
+    form {
+      width: 100%;
+    }
+  }
+  .popUp-form__main {
+    max-width: 100%;
+    @media (max-width:700px) {
+      max-width: 100%;
+    }
+
+    #login_wrapper{
+      .form__header{
+        font-weight: bold;
+        font-size: 28px;
+        line-height: 1.21;
+        color: #000000;
+        margin-bottom: 16px;
+        @media(max-width:450px){
+          font-size: 20px;
+        }
+      }
+      .forgot-password{
+        font-size: 11px;
+      }
+    }
+    #login-form {
+      width: 100%;
+    }
+    .wrapper{
+      min-height: 100%;
+      padding: 40px 45px;
+      @media (max-width:700px) {
+        max-width: 100%;
+        padding: 20px 22.5px;
+      }
+    }
+    .form__wrapper{
+      padding: 0;
+
+      .form__label{
+        text-transform: none;
+        margin-bottom: 5px;
+        letter-spacing: 0;
+      }
+      input{
+        font-size: 16px;
+        border-radius: 5px;
+        border: 1px solid #E4E4E4;
+        padding-left: 15px;
+        padding-right: 15px;
+        &::placeholder{
+          font-size: 16px;
+        }
+        &:focus{
+          border: 1px solid #660091;
+        }
+      }
+      .footer-menu{
+        div{
+          padding-bottom: 28px;
+          font-size: 13px;
+
+          a{
+            font-size: 13px;
+            font-weight: normal !important;
+          }
+        }
+      }
+      .buttons-wrapper{
+        margin-bottom: 14px;
+        button{
+          font-size: 17px;
+          border-radius: 5px;
+          padding: 0 12px;
+          width: 100%;
+          @media (max-width:700px) {
+            span {
+              display: none;
+            }
+          }
+        }
+      }
+    }
+  }
+  .pricing-video_wrapper {
+    margin-bottom: 40px !important;
+  }
+  .popUp-form__side{
+    padding: 42px 42px 38px 42px;
+    background-color: #F4F8FB;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    @media (max-width:700px) {
+      display: none;
+    }
+
+    .popUp-form__side-list{
+      ul{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+      }
+    }
+
+  }
+
+  #login_wrapper, #register_wrapper{
+    height: 100%;
+  }
+  .noAccount__link{
+    font-weight: normal !important;
+  }
+  .eye-icon {
+    top: 33px;
+    right: 16.75px;
+    width: 18px;
+    height: 18px;
+    background-size: contain !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+  }
+  .form__group__password-confirmation {
+    margin-bottom: 0;
+  }
+}
+.pricing-temp__side-bar {
+  .left {
+    padding-bottom: 0;
+  }
+  .left .left__brand .left__brand-title {
+    padding: 0;
+    margin-bottom: 30px;
+  }
+  .left .left__list{
+    grid-template-columns: repeat(5,1fr);
+    grid-gap: 20px 30px;
+    @media(max-width:700px){
+      grid-template-columns: repeat(2,1fr);
+      grid-gap: 30px 60px;
+      padding: 0 40px;
+      .left__list-item {
+        width: 100%;
+      }
+    }
+  }
+}

@@ -825,6 +825,7 @@ function imageExists(image_url){
 
         return currentProduct;
     }
+
     function drawCompetitors(parentSelectorId, productGuid, urlParams, currentProduct) {
         am4core.addLicense('CH211379993');
         let scatteredGraphArray           = [];

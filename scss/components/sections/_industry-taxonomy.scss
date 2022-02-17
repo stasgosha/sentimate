@@ -1,0 +1,196 @@
+.industry-body {
+  .top-ranked-products-component {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+  }
+}
+.most-popular-categories {
+  margin-bottom: 50px;
+}
+.industry-tax-content {
+  padding-top: 85px;
+  .product-page-section {
+    padding: 0 15px 50px 15px;
+  }
+  .top-ranked-products-component {
+    background: transparent;
+    border-radius: 0;
+    padding-top: 0;
+    @media screen and (max-width: 1200px) {
+      padding: 0 0 50px 0;
+    }
+  }
+  .bottom-border {
+    padding-bottom: 50px;
+    border-bottom: 1px solid rgba(203, 203, 203, 0.52);
+  }
+}
+.industry-description, .industry-description p {
+  font-size: 16px;
+  line-height: 25px;
+  margin-bottom: 24px;
+  &:last-child{
+    margin-bottom: 0;
+  }
+  strong {
+    font-weight: 600;
+  }
+}
+.industry-overview-grid {
+  display: grid;
+  -ms-grid-columns: 1fr 255px;
+  grid-template-columns: 1fr 255px;
+  -webkit-box-align: start;
+  -ms-flex-align: start;
+  align-items: start;
+  grid-gap: 30px;
+  .subsection-caption {
+    display: block;
+    .sc-title {
+      font-size: 50px;
+      @media screen and (max-width: 576px) {
+        font-size: 40px;
+      }
+    }
+  }
+  img {
+    max-width: 255px;
+  }
+  @media screen and (max-width: 768px) {
+    grid-template-columns: unset;
+    img {
+      width: 100%;
+      order: -1;
+    }
+  }
+}
+.subsection-inner.categories-grid_tax {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-gap: 30px;
+  align-items: stretch;
+  @media screen and (max-width: 1200px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  @media screen and (max-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  @media screen and (max-width: 576px) {
+    grid-template-columns: repeat(6, 1fr);
+    overflow-x: auto;
+  }
+  .category-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    @media screen and (max-width: 576px) {
+      min-width: 50vw;
+    }
+  }
+  .card-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex-grow: 1;
+  }
+  .content__card-wrap {
+    flex-grow: 1;
+  }
+}
+.order-mobile-div {
+  @media screen and (max-width: 768px){
+    order: 2;
+  }
+}
+.mobile-img-industry {
+  display: none;
+  @media screen and (max-width: 768px){
+    display: block;
+    box-sizing: border-box;
+    overflow-x: hidden;
+    filter: drop-shadow(0px 0px 20px rgba(102, 0, 145, 0.05));
+    border-radius: 5px 5px 0 0;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    margin-bottom: 20px;
+    img {
+      max-width: 100%;
+    }
+  }
+}
+.industry-image-desktop {
+  @media screen and (max-width: 768px) {
+    display: none;
+  }
+}
+.glossary-text_style {
+  font-family: 'Inter', sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 22px;
+  text-align: center;
+  @media screen and (max-width: 576px) {
+    font-size: 14px;
+    line-height: 18px;
+  }
+}
+.glossary-letter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 11px 20px;
+  width: 44px;
+  height: 44px;
+  left: 405px;
+  top: 1597px;
+  background: #660091;
+  border-radius: 50%;
+  color: #FFFFFF;
+  margin: 10px 0;
+}
+.glossary_cat-item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 11px 20px;
+  height: 44px;
+  background: #FFFFFF;
+  border: 0.3px solid #660091;
+  box-sizing: border-box;
+  border-radius: 22.5px;
+  color: #660091;
+  margin: 10px;
+  &:hover {
+    outline: none;
+    border-color: transparent;
+    box-shadow: 0px 4px 26px rgb(102 0 145 / 11%);
+  }
+}
+.glossary-item {
+  display: contents;
+  justify-content: flex-start;
+  align-items: stretch;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+.glossary-subsection_inner {
+  display: flex;
+  justify-content: flex-start;
+  align-items: stretch;
+  flex-wrap: wrap;
+  @media screen and (max-width: 768px){
+    flex-direction: column;
+  }
+}
+.glossary-item_links {
+  display: contents;
+  justify-content: flex-start;
+  align-items: stretch;
+  flex-wrap: wrap;
+  @media screen and (max-width: 768px){
+    display: flex;
+    margin-left: -10px;
+  }
+}

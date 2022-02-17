@@ -195,20 +195,30 @@ $(function () {
    function api(autologinparams=0,link=0,params=0) {
 
        var redirectUrl='';
+       if(readCookie('link')){
+           link=readCookie('link');
+       }
+
+
+
+
+
 
         if(uuid !== "" && !params ){
 
             var redirectUrl = '/product-analysis/'+uuid;
             if(link){
                 redirectUrl=redirectUrl+link;
+
             }
             if($('.product-name').length){
                 redirectUrl=redirectUrl+'?q='+$('.product-name').text();
             }
         }else {
 
-            if(params){
+            if(link){
                 redirectUrl=redirectUrl+link;
+
             }else {
                 if ($('#searchinput').val()) {
                     var redirectUrl = '/product-analysis/search-results?q=' + $('#searchinput').val();
@@ -216,10 +226,12 @@ $(function () {
                     if (readCookie('permalink')) {
                         var redirectUrl = readCookie('permalink');
                     } else {
-                        var redirectUrl = '/category-analysis/top-ranking-products';
+                        // var redirectUrl = '/category-analysis/top-ranking-products';
+                        var redirectUrl = '/product-analysis/search';
                     }
                 }
             }
+
 
         }
         var gets={};
@@ -263,21 +275,21 @@ $(function () {
 
         ///////////////////////////////////
 
-        var params = {
-            overrides: {
-                __tenant: tenant,
-                __token_issuer: token_issuer
-            },
-            domain: domain,
-            clientID: clientID,
-            audience: audience,
-            redirectUri: "",
-            responseType: "code",
-            scope: 'openid profile email',
-            skipRedirectCallback: true,
-            responseMode: 'web_message',
-            prompt: 'none'
-        };
+        // var params = {
+        //     overrides: {
+        //         __tenant: tenant,
+        //         __token_issuer: token_issuer
+        //     },
+        //     domain: domain,
+        //     clientID: clientID,
+        //     audience: audience,
+        //     redirectUri: "",
+        //     responseType: "code",
+        //     scope: 'openid profile email',
+        //     skipRedirectCallback: true,
+        //     responseMode: 'web_message',
+        //     prompt: 'none'
+        // };
 
 
         if(starturl==urlnew){
@@ -286,21 +298,30 @@ $(function () {
             urllogin = urlnew+'&login=true';
         }
 
-        console.log('||||||||||');
-        console.log(urlnew);
-        console.log('||||||||||');
-        console.log(urllogin);
-        console.log('||||||||||');
-        console.log(redirectUrl);
 
 
-        const webAuthCallback = customWebAuth(window.location.origin);
-        const webAuth = customWebAuth(urlnew);
-        const webAuthLogin = customWebAuth(urllogin);
+
+        // const webAuthCallback = customWebAuth(window.location.origin);
+        // const webAuth = customWebAuth(urlnew);
+        // const webAuthLogin = customWebAuth(urllogin);
+        const webAuthSession = customWebAuth(window.location.origin, "token id_token"); // for check session
+        const webAuthCallback = customWebAuth(window.location.origin, "code"); // for google authorize
+        const webAuth = customWebAuth(urlnew, "code"); // for login to pro
+
+
+       console.log('||||||||||');
+       console.log(urlnew);
+       console.log('||||||||||');
+       console.log(urllogin);
+       console.log('||||||||||');
+       console.log(redirectUrl);
+       console.log('||||||||||');
+       console.log(webAuth);
+
 
         // console.log('///////////////');
         // console.log(webAuth);
-        function customWebAuth(redirectUri) {
+        function customWebAuth(redirectUri, responseType) {
             var params = {
                 overrides: {
                     __tenant: tenant,
@@ -310,7 +331,7 @@ $(function () {
                 clientID: clientID,
                 audience: audience,
                 redirectUri: "",
-                responseType: "code",
+                responseType: responseType,
                 scope: 'openid profile email',
             };
             params.redirectUri = redirectUri;
@@ -322,7 +343,6 @@ $(function () {
             if (err || !authResult) {
                 return console.log(err);
             }
-
             webAuthCallback.client.userInfo(authResult.accessToken, function (err, user) {
                 // create form to HS here:
                 //
@@ -330,7 +350,7 @@ $(function () {
                 // user.family_name
                 // user.given_name
                 // user.sub
-
+                createHsForm(user.email,user.family_name,user.given_name);
 
                 webAuth.authorize({
                     connection: 'google-oauth2',
@@ -340,6 +360,18 @@ $(function () {
                 });
             });
         });
+        webAuthSession.checkSession({ }, function (err, data) {
+            console.log('checkSession err: ', err);
+
+            if (data) {
+              console.log('checkSession data: ', data);
+
+              // webAuth.authorize({}, function (err, res) {
+              //   if (err) displayError(err, 'error-message-signin');
+              //   if (res) console.log(res);
+              // });
+            }
+          });
 
 
         const DEFAULT_THEME = 'light';
@@ -394,14 +426,7 @@ $(function () {
             });
         }
 
-        function login(e) {
-            e.preventDefault();
-            var button = this;
-            var username = document.getElementById('email').value;
-            var password = document.getElementById('password_login').value;
-            redirectLogin(username, password);
 
-        }
 
         var user = {};
 
@@ -410,6 +435,11 @@ $(function () {
             autologin();
 
         }
+
+       $('[data-link]').click(function(e){
+           createCookie('link',$(this).attr('data-link'));
+       });
+
 
         $('[data-modal]').click(function(e){
             e.preventDefault();
@@ -467,50 +497,75 @@ $(function () {
 
        })
 
-       if(autologinparams){
-           autologin();
-       }
-        function autologin(){
-            var actual = JSON.parse(atob(readCookie('userdata')));
-            console.log(webAuthLogin);
-            webAuthLogin.login({
-                realm: databaseConnection,
-                username: actual.email,
-                password: actual.pass,
-            }, function (err) {
-                if (err){
+        // function autologin(){
+        //     eraseCookie(link);
+        //     var actual = JSON.parse(atob(readCookie('userdata')));
+        //     console.log(webAuthLogin);
+        //     webAuthLogin.login({
+        //         realm: databaseConnection,
+        //         username: actual.email,
+        //         password: actual.pass,
+        //     }, function (err) {
+        //         if (err){
 
-                }
-            });
-        }
+        //         }
+        //     });
+        // }
 
-        function loginWithGoogle() {
+        // function loginWithGoogle() {
+        //     eraseCookie(link);
+        //     webAuthCallback.parseHash({nonce: '1234'}, function (err, authResult) {
+        //         // debugger
+        //         if (err || !authResult) {
+        //             return console.log(err);
+        //         }
 
-            webAuthCallback.parseHash({nonce: '1234'}, function (err, authResult) {
-                // debugger
-                if (err || !authResult) {
-                    return console.log(err);
-                }
+        //         webAuthCallback.client.userInfo(authResult.accessToken, function (err, user) {
+        //             // create form to HS here:
+        //             //
+        //             // user.email
+        //             // user.family_name
+        //             // user.given_name
+        //             // user.sub
 
-                webAuthCallback.client.userInfo(authResult.accessToken, function (err, user) {
-                    // create form to HS here:
-                    //
-                    // user.email
-                    // user.family_name
-                    // user.given_name
-                    // user.sub
+        //             webAuth.authorize({
+        //                 connection: 'google-oauth2',
+        //             }, function (err, res) {
+        //                 if (err) displayError(err, 'error-message-signin');
+        //                 if (res) console.log(res);
+        //             });
+        //         });
+        //     });
+        // }
 
-                    webAuth.authorize({
-                        connection: 'google-oauth2',
-                    }, function (err, res) {
-                        if (err) displayError(err, 'error-message-signin');
-                        if (res) console.log(res);
-                    });
-                });
-            });
-        }
+    function loginWithGoogle() {
+
+        var params = {
+          overrides: {
+            __tenant: "revuze-staging",
+            __token_issuer: "https://auth-staging.sentimate.com/"
+          },
+          domain: "auth-staging.sentimate.com",
+          clientID: "85IVkPcs9dUoPCt1SvTA7oZqByEZkXu8",
+          redirectUri: `${window.location.origin}/callback${window.location.search}`,
+          responseType: "code",
+          scope: 'openid profile email',
+          audience: 'https://revuze-staging.us.auth0.com/api/v2/',
+        };
+        const loginWithGoogleWebAuth = new auth0.WebAuth(params);
+        loginWithGoogleWebAuth.authorize({
+          connection: 'google-oauth2',
+          nonce: '1234',
+          responseType: 'token id_token'
+        }, function (err, res) {
+          debugger;
+          if (err) displayError(err, 'error-message-signin');
+          if (res) console.log(res);
+        });
+      }
 
         function signup() {
+            eraseCookie(link);
             var button = this;
             var email = document.getElementById('signin_email').value;
             var password = document.getElementById('signin_password').value;
@@ -533,10 +588,8 @@ $(function () {
                     displayError(err, 'error-message-signin');
                     button.disabled = false;
                 } else if (res && res.Id && res.email) {
-                    createHsForm(res.Id, res.email);
-                    var user={"email": email, "pass": password}
-                    var encoded = btoa(JSON.stringify(user));
-                    createCookie('userdata',encoded,3);
+                    console.log(res);
+                    createHsForm( res.email,res.Id,'');
                     window.dataLayer = window.dataLayer || [];
                     window.dataLayer.push({
                         'event': 'signup-success',
@@ -553,11 +606,21 @@ $(function () {
             });
         }
 
+        function login(e) {
+            e.preventDefault();
+            eraseCookie(link);
+            var button = this;
+            var username = document.getElementById('email').value;
+            var password = document.getElementById('password_login').value;
+            redirectLogin(username, password);
+        }
+
         function redirectLogin(userEmail, userPassword) {
             var user={"email": userEmail, "pass": userPassword}
             var encoded = btoa(JSON.stringify(user));
-            createCookie('userdata',encoded,3);
-            webAuthLogin.login({
+
+            // webAuthLogin.login({
+            webAuth.login({
                 realm: databaseConnection,
                 username: userEmail,
                 password: userPassword,
@@ -608,16 +671,16 @@ $(function () {
             errorMessage.style.display = 'block';
         }
 
-        function createHsForm(userId, userEmail) {
+        function createHsForm(userEmail,firstname,lastname ) {
 
             var fields=[];
             fields.push({
                 "name": "firstname",
-                "value": userEmail
+                "value": firstname
             });
             fields.push({
                 "name": "lastname",
-                "value": userId
+                "value": lastname
             });
             fields.push({
                 "name": "email",
@@ -653,8 +716,7 @@ $(function () {
                     "value": readCookie('utm_content')
                 });
             }
-
-
+      
             fetch("https://api.hsforms.com/submissions/v3/integration/submit/5244251/febc8be7-2a2f-498e-a729-b91db308a19c", {
                 headers: {
                     'Content-Type': 'application/json',
@@ -700,18 +762,109 @@ $(function () {
     api();
 
 
+    //New search
+    // $('.component-search-with-autocomplete #search-new-input').on('change keyup paste', function(e) {
+    //     if (e.code == 'ArrowDown' || e.code == 'ArrowUp') return;
+    //
+    //     let val = $(this).val();
+    //     const cmp = $(this).closest('.component-search-with-autocomplete');
+    //     let finalLink = "https://pro.sentimate.com/product-analysis/search-results?q="+val+"";
+    //
+    //     $('.go-pro-results').attr('href', finalLink);
+    //
+    //     if(val.length>0){
+    //         var data = {
+    //             'search': val,
+    //             'action': 'get_auto',
+    //         };
+    //         $.ajax({
+    //             url: ajaxurl,
+    //             data: data,
+    //             type: 'POST',
+    //             dataType: 'JSON',
+    //             success: function (response) {
+    //                 $(cmp).addClass('loaded');
+    //                 $(cmp).find('.cmp-suggestions').addClass('visible');
+    //                 $('#search_rezult').html('');
+    //                 var json_str = JSON.stringify(response);
+    //                 var obj = JSON.parse(json_str);
+    //                 obj.forEach(function(item, i, arr) {
+    //                     $('#search_rezult').append('<li><a href="https://pro.sentimate.com/product-analysis/search-results?q='+item+'">'+item+'</a></li>');
+    //                 });
+    //
+    //             },
+    //         });
+    //     } else{
+    //         $('.cmp-suggestions').removeClass('visible');
+    //     }
+    //
+    // });
+    //
+    // $('.component-search-with-autocomplete').each(function(i, cmp){
+    //     let focusedEl;
+    //     let currentSuggestionIndex = -1;
+    //
+    //     function highlightSuggestion(index){
+    //         $(cmp).find('.cmp-suggestions a').removeClass('highlighted');
+    //         $(cmp).find(`.cmp-suggestions li a`).eq(index).addClass('highlighted');
+    //         $(cmp).find('input').val( $(cmp).find(`.cmp-suggestions li a`).eq(currentSuggestionIndex).text() );
+    //     }
+    //
+    //     $(cmp).find('form').submit(function(e){
+    //         e.preventDefault();
+    //
+    //         location.href = 'https://pro.sentimate.com/product-analysis/search-results?q=' + $(cmp).find('input').val();
+    //     });
+    //
+    //     $(cmp).on('keydown', function(e){
+    //         // if ( $(e.target).is('input') && e.code == 'Enter' ) {
+    //         //     e.preventDefault();
+    //
+    //         //     if (currentSuggestionIndex >= 0) {
+    //         //         $(e.target).val( $(cmp).find(`.cmp-suggestions li a`).eq(currentSuggestionIndex).text() );
+    //         //         // $(e.target).trigger('change');
+    //         //     }
+    //
+    //         //     $(cmp).find('form').submit();
+    //         // }
+    //
+    //         if (e.code == 'ArrowDown' || e.code == 'ArrowUp'){
+    //             e.preventDefault();
+    //             if (!$(this).hasClass('loaded')) return;
+    //
+    //             focusedEl = $(cmp).find(':focus');
+    //
+    //             if ( focusedEl.is('input') ) {
+    //                 if (e.code == 'ArrowDown') {
+    //                     currentSuggestionIndex++;
+    //                 } else if(e.code == 'ArrowUp'){
+    //                     currentSuggestionIndex--;
+    //                 }
+    //
+    //                 if (currentSuggestionIndex > $(cmp).find('.cmp-suggestions a').length - 1) {
+    //                     currentSuggestionIndex = 0;
+    //                 }
+    //
+    //                 if (currentSuggestionIndex < 0) {
+    //                     currentSuggestionIndex = $(cmp).find('.cmp-suggestions a').length - 1;
+    //                 }
+    //
+    //                 highlightSuggestion(currentSuggestionIndex);
+    //             }
+    //         }
+    //     });
+    // });
 
 
+    $('.component-search-with-autocomplete:not(.with-link) #searchinput').keyup(function(e){
+        if (e.code == 'ArrowDown' || e.code == 'ArrowUp') return;
+        let val = $(this).val();
+        const cmp = $(this).closest('.component-search-with-autocomplete');
 
-
-    $('.component-search-with-autocomplete:not(.with-link) #searchinput').keyup(function(){
-        var val=$(this).val();
-        $('.cmp-suggestions').removeClass('visible');
-        if(val.length>3){
-            var data = {
+        if(val.length > 3){
+            let data = {
                 'action': 'loadsearch',
                 'val': val,
-
             };
             $.ajax({
                 url: ajaxurl,
@@ -722,11 +875,15 @@ $(function () {
                 },
                 success: function (data) {
                     if (data) {
-                        $('.cmp-suggestions').addClass('visible');
+                        $(cmp).addClass('loaded');
+                        $(cmp).find('.cmp-suggestions').addClass('visible');
                         $('#search_rezult').html(data);
                     }
                 },
             });
+        } else{
+            $(cmp).removeClass('loaded');
+            $(cmp).find('.cmp-suggestions').removeClass('visible');
         }
 
     });
@@ -833,6 +990,7 @@ $(function () {
     $('.applied-tags-list .remove-btn').click(function(){
         loadfilter($(this).attr('data-id'));
     });
+
 });
 
 
@@ -855,11 +1013,6 @@ function getQueryParam(param, defaultValue = undefined) {
         })
     return defaultValue
 }
-
-
-
-
-
 
 
 

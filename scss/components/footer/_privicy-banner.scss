@@ -1,0 +1,20 @@
+div#hs-eu-cookie-confirmation.hs-cookie-notification-position-bottom {
+  box-shadow: 0 -1px 3px #f0ccff !important;
+}
+div#hs-eu-cookie-confirmation div#hs-eu-cookie-confirmation-inner p {
+  color: #222222 !important;
+  font-family: 'Montserrat', sans-serif !important;
+}
+div#hs-eu-cookie-confirmation div#hs-eu-cookie-confirmation-inner a, div#hs-eu-cookie-confirmation div#hs-eu-cookie-confirmation-inner a:hover {
+  color: #660091 !important;
+  text-decoration: underline !important;
+}
+div#hs-eu-cookie-confirmation div#hs-eu-cookie-confirmation-inner #hs-eu-cookie-confirmation-button-group a#hs-eu-decline-button {
+  color: #660091 !important;
+  border: 1px solid #660091 !important;
+}
+div#hs-eu-cookie-confirmation div#hs-eu-cookie-confirmation-inner #hs-eu-cookie-confirmation-button-group a#hs-eu-confirmation-button {
+  background-color: #660091 !important;
+  border: 1px solid #660091 !important;
+  color: #ffffff !important;
+}

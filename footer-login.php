@@ -12,8 +12,8 @@
 <!--<script src="//www.youtube.com/iframe_api"></script>-->
 <script src="<?php echo get_template_directory_uri(); ?>/js/iframe_api.js?v=10"></script>
 <script src="<?php echo get_template_directory_uri(); ?>/js/slick.min.js?v=10"></script>
-<script src="<?php echo get_template_directory_uri(); ?>/js/main.js?v=102"></script>
-<script src="<?php echo get_template_directory_uri(); ?>/js/scripts.js?v=102"></script>
+<script src="<?php echo get_template_directory_uri(); ?>/js/main.js?v=111"></script>
+<script src="<?php echo get_template_directory_uri(); ?>/js/scripts.js?v=111"></script>
 
 <script src="<?php echo get_template_directory_uri(); ?>/Revuze/js/product_template-demo.js?v=10"></script>
 

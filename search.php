@@ -1,6 +1,7 @@
 <?php
 get_header(); ?>
-    <?php $paged = (get_query_var('paged')) ? get_query_var('paged') : 1;?>
+    <?php $paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
+    var_dump($_GET);?>
     <main class="page-content">
     <section class="first-screen-section">
         <div class="container">

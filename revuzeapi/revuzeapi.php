@@ -54,6 +54,21 @@ function get_industry_data($id=0) {
 }
 
 
+
+add_action( 'wp_ajax_get_auto', 'get_auto' );
+add_action( 'wp_ajax_nopriv_get_auto', 'get_auto' );
+
+function get_auto() {
+
+    $request='autocomplete/'.$_POST['search'];
+    $response    = send_api($request , 'GET');
+    echo  $response;
+    die();
+}
+
+
+
+
 function get_competitive_products($id=0) {
     if(!$id){
         $id=$_POST['product_id'];

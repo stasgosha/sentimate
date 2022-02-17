@@ -21,24 +21,31 @@ get_header(); ?>
                     <?php if( have_rows('industry') ): ?>
                         <?php
                         $i=0;
-                        while( have_rows('industry') ): the_row(); ?>
+                        while( have_rows('industry') ): the_row();
+                            $sub_field_link = get_sub_field('link');
+                            $main_link = $sub_field_link ? get_term_link($sub_field_link) : '';
+                            ?>
                             <div class="industry-card">
-                                <div class="card-image">
+                                <picture class="card-image">
+                                    <source srcset="<?php echo get_sub_field('image_mob')['url'];?>" media="(max-width:479px)">
                                     <img src="<?php echo get_sub_field('image')['url'];?>" alt="<?php echo get_sub_field('image')['alt'];?>">
-                                </div>
+                                </picture>
                                 <div class="card-content">
                                     <h3 class="card-caption"><?php echo get_sub_field('name');?></h3>
 
                                     <ul class="card-list">
                                         <?php if( get_sub_field('subcategory') ): ?>
-                                            <?php while( has_sub_field('subcategory') ): ?>
-                                                <?php if(get_sub_field('category_link')){ $link=get_term_link(get_sub_field('category_link'),'product_industry'); }else{ $link=get_sub_field('link')['url']; } ?>
-                                                <li><a <?php if(get_sub_field('target_balnk')){ echo "target='_blank'"; } ?> href="<?php echo $link; ?>"><?php echo get_sub_field('name');?></a></li>
-                                            <?php endwhile; ?>
+                                            <?php while( has_sub_field('subcategory') ) : ?>
+                                                <?php if($cat_term_id = get_sub_field('category_link')) : $cat_term = get_term($cat_term_id); $link = $cat_term ? get_term_link($cat_term) : ''; ?>
+                                                    <li><a <?php if(get_sub_field('target_balnk')){ echo "target='_blank'"; } ?> href="<?php echo $link; ?>">
+                                                            <?php echo $cat_term->name;?></a>
+                                                    </li>
+                                                <?php endif;
+                                            endwhile; ?>
                                         <?php endif; ?>
                                     </ul>
-                                    <?php if(get_sub_field('link')){ ?>
-                                        <a href="<?php echo get_sub_field('link');?>" class="more-link">
+                                    <?php if($main_link);{ ?>
+                                        <a href="<?php echo $main_link; ?>" class="more-link">
                                             <span class="link-text"><?php echo get_sub_field('text_button'); ?></span>
                                         </a>
                                     <?php } ?>

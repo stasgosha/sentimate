@@ -22,13 +22,13 @@ get_header(); ?>
                         if (function_exists('dimox_breadcrumbs')) dimox_breadcrumbs();
                     ?>
                 </div>
-                <div class="switch-tabs-block tabs-nav">
+                <!-- <div class="switch-tabs-block tabs-nav">
                     <div class="switch-wrapper">
                         <button class="left-btn monthly" data-tab="#tab-monthly1"><?php echo get_field('plan_1_name');?></button>
                         <button class="block-middle"></button>
                     </div>
                     <button class="left-btn annual" data-tab="#tab-monthly2"><?php echo get_field('plan_2_name');?> <span class="save-up"><?php echo get_field('plan_2_sale');?></span></button>
-                </div>
+                </div> -->
 
                 <?php $is_blured =  get_field('coming_soon'); ?>
                 <div class="section-inner <?php echo $is_blured ? 'blured' : ''; ?>">

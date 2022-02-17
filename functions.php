@@ -19,7 +19,7 @@ if( function_exists('acf_add_options_page') ) {
 function dimox_breadcrumbs() {
 
     /* === ОПЦИИ === */
-    $text['home']     = get_the_title(7); // текст ссылки "Главная"
+    $text['home']     = get_the_title( get_option('page_on_front') ); // текст ссылки "Главная"
     $text['category'] = '%s'; // текст для страницы рубрики
     $text['search']   = 'Search result "%s"'; // текст для страницы с результатами поиска
     $text['tag']      = 'Записи с тегом "%s"'; // текст для страницы тега
@@ -402,7 +402,7 @@ function add_my_setting(){
                     'action': 'importproduct',
                     'removeold' : removeold,
                     'pagefrom' : i,
-                    'pageto' : i+10,
+                    'pageto' : i+3,
                 };
                 jQuery.ajax({
                     url:'<?php echo site_url() ?>/wp-admin/admin-ajax.php',
@@ -420,7 +420,7 @@ function add_my_setting(){
                         }
 
                         if(i<=<?php echo $sheetcount; ?>){
-                            i=i+10;
+                            i=i+3;
                             importproducts(i);
                         }
                     },
@@ -503,20 +503,11 @@ function importproduct(){
     $sheet = $xls->getActiveSheet();
 
     $i=0;
-
-//    if($_POST['removeold'] and $_POST['pagefrom']==1){
-//        $arrall=array();
-//        foreach ($sheet->toArray() as $row) {
-//            $arrall[]= $row[4];
-//        }
-//        removeold($arrall);
-//    }
-
     foreach ($sheet->toArray() as $row) {
 
         $i++;
         if($i>$_POST['pagefrom'] and $i<=$_POST['pageto'] and strlen($row[1])>30) {
-           echo add_update_product2($row);
+           echo add_update_product($row);
         }
 
     }
@@ -549,141 +540,36 @@ function add_update_product($row){
             'post_type' => "products",
         );
         $post_id = wp_insert_post($post);
-        $return= $row[1] . ' add!</br>';
-    } else {
-        $return= $row[1] . ' update!</br>';
-
-    }
-
-
-    update_post_meta($post_id, 'product_uuid', $row[1]);
-
-    $termpost=array();
-    if(!empty($row[3])) {
-        $term = get_term_by('name', $row[3], 'product_category');
-        if (empty($term->term_id)) {
-            $insert_data = wp_insert_term($row[3], 'product_category', array(
-                'parent' => 0,
-            ));
-            $term_id = $insert_data['term_id'];
-        } else {
-            $term_id = $term->term_id;
-        }
-        $termpost[] = $term_id;
-
-        wp_set_object_terms($post_id, $termpost, 'product_category');
-    }
-    $termpost=array();
-    $term = get_term_by('name', $row[0], 'product_industry');
-    if (empty($term->term_id)) {
-        $insert_data = wp_insert_term($row[0], 'product_industry', array(
-            'parent' => 0,
-        ));
-        $term_id = $insert_data['term_id'];
-    } else {
-        $term_id = $term->term_id;
-    }
-    $termpost[] = $term_id;
-    wp_set_object_terms($post_id, $termpost, 'product_industry');
-
-
-
-
-    update_post_meta($post_id, 'product_category', $row[3]);
-    update_post_meta($post_id, 'product_industry', $row[0]);
-    if(!get_field('product_ranking',$post_id)){
+        update_field('product_uuid', $row[1], $post_id);
         apiupdate($post_id);
-    }
-
-    return $return;
-
-}
-
-function add_update_product2($row){
-    $post_id = 0;
-    $cc_args = array(
-        'posts_per_page' => -1,
-        'post_type' => 'products',
-        'meta_key' => 'product_uuid',
-        'meta_value' => $row[1]
-    );
-
-    $cc_query = new WP_Query($cc_args);
-    while ($cc_query->have_posts()) {
-        $cc_query->the_post();
-        $post_id = get_the_ID();
-    }
-    if (!$post_id) {
-        $post = array(
-            'post_content' => '',
-            'post_status' => "publish",
-            'post_title' => $row[2],
-            'post_parent' => '',
-            'post_type' => "products",
-        );
-        $post_id = wp_insert_post($post);
         $return= $row[1] . ' add!</br>';
     } else {
+        // apiupdate($post_id);
         $return= $row[1] . ' update!</br>';
-
-    }
-
-
-    update_post_meta($post_id, 'product_uuid', $row[1]);
-
-    $termpost=array();
-
-    if(!empty($row[3])) {
-        $term = get_term_by('name', $row[3], 'product_category');
-        if (empty($term->term_id)) {
-            $insert_data = wp_insert_term($row[3], 'product_category', array(
-                'parent' => 0,
-            ));
-            $term_id = $insert_data['term_id'];
-        } else {
-            $term_id = $term->term_id;
-        }
-        $termpost[] = $term_id;
-
-        wp_set_object_terms($post_id, $termpost, 'product_category');
-    }
-    $termpost=array();
-    $term = get_term_by('name', $row[0], 'product_industry');
-    if (empty($term->term_id)) {
-        $insert_data = wp_insert_term($row[0], 'product_industry', array(
-            'parent' => 0,
-        ));
-        $term_id = $insert_data['term_id'];
-    } else {
-        $term_id = $term->term_id;
-    }
-    $termpost[] = $term_id;
-    wp_set_object_terms($post_id, $termpost, 'product_industry');
-
-
-
-
-    update_post_meta($post_id, 'product_category', $row[3]);
-    update_post_meta($post_id, 'product_industry', $row[0]);
-
-    return $return;
-}
-
-
-function removeold($arr){
-    $cc_args = array(
-        'posts_per_page' => -1,
-        'post_type' => 'products',
-    );
-    $cc_query = new WP_Query($cc_args);
-    while ($cc_query->have_posts()) {
-        $cc_query->the_post();
-        $post_id = get_the_ID();
-        if(!in_array(get_field('product_uuid',$post_id),$arr)){
-            wp_delete_post($post_id);
-        }
     }
 }
+//Change the permalink if it's id
+//$posts = get_posts([
+//    'numberposts' => -1,
+//    'post_type' => 'products',
+//]);
+//foreach ( $posts as $post ) {
+//    $new_slug = sanitize_title( $post->post_title );
+//    if ( $post->post_name != $new_slug )
+//    {
+//        wp_update_post(
+//            array (
+//                'ID'        => $post->ID,
+//                'post_name' => $new_slug
+//            )
+//        );
+//    }
+//}
+
+
+
+
+
 
 
 
@@ -737,13 +623,6 @@ function do_every_thirty_min(){
         'orderby'     => 'date',
         'order'       => 'DESC',
         'post_type'   => 'products',
-        'meta_query' => array(
-            array(
-                'key'       => 'product_monthly_star_rating',
-                'compare' => '!=',
-                'value' => ''
-            )
-        )
     );
 
     $posts = get_posts( $args);
@@ -786,46 +665,78 @@ function process_post() {
     }
 }
 
-function apiupdate($id)
-{
 
-    $uid = get_field('product_uuid',$id);
-    update_field('date_update', date('Y-m-d H:i:s'), $id);
+if($_GET['currentpage']){
+    $args = [
+        'post_type'     => 'products',
+        'posts_per_page' => 50000,
+        'paged'=>$_GET['currentpage']
 
-    $response = get_product_data($uid);
-    $json = json_decode($response);
+    ];
+    $my_query = new WP_Query( $args );
+    $posts = $my_query->posts;
+    $num_of_posts = count($posts);
 
-    if($json) {
-//        $rank = json_encode($json->ranking);
-        $rank = json_encode($json->rank);
+    for($j = 0; $j < $num_of_posts; $j++)
+    {
+        $post = $posts[$j]; // this post will be the post that doesnt get deleted, if any duplicates exist down the line //
+        $current_title = $post->post_title;
 
-        update_field('product_image', $json->image, $id);
-        update_field('product_brand_name', $json->brand_name, $id);
-        update_field('product_brand_logo', $json->brand_logo, $id);
-        update_field('product_category', $json->category, $id);
-        update_field('product_industry', $json->industry_name, $id);
-        update_field('rank', $json->rank, $id);
-        update_field('rank_trend', $json->rank_trend, $id);
+        for($k = $j+1; $k < $num_of_posts; $k++)
+        {
+            $next_post = $posts[$k];
+            $next_title = $next_post->post_title;
+            $next_id = $next_post->ID;
 
 
-        $termpost = array();
-        $term = get_term_by('name', esc_sql($json->category), 'product_category');
-
-        if (empty($term->term_id)) {
-            $insert_data = wp_insert_term(esc_sql($json->category), 'product_category', array(
-                'parent' => 0,
-            ));
-            $term_id = $insert_data['term_id'];
-        } else {
-            $term_id = $term->term_id;
+            if( strcmp($current_title, $next_title) == 0 and get_field('product_uuid',$post->ID)==get_field('product_uuid',$next_post->ID)) {
+                echo '</br>';
+                echo get_field('product_uuid',$post->ID);
+                echo '</br>';
+                echo $post->ID;
+                echo '</br>';
+                echo get_field('product_uuid',$next_post->ID);
+                echo '</br>';
+                echo $next_post->ID;
+                echo '</br>';
+                echo "Duplicate for {$current_title} with ID {$next_id} will be deleted <br/>";
+                wp_delete_post($next_id, false); // move to trash first
+            }
         }
-        $termpost[] = $term_id;
-        wp_set_object_terms($id, $termpost, 'product_category');
+    }
+    die('/////');
+}
 
 
+//Old function
+
+
+//function apiupdate($id)
+//{
+//
+//    $uid = get_field('product_uuid',$id);
+//    update_field('date_update', date('Y-m-d H:i:s'), $id);
+//
+//    $response = get_product_data($uid);
+//    $json = json_decode($response);
+//
+//    if($json) {
+////        $rank = json_encode($json->ranking);
+//        $rank = json_encode($json->rank);
+//
+//        update_field('product_image', $json->image, $id);
+//        update_field('product_brand_name', $json->brand_name, $id);
+//        update_field('product_brand_logo', $json->brand_logo, $id);
+//        update_field('product_category', $json->last_category, $id);
+//        update_field('product_industry', $json->industry_name, $id);
+//        update_field('rank', $json->rank, $id);
+//        update_field('rank_trend', $json->rank_trend, $id);
+//
+//
 //        $termpost=array();
-//        $term_long = get_term_by('name', $json->category, 'product_category');
-//        if ($term_long && in_array('|', $term_long)) {
+//        $term_long = get_term_by('name', esc_sql($json->category), 'product_category');
+//        $arr_of_chars = str_split(esc_sql($json->category));
+//        if ($term_long && in_array('|', $arr_of_chars)) {
 //            wp_delete_term($term_long->term_id, 'product_category');
 //        }
 //        $arr_names = explode("|", $json->category);
@@ -837,36 +748,320 @@ function apiupdate($id)
 //                $arrgs=array(
 //                    'parent' => $termparent->term_id,
 //                );
-//
 //                $insert_data = wp_insert_term(($name_category), 'product_category', $arrgs);
 //                $term_id = $insert_data['term_id'];
 //            } else {
 //                $term_id = $term->term_id;
-//                if (!isset($term->parent) && $num > 0 ) {
+//                if ((!isset($term->parent) || $term->parent === 0) && $num > 0 ) {
 //                    wp_update_term($term_id, 'product_category', [
-//                        'parent' => $termpost[$num],
+//                        'parent' => $termpost[$num - 1],
 //                    ]);
 //                }
 //            }
+//            update_field('parent_industry', $json->industry_name, 'product_category' . '_' . $term_id);
 //            $termpost[] = $term_id;
 //        }
 //        wp_set_object_terms($id, $termpost, 'product_category');
+//        $termpost = array();
+//
+//
+//
+//        $term = get_term_by('name', $json->industry_name, 'product_industry');
+//        if (empty($term->term_id)) {
+//            $insert_data = wp_insert_term($json->industry_name, 'product_industry', array(
+//                'parent' => 0,
+//            ));
+//            $term_id = $insert_data['term_id'];
+//        } else {
+//            $term_id = $term->term_id;
+//        }
+//        $termpost[] = $term_id;
+//        wp_set_object_terms($id, $termpost, 'product_industry');
+//        $termpost = array();
+//        $term = get_term_by('name', $json->brand_name, 'brands');
+//        if (empty($term->term_id)) {
+//            $insert_data = wp_insert_term($json->brand_name, 'brands', array(
+//                'parent' => 0,
+//            ));
+//            $term_id = $insert_data['term_id'];
+//        } else {
+//            $term_id = $term->term_id;
+//        }
+//        $termpost[] = $term_id;
+//        wp_set_object_terms($id, $termpost, 'brands');
+//
+//        update_field('product_ranking', $rank, $id);
+//        echo $uid.' update!';
+//        echo '</br>';
+//    }
+//
+//
+//    if(!$json->name){
+//        wp_delete_post($id);
+//        /// //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//        return;
+//    }
+//
+//
+//
+//    //Market Rank
+//    $monthly_rank = get_monthly_rank($uid);
+//    update_field('product_monthly_rank', $monthly_rank, $id);
+//
+//
+//    $category_top_10_products_data = category_top_10_products_data($uid);
+//    update_field('category_top_10_products_data', $category_top_10_products_data, $id);
+//
+//
+////    $category_top_10_brands = category_top_10_brands($uid);
+////    update_field('category_top_10_brands', $category_top_10_brands, $id);
+//
+//
+//    $topicsadvdisadv = get_topicsAdvDisadv($uid);
+//
+//    update_field('topicsadvdisadv', $topicsadvdisadv, $id);
+//
+//
+//    $date1=date("m/Y", mktime(0, 0, 0, date('m')-0, date('d') , date('Y')));
+//    $date2=date("m/Y", mktime(0, 0, 0, date('m')-6, date('d') , date('Y')));
+//    $mostdiscussedtopics = get_most_discussed_topics_of_product('779152d0-c3cf-11e9-b164-c3925ec7a797',$date1,$date2,$uid);
+//    update_field('re-purchase', $mostdiscussedtopics, $id);
+//
+//
+//    $date1=date("m/Y", mktime(0, 0, 0, date('m')-0, date('d') , date('Y')));
+//    $date2=date("m/Y", mktime(0, 0, 0, date('m')-6, date('d') , date('Y')));
+//    $mostdiscussedtopics = get_most_discussed_topics_of_product('77e05d32-c3cf-11e9-b164-c3925ec7a797',$date1,$date2,$uid);
+//    update_field('recommenders', $mostdiscussedtopics, $id);
+//
+//
+//
+//
+//
+//
+//    $all_topics_data = all_topics_data($uid);
+//    update_field('all_topics_data', $all_topics_data, $id);
+//
+//
+//
+////    $product_monthly_star_rating = product_monthly_star_rating($uid);
+////    update_field('product_monthly_star_rating', $product_monthly_star_rating, $id);
+//
+////    $star_rating_drivers = star_rating_drivers($uid);
+////    update_field('star_rating_drivers', $star_rating_drivers, $id);
+//
+//
+////    $monthly_number_of_verified_buyers = monthly_number_of_verified_buyers($uid);
+////    update_field('monthly_number_of_verified_buyers', $monthly_number_of_verified_buyers, $id);
+//
+//
+//
+//    //Customer Satisfaction
+//    $monthly_reviews = get_monthly_reviews($uid);
+//    update_field('product_monthly_reviews', $monthly_reviews, $id);
+//    $jsonsant=json_decode($monthly_reviews);
+//    $satisfactionSum=0;
+//    $count=0;
+//    foreach($jsonsant as $val){
+//        if($val->sentiments->positive){
+//            $count++;
+//            $satisfactionSum=$satisfactionSum+$val->sentiments->positive* 100;
+//        }
+//    }
+//    $avarageSatisfaction=$satisfactionSum/$count;
+//    update_field('sentiment', $avarageSatisfaction, $id);
+//
+//
+//    //Verified buyers
+//    $verified_buyers = get_monthly_verified_buyers($uid);
+//   // update_field('product_monthly_verified_buyers', $verified_buyers, $id);
+//
+//    //User Rating
+//    $star_rating = get_star_rating($uid);
+//    update_field('product_star_rating', $star_rating, $id);
+//
+//
+//    $product_star_rating = json_decode($star_rating);
+//    $avarageSum = 0;
+//    $averageCount = 0;
+//    foreach($product_star_rating as $rating){
+//        if($rating->average > 0){
+//            $avarageSum += $rating->average;
+//            $averageCount++;
+//        }
+//    }
+//    $average = $avarageSum/$averageCount;
+//    update_field('star_rating', $average, $id);
+//
+//
+//    //User Rating
+//    $monthly_sentiment = get_topic_monthly_sentiment($uid);
+//    update_field('product_topic_monthly_sentiment', $monthly_sentiment, $id);
+//
+//
+////    print_R($monthly_reviews);
+////    die('////');
+//    /// product Info
+//
+//    $post_data = array(
+//        'ID' => $id,
+//        'post_title' => $json->name
+//    );
+//    wp_update_post($post_data);
+////    echo 'Product name: '.$json->name.', Product uid: '.$uid;
+////    echo '</br>';
+//
+//    //////Competing
+//    $competitive = get_competitive_products($uid);
+//    $json = json_decode($competitive);
+//    $count = 0;
+//    $competing = array();
+//    foreach ($json[0]->uuids as $value) {
+//        $count++;
+//        if ($count <= 10) {
+//            $competing[] = $value;
+//        }
+//    }
+//    $table = '<table class="block__table" border="1"><tbody data-id="competitiveProducts"><tr class="tr tr__head"><td class="td__col td__head td__prod">Product name</td><td class="td__col td__head">category</td><td class="td__col td__head">reviews</td><td class="td__col td__head">satisfaction</td> <td class="td__col td__head td__last">Sentiment distribuion</td></tr>';
+//    foreach ($competing as $value) {
+//        $response = get_product_data($value);
+//        $json = json_decode($response);
+//
+//        $responsemonthly = get_monthly_reviews($value);
+//        $jsonmonthly = json_decode($responsemonthly);
+//        $totalReviews = 0;
+//        $negative = 0;
+//        $neutral = 0;
+//        $positive = 0;
+//        $satisfaction = 0;
+//        $count = count($jsonmonthly);
+//        foreach ($jsonmonthly as $month) {
+//            $totalReviews = $totalReviews + $month->volume;
+//            if (!empty($month->sentiments->negative))
+//                $negative = $negative + $month->sentiments->negative * 100;
+//            if (!empty($month->sentiments->neutral))
+//                $neutral = $neutral + $month->sentiments->neutral * 100;
+//            if (!empty($month->sentiments->positive))
+//                $positive = $positive + $month->sentiments->positive * 100;
+//        }
+//        $satisfaction = round($positive / $count, 2);
+//
+//        $table .= '<tr class="tr"><td class="td__col td__prod"><div class="t_flbox">
+//                <img src="' . $json->image . '"  alt="product">
+//                <span>' . $json->name . '</span>
+//            </div></td>
+//         <td class="td__col">' . $json->category . '</td>
+//        <td class="td__col">' . $totalReviews . '</td>
+//        <td class="td__col">' . $satisfaction . '</td>
+//        <td class="td__col td__last">
+//            <div class="line_progress">
+//                <div class="lp lp__red" style="width:' . $negative / $count . '%"></div>
+//                <div class="lp lp__gray" style="width:' . $neutral / $count . '%"></div>
+//                <div class="lp lp__green" style="width:' . $positive / $count . '%"></div>
+//            </div>
+//        </td>
+//    </tr>';
+//    }
+//    $table .= '</tbody></table>';
+//  //  update_field('product_competing_table', $table, $id);
+//  //  update_field('product_competitive_products', $competitive, $id);
+//
+//
+//
+//
+//}
 
 
 
-        $termpost = array();
-        $term = get_term_by('name', $json->industry_name, 'product_industry');
-        if (empty($term->term_id)) {
-            $insert_data = wp_insert_term($json->industry_name, 'product_industry', array(
-                'parent' => 0,
-            ));
-            $term_id = $insert_data['term_id'];
-        } else {
-            $term_id = $term->term_id;
+//NEW FUNCTION FOR UPDATE BY API
+
+function apiupdate($id)
+{
+
+    $uid = get_field('product_uuid',$id);
+    update_field('date_update', date('Y-m-d H:i:s'), $id);
+
+    $response = get_product_data($uid);
+    $json = json_decode($response);
+    $monthly_reviews = get_monthly_reviews($uid);
+    $jsonsant=json_decode($monthly_reviews);
+//    $total_revs = 0;
+//    foreach ($jsonsant as $month) {
+//        $total_revs += $month->volume;
+//    }
+
+    if($json) {
+//        $rank = json_encode($json->ranking);
+        $rank = json_encode($json->rank);
+
+        update_field('product_image', $json->image, $id);
+        update_field('product_brand_name', $json->brand_name, $id);
+        update_field('product_brand_logo', $json->brand_logo, $id);
+        update_field('product_industry', $json->industry_name, $id);
+        update_field('rank', $json->rank, $id);
+        update_field('rank_trend', $json->rank_trend, $id);
+
+//        $termpost = array();
+//        $term = get_term_by('name', esc_sql($json->category), 'product_category');
+//
+//        if (empty($term->term_id)) {
+//            $insert_data = wp_insert_term(esc_sql($json->category), 'product_category', array(
+//                'parent' => 0,
+//            ));
+//            $term_id = $insert_data['term_id'];
+//        } else {
+//            $term_id = $term->term_id;
+//        }
+//        $termpost[] = $term_id;
+//        wp_set_object_terms($id, $termpost, 'product_category');
+//        $termpost = array();
+
+        $termpost=array();
+        $term_long = get_term_by('name', esc_sql($json->category), 'product_category');
+        $arr_of_chars = str_split(esc_sql($json->category));
+        if ($term_long && in_array('|', $arr_of_chars)) {
+            wp_delete_term($term_long->term_id, 'product_category');
         }
-        $termpost[] = $term_id;
-        wp_set_object_terms($id, $termpost, 'product_industry');
+        $arr_names = explode("|", $json->category);
+        array_unshift($arr_names, $json->industry_name);
+        foreach ($arr_names as $num => $name_category) {
+            $term = get_term_by('name', $name_category, 'product_category');
+            if (empty($term->term_id)) {
+                $termparent = get_term_by('name', $arr_names[$num-1], 'product_category');
+                $arrgs=array(
+                    'parent' => $termparent->term_id,
+                );
+                $insert_data = wp_insert_term(($name_category), 'product_category', $arrgs);
+                $term_id = $insert_data['term_id'];
+            } else {
+                $term_id = $term->term_id;
+                if ((!isset($term->parent) || $term->parent === 0) && $num > 0 ) {
+                    wp_update_term($term_id, 'product_category', [
+                        'parent' => $termpost[$num - 1],
+                    ]);
+                }
+            }
+            $termpost[] = $term_id;
+        }
+        update_field('product_category', end($arr_names), $id);
+        wp_set_object_terms($id, $termpost, 'product_category');
         $termpost = array();
+
+
+
+//        $term = get_term_by('name', $json->industry_name, 'product_industry');
+//        if (empty($term->term_id)) {
+//            $insert_data = wp_insert_term($json->industry_name, 'product_industry', array(
+//                'parent' => 0,
+//            ));
+//            $term_id = $insert_data['term_id'];
+//        } else {
+//            $term_id = $term->term_id;
+//        }
+//        $termpost[] = $term_id;
+//        wp_set_object_terms($id, $termpost, 'product_industry');
+//        $termpost = array();
+
+
         $term = get_term_by('name', $json->brand_name, 'brands');
         if (empty($term->term_id)) {
             $insert_data = wp_insert_term($json->brand_name, 'brands', array(
@@ -886,10 +1081,19 @@ function apiupdate($id)
 
 
     if(!$json->name){
-    ///    wp_delete_post($id);
+        wp_delete_post($id);
         /// //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         return;
     }
+//    if ($total_revs < 40) {
+//        wp_update_post(
+//            array (
+//                'ID'        => $id,
+//                'post_status' => 'draft'
+//            )
+//        );
+//        return;
+//    }
 
 
 
@@ -962,7 +1166,7 @@ function apiupdate($id)
 
     //Verified buyers
     $verified_buyers = get_monthly_verified_buyers($uid);
-   // update_field('product_monthly_verified_buyers', $verified_buyers, $id);
+    // update_field('product_monthly_verified_buyers', $verified_buyers, $id);
 
     //User Rating
     $star_rating = get_star_rating($uid);
@@ -1052,18 +1256,13 @@ function apiupdate($id)
 
     }
     $table .= '</tbody></table>';
-  //  update_field('product_competing_table', $table, $id);
-  //  update_field('product_competitive_products', $competitive, $id);
+    //  update_field('product_competing_table', $table, $id);
+    //  update_field('product_competitive_products', $competitive, $id);
 
 
 
 
 }
-
-
-
-
-
 
 
 
@@ -1160,77 +1359,77 @@ if($_GET['api1']){
     }
     add_action('wp_head', 'myscript');
 }
-add_action('wp_ajax_importproductsapi', 'importproductsapi');
-add_action('wp_ajax_nopriv_importproductsapi', 'importproductsapi');
-function importproductsapi(){
-    $categoryrequest=get_categoriesapi();
-    $json = json_decode($categoryrequest);
-
-    $productsrequest=get_products($_POST['page']);
-    $json = json_decode($productsrequest);
-    $products=$json->data;
-//    print_R($products);
-    foreach($products as $value){
-        $c=$value->category;
-        if($c=='Personal size blenders' or $c=='Hand blenders' or $c=='Coffee grinders' or $c=='Coffee machines' or $c=='Cold brew' or $c=='Coffee Percolators' or $c=='Electric kettle' or $c=='French press' or $c=='Milk frother' or $c=='Single serve brewers'){
-            $args=array(
-                'posts_per_page' => -1,
-                'post_type' => 'products',
-                'meta_key' => 'product_uuid',
-                'meta_value' => $value->uuid
-            );
-            $post_id=0;
-            $posts = get_posts($args );
-            $post_id=$posts[0]->ID;
-            if (!$post_id) {
-                $post = array(
-                    'post_content' => '',
-                    'post_status' => "publish",
-                    'post_title' => $value->name,
-                    'post_parent' => '',
-                    'post_type' => "products",
-                );
-                $post_id = wp_insert_post($post);
-                echo $value->name . ' add!</br>';
-            } else {
-
-                echo $value->name . ' update!</br>';
-            }
-            update_post_meta($post_id, 'product_uuid', $value->uuid);
-            update_post_meta($post_id, 'product_category', $value->category);
-            update_post_meta($post_id, 'product_industry', $value->Electronics);
-
-
-            $termpost=array();
-            $term = get_term_by('name', $json->category, 'product_category');
-            if (empty($term->term_id)) {
-                $insert_data = wp_insert_term($json->category, 'product_category', array(
-                    'parent' => 0,
-                ));
-                $term_id = $insert_data['term_id'];
-            } else {
-                $term_id = $term->term_id;
-            }
-            $termpost[] = $term_id;
-            wp_set_object_terms($id, $termpost, 'product_category');
-            $termpost=array();
-            $term = get_term_by('name', $json->industry_name, 'product_industry');
-            if (empty($term->term_id)) {
-                $insert_data = wp_insert_term($json->industry_name, 'product_industry', array(
-                    'parent' => 0,
-                ));
-                $term_id = $insert_data['term_id'];
-            } else {
-                $term_id = $term->term_id;
-            }
-            $termpost[] = $term_id;
-            wp_set_object_terms($id, $termpost, 'product_industry');
-
-        }
-    }
-
-    die();
-}
+//add_action('wp_ajax_importproductsapi', 'importproductsapi');
+//add_action('wp_ajax_nopriv_importproductsapi', 'importproductsapi');
+//function importproductsapi(){
+//    $categoryrequest=get_categoriesapi();
+//    $json = json_decode($categoryrequest);
+//
+//    $productsrequest=get_products($_POST['page']);
+//    $json = json_decode($productsrequest);
+//    $products=$json->data;
+////    print_R($products);
+//    foreach($products as $value){
+//        $c=$value->category;
+//        if($c=='Personal size blenders' or $c=='Hand blenders' or $c=='Coffee grinders' or $c=='Coffee machines' or $c=='Cold brew' or $c=='Coffee Percolators' or $c=='Electric kettle' or $c=='French press' or $c=='Milk frother' or $c=='Single serve brewers'){
+//            $args=array(
+//                'posts_per_page' => -1,
+//                'post_type' => 'products',
+//                'meta_key' => 'product_uuid',
+//                'meta_value' => $value->uuid
+//            );
+//            $post_id=0;
+//            $posts = get_posts($args );
+//            $post_id=$posts[0]->ID;
+//            if (!$post_id) {
+//                $post = array(
+//                    'post_content' => '',
+//                    'post_status' => "publish",
+//                    'post_title' => $value->name,
+//                    'post_parent' => '',
+//                    'post_type' => "products",
+//                );
+//                $post_id = wp_insert_post($post);
+//                echo $value->name . ' add!</br>';
+//            } else {
+//
+//                echo $value->name . ' update!</br>';
+//            }
+//            update_post_meta($post_id, 'product_uuid', $value->uuid);
+//            update_post_meta($post_id, 'product_category', $value->category);
+//            update_post_meta($post_id, 'product_industry', $value->Electronics);
+//
+//
+//            $termpost=array();
+//            $term = get_term_by('name', $json->category, 'product_category');
+//            if (empty($term->term_id)) {
+//                $insert_data = wp_insert_term($json->category, 'product_category', array(
+//                    'parent' => 0,
+//                ));
+//                $term_id = $insert_data['term_id'];
+//            } else {
+//                $term_id = $term->term_id;
+//            }
+//            $termpost[] = $term_id;
+//            wp_set_object_terms($id, $termpost, 'product_category');
+//            $termpost=array();
+//            $term = get_term_by('name', $json->industry_name, 'product_industry');
+//            if (empty($term->term_id)) {
+//                $insert_data = wp_insert_term($json->industry_name, 'product_industry', array(
+//                    'parent' => 0,
+//                ));
+//                $term_id = $insert_data['term_id'];
+//            } else {
+//                $term_id = $term->term_id;
+//            }
+//            $termpost[] = $term_id;
+//            wp_set_object_terms($id, $termpost, 'product_industry');
+//
+//        }
+//    }
+//
+//    die();
+//}
 
 
 
@@ -1302,116 +1501,7 @@ function get_name_category($cat){
     $namecat=ucwords($cat);
     return $namecat;
 }
-
-add_filter('request', 'ind_change_term_request', 1, 1 );
-
-function ind_change_term_request($query){
-
-    $tax_name = 'product_industry'; // specify taxonomy name here, it can be also 'category' or 'post_tag'
-    $name = $query['name'];
-
-
-
-    $term = get_term_by('slug', $name, $tax_name); // get the current term to make sure it exists
-
-    if (isset($name) && $term && !is_wp_error($term)): // check it here
-
-        unset($query['name']);
-        $query[$tax_name] = $name; // for another taxonomies
-
-    endif;
-
-    return $query;
-
-}
-
-add_filter( 'term_link', 'ind_term_permalink', 10, 3 );
-
-function ind_term_permalink( $url, $term, $taxonomy ){
-
-    $taxonomy_name = 'product_industry'; //  taxonomy name here
-    $taxonomy_slug = 'product_industry'; // the taxonomy slug can be different with the taxonomy name (like 'post_tag' and 'tag' )
-
-    // exit the function if taxonomy slug is not in URL
-    if ( strpos($url, $taxonomy_slug) === FALSE || $taxonomy != $taxonomy_name ) return $url;
-
-    $url = str_replace('/' . $taxonomy_slug, '', $url);
-
-    return $url;
-}
-add_action('template_redirect', 'ind_old_term_redirect');
-
-function ind_old_term_redirect() {
-
-    $taxonomy_name = 'product_industry';
-    $taxonomy_slug = 'product_industry';
-
-    // exit the redirect function if taxonomy slug is not in URL
-    if( strpos( $_SERVER['REQUEST_URI'], $taxonomy_slug ) === FALSE)
-        return;
-
-    if( ( is_tax() && $taxonomy_name == 'product_industry' ) || is_tax( $taxonomy_name )) :
-
-        wp_redirect( site_url( str_replace($taxonomy_slug, '', $_SERVER['REQUEST_URI']) ), 301 );
-        exit();
-
-    endif;
-}
-add_filter('request', 'cat_change_term_request', 1, 1 );
-
-function cat_change_term_request($query){
-
-    $tax_name = 'product_category'; // specify taxonomy name here, it can be also 'category' or 'post_tag'
-    $name = $query['name'];
-
-
-
-    $term = get_term_by('slug', $name, $tax_name); // get the current term to make sure it exists
-
-    if (isset($name) && $term && !is_wp_error($term)): // check it here
-
-        unset($query['name']);
-        $query[$tax_name] = $name; // for another taxonomies
-
-    endif;
-
-    return $query;
-
-}
-
-add_filter( 'term_link', 'cat_term_permalink', 10, 3 );
-
-function cat_term_permalink( $url, $term, $taxonomy ){
-
-    $taxonomy_name = 'product_category'; //  taxonomy name here
-    $taxonomy_slug = 'product_industry'; // the taxonomy slug can be different with the taxonomy name (like 'post_tag' and 'tag' )
-
-    // exit the function if taxonomy slug is not in URL
-    if ( strpos($url, $taxonomy_slug) === FALSE || $taxonomy != $taxonomy_name ) return $url;
-
-    $url = str_replace('/' . $taxonomy_slug, '', $url);
-
-    return $url;
-}
-add_action('template_redirect', 'cat_old_term_redirect');
-
-function cat_old_term_redirect() {
-
-    $taxonomy_name = 'product_category';
-    $taxonomy_slug = 'product_category';
-
-    // exit the redirect function if taxonomy slug is not in URL
-    if( strpos( $_SERVER['REQUEST_URI'], $taxonomy_slug ) === FALSE)
-        return;
-
-    if( ( is_tax() && $taxonomy_name == 'product_category' ) || is_tax( $taxonomy_name )) :
-
-        wp_redirect( site_url( str_replace($taxonomy_slug, '', $_SERVER['REQUEST_URI']) ), 301 );
-        exit();
-
-    endif;
-}
-
+require_once 'inc/helper.php';
 
 
 

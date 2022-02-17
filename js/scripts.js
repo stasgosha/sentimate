@@ -158,20 +158,20 @@ document.addEventListener('DOMContentLoaded', function(){
 	// });
 
 	// $(document).on('mouseleave', function(){
-		// if (!isShowedOnClose) {
-		// 	showModal('#keep-me-posted-modal');
-		// 	isShowedOnClose = true;
-		// }
-	// });
-
-	// $(document).on('mousemove', function(e){
-	// 	if (e.pageX > ($('.header-inner').offset().left + $('.header-inner').width() + 20) && e.pageY <= 150) {
-	// 		if (!isShowedOnClose) {
-	// 			showModal('#keep-me-posted-modal');
-	// 			isShowedOnClose = true;
-	// 		}
+	// 	if (!isShowedOnClose) {
+	// 		showModal('#popUp');
+	// 		isShowedOnClose = true;
 	// 	}
 	// });
+
+	$(document).on('mousemove', function(e){
+		if (e.pageX > ($('.header-inner').offset().left + $('.header-inner').width() + 20) && e.pageY <= 150) {
+			if (!isShowedOnClose) {
+				showModal('#popUp');
+				isShowedOnClose = true;
+			}
+		}
+	});
 
 	// Tabs
 	function goToTab(tabId, handler){

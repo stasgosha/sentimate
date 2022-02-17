@@ -25,10 +25,11 @@ get_header(); ?>
                 while( have_rows('blocks') ): the_row(); ?>
                     <div class="overview-card <?php if (get_sub_field('tabs')) { ?>with-tabs<?php } ?>">
                         <div class="container">
+                            <?php if (get_sub_field('title')) : ?>
+                            <h2 class="card-caption centered-caption"><?php echo get_sub_field('title');?></h2>
+                            <?php endif; ?>
                             <div class="card-inner">
                                 <div class="card-content">
-                                    <h2 class="card-caption"><?php echo get_sub_field('title');?></h2>
-
                                     <?php if( get_sub_field('tabs') ): $g=0; $j=0; ?>
                                     <div class="tabs-nav-wrapper">
                                         <div class="tabs-nav">
@@ -90,7 +91,7 @@ get_header(); ?>
                     </div>
 
                     <div class="block-footer">
-                        <a href="<?php echo get_field('header_button_link','option');?>" class="btn"><?php echo get_field('footer_text_button');?></a>
+                        <a href="<?php echo get_field('header_button_link','option');?>" data-link="/product-analysis/6fb6b0e7417b4b924101d4d34e3da6ee8dcd0acc7b921762961732edda0266d9/swot?q=" class="btn"><?php echo get_field('footer_text_button');?></a>
                     </div>
                 </div>
             </div>

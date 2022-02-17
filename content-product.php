@@ -1,5 +1,10 @@
-
 <a href="<?php echo get_permalink(); ?>" class="product-card">
+    <div class="compare-trigger" data-modal="#popUp" data-link="/product-analysis/<?= get_field('product_uuid'); ?>/comparison?q=&compBcat=false&compBuuid=">
+        <img src="<?= get_template_directory_uri() ?>/img/icons/compare.svg" alt="">
+        <span>
+            Compare
+        </span>
+    </div>
     <div class="card-image">
         <img src="<?php echo get_field('product_image');?>" alt="<?php the_title(); ?>">
     </div>

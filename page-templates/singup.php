@@ -26,10 +26,10 @@ get_header('login'); ?>
 
             <div id="login_wrapper" <?php if(get_field('signup_page','option')==get_the_ID()){ ?> style="display: none" <?php } ?>>
 
-                <div class="wrapper">
+                <div class="wrapper wrapper-with-normal-overflow">
                     <div class="form__wrapper">
                         <form id="login-form" method="GET">
-                            <h1 class="form__header">Welcome back!<br>Sign into your account</h1>
+                            <h2 class="form__header">Welcome back!<br>Sign into your account</h2>
                             <div class="google-button-wrapper">
                                 <a class="register__google-btn" id="signup_google"  href="#">
                                     <img src="<?= get_template_directory_uri() ?>/img/login/google-icon.svg" alt="">
@@ -77,12 +77,40 @@ get_header('login'); ?>
             <div id="register_wrapper"  <?php if(get_field('signup_page','option')!=get_the_ID()){ ?> style="display: none" <?php } ?>>
                 <div class="wrapper">
                     <div class="register_wrapper__title">
-                        <h2>Create your account</h2>
+                        <h2>Create a Free Account </h2>
                     </div>
                     <div class="register_wrapper__subtitle">
-                        <h2>Sentimate gives you free access 600 million opinions and insights into consumer sentiment on any product on the Internet</h2>
+                        <h2>Get instant access to more than <strong>1B+ product insights</strong> and consumer opinions.</h2>
                     </div>
-
+                    <div class="register_wrapper__text">
+                        <h2 class="register-list__subtitle">By Registering You Will Gain:</h2>
+                        <ul>
+                            <li>
+                                <span>
+                                    <svg width="7" height="6" viewBox="0 0 7 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M2.65207 2.66428C2.51362 2.8013 2.29082 2.80181 2.15175 2.66542L1.50229 2.02848C1.36165 1.89056 1.1358 1.89286 0.997998 2.03361L0.249375 2.79828C0.111651 2.93895 0.114049 3.16464 0.254732 3.30236L2.15887 5.16636C2.29798 5.30254 2.52062 5.30192 2.65897 5.16498L6.34379 1.5178C6.48366 1.37937 6.48487 1.15378 6.34651 1.01384L5.59482 0.253593C5.45636 0.113557 5.23058 0.112334 5.09061 0.250861L2.65207 2.66428Z" fill="white"/>
+                                    </svg>
+                                </span>
+                                Advanced Market Research
+                            </li>
+                            <li>
+                                <span>
+                                    <svg width="7" height="6" viewBox="0 0 7 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M2.65207 2.66428C2.51362 2.8013 2.29082 2.80181 2.15175 2.66542L1.50229 2.02848C1.36165 1.89056 1.1358 1.89286 0.997998 2.03361L0.249375 2.79828C0.111651 2.93895 0.114049 3.16464 0.254732 3.30236L2.15887 5.16636C2.29798 5.30254 2.52062 5.30192 2.65897 5.16498L6.34379 1.5178C6.48366 1.37937 6.48487 1.15378 6.34651 1.01384L5.59482 0.253593C5.45636 0.113557 5.23058 0.112334 5.09061 0.250861L2.65207 2.66428Z" fill="white"/>
+                                    </svg>
+                                </span>
+                                Instant SWOT Analysis
+                            </li>
+                            <li>
+                                <span>
+                                    <svg width="7" height="6" viewBox="0 0 7 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M2.65207 2.66428C2.51362 2.8013 2.29082 2.80181 2.15175 2.66542L1.50229 2.02848C1.36165 1.89056 1.1358 1.89286 0.997998 2.03361L0.249375 2.79828C0.111651 2.93895 0.114049 3.16464 0.254732 3.30236L2.15887 5.16636C2.29798 5.30254 2.52062 5.30192 2.65897 5.16498L6.34379 1.5178C6.48366 1.37937 6.48487 1.15378 6.34651 1.01384L5.59482 0.253593C5.45636 0.113557 5.23058 0.112334 5.09061 0.250861L2.65207 2.66428Z" fill="white"/>
+                                    </svg>
+                                </span>
+                                Extensive Reports on Products
+                            </li>
+                        </ul>
+                    </div>
                     <div class="register__google">
                         <a class="register__google-btn" id="signin_google"  href="#">
                             <img src="<?= get_template_directory_uri() ?>/img/login/google-icon.svg" alt="">

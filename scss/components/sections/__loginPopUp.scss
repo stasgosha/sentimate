@@ -1,4 +1,4 @@
-.popUp{
+.popUp, .pricingForm {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -212,7 +212,20 @@
 
 }
 
-// .popUp.open{
-//     visibility: visible;
-//     transform: scale(1);
-// }
+.keep-me-posted-modal .login-page__main-bar {
+    max-width: unset;
+    margin-right: 0;
+    .right {
+        border: none;
+        .wrapper {
+            max-width: unset;
+            padding: 35px 50px 20px 50px;
+        }
+    }
+}
+.modal.keep-me-posted-modal.modal-as-signup .modal-dialog {
+    max-width: 550px;
+    .modal-close {
+        z-index: 9;
+    }
+}

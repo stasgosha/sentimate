@@ -63,11 +63,95 @@ get_header(); ?>
         $product_monthly_reviews_array = get_field('product_monthly_reviews');
         $product_monthly_reviews = json_decode($product_monthly_reviews_array);
         $product_monthly_reviews_length = count($product_monthly_reviews);
-
+        function get_term_top_most_parent( $active, $taxonomy ) {
+            // Start from the current term
+            $parent  = get_term( $active, $taxonomy );
+            $res[] = $parent;
+            // Climb up the hierarchy until we reach a term with parent = '0'
+            while ( $parent->parent != '0' ) {
+                $term_id = $parent->parent;
+                $parent  = get_term( $term_id, $taxonomy);
+                $res[] = $parent;
+            }
+            return array_reverse($res);
+        }
+        $termindustry = get_field('product_industry');
+        $termcategory=get_field('product_category');
+        $termindustry_l =str_replace('&','%26',$termindustry);
+        $termcategory_l =str_replace('&','%26',$termcategory);
+        $termindustry_l =str_replace('amp;','',$termindustry);
+        $termcategory_l =str_replace('amp;','',$termcategory);
+        $active_term = get_term_by('name', esc_attr($termcategory), 'product_category');
+        if ($active_term) {
+            $active = $active_term->term_id;
+            $parents = get_term_top_most_parent($active, 'product_category');
+        } else {
+            $parents = '';
+        }
         ?>
 
         <div id="singleProduct">
             <section class="product-page-section" id="overview">
+                <div class="container">
+                    <div class="breadcrumbs">
+                        <ul itemscope itemtype="https://schema.org/BreadcrumbList">
+                            <li itemprop="itemListElement" itemscope
+                                itemtype="https://schema.org/ListItem">
+                                <a itemprop="item" href="<?php echo get_home_url();?>">
+                                    <span itemprop="name"><?php echo get_the_title( get_option('page_on_front') );?></span></a>
+                                <meta itemprop="position" content="1" />
+                            </li>
+                            <!--                        <li itemprop="itemListElement" itemscope-->
+                            <!--                            itemtype="https://schema.org/ListItem">-->
+                            <!--                            <a itemscope itemtype="https://schema.org/WebPage"-->
+                            <!--                               itemprop="item" itemid="--><?php //echo get_permalink('3495'); ?><!--"-->
+                            <!--                               href="--><?php //echo get_permalink('3495'); ?><!--">-->
+                            <!--                                <span itemprop="name">--><?php //echo get_the_title('3495'); ?><!--</span></a>-->
+                            <!--                            <meta itemprop="position" content="2" />-->
+                            <!--                        </li>-->
+                            <!--                        <li itemprop="itemListElement" itemscope-->
+                            <!--                            itemtype="https://schema.org/ListItem">-->
+                            <!--                            <a itemscope itemtype="https://schema.org/WebPage"-->
+                            <!--                               itemprop="item" itemid="--><?php //echo get_term_link($termindustry->term_id,'product_industry'); ?><!--"-->
+                            <!--                               href="--><?php //echo get_term_link($termindustry->term_id,'product_industry'); ?><!--">-->
+                            <!--                                <span itemprop="name">--><?php //echo $termindustry->name; ?><!--</span></a>-->
+                            <!--                            <meta itemprop="position" content="3" />-->
+                            <!--                        </li>-->
+                            <!--                        <li itemprop="itemListElement" itemscope-->
+                            <!--                            itemtype="https://schema.org/ListItem">-->
+                            <!--                            <a itemscope itemtype="https://schema.org/WebPage"-->
+                            <!--                               itemprop="item" itemid="--><?php //echo get_term_link($termcategory->term_id,'product_category'); ?><!--"-->
+                            <!--                               href="--><?php //echo get_term_link($termcategory->term_id,'product_category'); ?><!--">-->
+                            <!--                                <span itemprop="name">--><?php //echo get_name_category($termcategory->name); ?><!--</span></a>-->
+                            <!--                            <meta itemprop="position" content="4" />-->
+                            <!--                        </li>-->
+                            <!--                        --><?php //$rd_terms = wp_get_post_terms( get_the_ID(), 'product_category', array( "fields" => "ids" ) ); // getting the term IDs
+                            //                        $term_array = trim( implode( ',', (array) $rd_terms ), ' ,' );
+                            //                        $neworderterms = get_terms('product_category', 'orderby=none&include=' . $term_array );
+                            //                        if( $neworderterms && $term_array) {
+                            //                            $neworderterms2 = array_reverse($neworderterms);
+                            //                            foreach( $neworderterms2 as $x => $term ) : $orderterm = get_term($term, 'product_category'); ?>
+                            <!--                                <li itemprop="itemListElement" itemscope-->
+                            <!--                                    itemtype="https://schema.org/ListItem">-->
+                            <!--                                    <a itemscope itemtype="https://schema.org/WebPage"-->
+                            <!--                                       itemprop="item" itemid="--><?php //echo get_term_link($orderterm->term_id); ?><!--"-->
+                            <!--                                       href="--><?php //echo get_term_link($orderterm->term_id); ?><!--">-->
+                            <!--                                        <span itemprop="name">--><?php //echo $term->name; ?><!--</span></a>-->
+                            <!--                                    <meta itemprop="position" content="--><?//= $x + 4; ?><!--" />-->
+                            <!--                                </li>-->
+                            <!--                            --><?php //endforeach;
+                            //                        } ?>
+                            <?php if ($parents) : foreach ($parents as $u => $parent) : ?>
+                                <li itemprop="itemListElement" itemscope
+                                    itemtype="https://schema.org/ListItem">
+                                    <a itemprop="item" href="<?php echo get_term_link($parent,'product_category'); ?>">
+                                        <span itemprop="name"><?php echo $parent->name; ?></span></a>
+                                    <meta itemprop="position" content="<?= $u + 2; ?>" />
+                                </li>
+                            <?php endforeach; endif; ?>
+                        </ul>
+                    </div>
+                </div>
                 <div class="container">
                     <div class="navigation-box">
                         <a class="navigation-item" href="#overview">
@@ -129,46 +213,6 @@ get_header(); ?>
                             </div>
                         </a>
                     </div>
-
-                    <ul itemscope itemtype="https://schema.org/BreadcrumbList" class="product-breadcrumbs">
-                        <li itemprop="itemListElement" itemscope
-                            itemtype="https://schema.org/ListItem">
-                            <a itemprop="item" href="<?php echo get_permalink(7);?>">
-                                <span itemprop="name"><?php echo get_the_title(7);?></span></a>
-                            <meta itemprop="position" content="1" />
-                        </li>
-                        <?php
-                        $termindustry=get_the_terms(get_the_ID(),'product_industry')[0];
-                        $termcategory=get_the_terms(get_the_ID(),'product_category')[0];
-
-                        ?>
-                        <li itemprop="itemListElement" itemscope
-                            itemtype="https://schema.org/ListItem">
-                            <a itemscope itemtype="https://schema.org/WebPage"
-                               itemprop="item" itemid="<?php echo get_permalink('3495'); ?>"
-                               href="<?php echo get_permalink('3495'); ?>">
-                                <span itemprop="name"><?php echo get_the_title('3495'); ?></span></a>
-                            <meta itemprop="position" content="2" />
-                        </li>
-                        <li itemprop="itemListElement" itemscope
-                            itemtype="https://schema.org/ListItem">
-                            <a itemscope itemtype="https://schema.org/WebPage"
-                               itemprop="item" itemid="<?php echo get_term_link($termindustry->term_id,'product_industry'); ?>"
-                               href="<?php echo get_term_link($termindustry->term_id,'product_industry'); ?>">
-                                <span itemprop="name"><?php echo $termindustry->name; ?></span></a>
-                            <meta itemprop="position" content="3" />
-                        </li>
-                        <li itemprop="itemListElement" itemscope
-                            itemtype="https://schema.org/ListItem">
-                            <a itemscope itemtype="https://schema.org/WebPage"
-                               itemprop="item" itemid="<?php echo get_term_link($termcategory->term_id,'product_category'); ?>"
-                               href="<?php echo get_term_link($termcategory->term_id,'product_category'); ?>">
-                                <span itemprop="name"><?php echo get_name_category($termcategory->name); ?></span></a>
-                            <meta itemprop="position" content="4" />
-                        </li>
-
-                    </ul>
-
                     <div class="product-main-info-block">
                         <div class="block-image">
                             <img src="<?php echo get_field('product_image');?>" alt="">
@@ -197,7 +241,7 @@ get_header(); ?>
                             <ul class="product-areas">
                                 <li>
                                     <small>Industry</small>
-                                    <?php echo get_field('product_industry');?>
+                                    <?php echo $termindustry;?>
                                 </li>
                                 <li>
                                     <small>Brand</small>
@@ -205,7 +249,7 @@ get_header(); ?>
                                 </li>
                                 <li>
                                     <small>Category</small>
-                                    <?php echo get_name_category($termcategory->name); ?>
+                                    <?php echo $termcategory; ?>
                                 </li>
                             </ul>
                         </div>
@@ -631,7 +675,7 @@ get_header(); ?>
 
                                     <!--  ////////////////////////////////////////// -->
                                     <div class="section__product_satisfaction" id="product_satisfaction" style="display: block;">
-                                        <table class="block__table2" border="1">
+                                        <table class="block__table2 product-table-desktop" border="1">
                                             <tr class="tr tr__head">
                                                 <td class="td__col td__head td__prod">Topic name</td>
                                                 <td class="td__col td__head" style="text-align: center;">volume Share</td>
@@ -673,6 +717,54 @@ get_header(); ?>
 
                                             <tr></tr>
                                         </table>
+
+
+
+                                        <!--                                        Mobile table here-->
+                                        <div class="block__table2 product-table-mobile" border="1">
+                                            <div class="tr tr__head">
+                                                <div class="td__col td__head td__prod">Topic name</div>
+                                                <div class="td__col-rate">
+                                                    <div class="td__col td__head" style="text-align: center;">SOD</div>
+                                                    <div class="td__col td__head td__head-last" style="text-align: center;">SENTIMENT</div>
+                                                </div>
+                                            </div>
+                                            <?php
+                                            $i=0;
+                                            foreach($ddd as $value) {
+                                                foreach ($value as $va) {
+                                                    $i++;
+                                                    if($i<7){
+                                                        ?>
+                                                        <div class="tr tr-flex">
+                                                            <div class="tr-flex_row">
+                                                                <div class="td__col td__prod td__prod-mobile"><?php  print_R($va->name);?></div>
+                                                                <div class="td__col-rate td__col-rate-precents">
+                                                                    <div class="td__col">
+                                                                        <div class="t_flbox" style="justify-content: center;"><?php  print_R(round($va->share,1));?>%
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="td__col">
+                                                                        <div class="t_flbox" style="justify-content: center;"><?php  print_R(round($va->averageSentiment,1));?>%
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="td__col td__last">
+
+                                                                <div class="line_progress">
+                                                                    <div class="lp lp__red"  style="width:  <?php print_R($va->sentimentsDeviation->negative);?>%  ;"></div>
+                                                                    <div class="lp lp__gray"  style="width:  <?php print_R($va->sentimentsDeviation->neutral);?>% ;"></div>
+                                                                    <div class="lp lp__green" style="width:  <?php print_R($va->sentimentsDeviation->positive);?>% ;"></div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <?php
+                                                    }
+                                                }
+                                            }
+                                            ?>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -685,25 +777,15 @@ get_header(); ?>
 
                 <div class="top-ranked-products-component">
                     <h3 class="cmp-caption">Top Ranked Products in the
-                        <?php
-                        $cur_terms = get_the_terms( get_the_ID(), 'product_category' );
-                        if( is_array( $cur_terms ) ){
-                            foreach( $cur_terms as $cur_term ){
-                                $term=get_name_category($cur_term->name);
-                                echo '<a href="'. get_term_link( $cur_term->term_id, $cur_term->taxonomy ) .'">'. $term .'</a>';
-                            }
-                        }
-                        ?>
+                        <?php if ($active_term) {
+                            echo '<a href="'. get_term_link( $active_term->term_id, 'product_category') .'">'. $active_term->name . ' ' .'</a>';
+                        } else {
+                            echo '<a href="">'. $termcategory . ' ' .'</a>';
+                        } ?>
                         Category</h3>
 
                     <div class="top-ranked-slider">
-                        <?php
-                        $termindustry=str_replace('&','%26',get_the_terms(get_the_ID(),'product_industry')[0]->name);
-                        $termcategory=str_replace('&','%26',get_the_terms(get_the_ID(),'product_category')[0]->name);
-                        $termindustry=str_replace('amp;','',$termindustry);
-                        $termcategory=str_replace('amp;','',$termcategory);
-                        ?>
-                        <button type="button" data-modal="#popUp" data-link="/category-analysis/overview?q=&industry=<?php echo trim($termindustry); ?>&category=<?php echo trim(get_name_category($termcategory)); ?>" class="slick-arrow slick-prev" aria-label="Previous"><svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 26"><path d="M.62 14.15l10.6 10.59c.4.41.88.61 1.47.61.6 0 1.08-.2 1.48-.61l1.23-1.22a2.13 2.13 0 000-2.96l-7.9-7.9 7.88-7.88a2.13 2.13 0 000-2.96L14.15.6a2 2 0 00-1.47-.6 2 2 0 00-1.47.6L.6 11.19a2.09 2.09 0 00.02 2.96z"/></svg></button>
+                        <button type="button" data-modal="#popUp" data-link="/category-analysis/overview?q=&industry=<?php echo trim($termindustry_l); ?>&category=<?php echo trim($termcategory_l); ?>" class="slick-arrow slick-prev" aria-label="Previous"><svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 26"><path d="M.62 14.15l10.6 10.59c.4.41.88.61 1.47.61.6 0 1.08-.2 1.48-.61l1.23-1.22a2.13 2.13 0 000-2.96l-7.9-7.9 7.88-7.88a2.13 2.13 0 000-2.96L14.15.6a2 2 0 00-1.47-.6 2 2 0 00-1.47.6L.6 11.19a2.09 2.09 0 00.02 2.96z"/></svg></button>
                         <?php
                         $products=json_decode(get_field('category_top_10_products_data'))[0]->items;
 
@@ -711,21 +793,47 @@ get_header(); ?>
                         foreach ($products as $product) {
                             $arr_products[]=$product->uuid;
                         }
-
-                        $args= array(
-                            'numberposts' => 5,
-                            'post_type'   => 'products',
-                            'meta_key' => 'sentiment',
-                            'orderby' => 'meta_value_num',
-
-                            'meta_query' => array(
-                                array(
-                                    'key'       => 'product_uuid',
-                                    'value' => $arr_products,
-                                    'compare' => 'IN'
+                        if ($products) {
+                            $args= array(
+                                'numberposts' => 5,
+                                'post_type'   => 'products',
+                                'meta_key' => 'sentiment',
+                                'orderby' => 'meta_value_num',
+                                'meta_query' => array(
+                                    array(
+                                        'key'       => 'product_uuid',
+                                        'value' => $arr_products,
+                                        'compare' => 'IN'
+                                    )
                                 )
-                            )
-                        );
+                            );
+                        } else {
+                            $args= array(
+                                'numberposts' => 5,
+                                'post_type'   => 'products',
+                                'exclude' => get_the_ID(),
+                                'tax_query' => array(
+                                    array(
+                                        'taxonomy' => 'product_category',
+                                        'field'    => 'term_id',
+                                        'terms'    => $active,
+                                    )
+                                ),
+                                'meta_query' => array(
+                                    'relation' => 'OR',
+//                                        array(
+//                                            'key' => 'star_rating',
+//                                            'value' => [4, 5],
+//                                            'compare' => 'BETWEEN',
+//                                        ),
+                                    array(
+                                        'key' => 'sentiment',
+                                        'value' => '80',
+                                        'compare' => '>',
+                                    )
+                                )
+                            );
+                        }
 
                         $posts = get_posts( $args);
 
@@ -806,7 +914,7 @@ get_header(); ?>
 
                         ?>
 
-                        <button type="button" data-modal="#popUp" data-link="/category-analysis/overview?q=&industry=<?php echo $termindustry; ?>&category=<?php echo trim(get_name_category($termcategory)); ?>" class="slick-arrow slick-next" aria-label="Next"><svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 26"><path d="M15.38 11.2L4.78.63C4.38.2 3.9 0 3.3 0c-.6 0-1.08.2-1.48.62L.6 1.83a2.13 2.13 0 000 2.96l7.9 7.9-7.88 7.89a2.13 2.13 0 000 2.96l1.23 1.21c.4.4.9.6 1.47.6a2 2 0 001.47-.6L15.4 14.17c.4-.42.6-.91.6-1.5a2.09 2.09 0 00-.62-1.46z"/></svg></button>
+                        <button type="button" data-modal="#popUp" data-link="/category-analysis/overview?q=&industry=<?php echo trim($termindustry_l); ?>&category=<?php echo trim($termcategory_l); ?>" class="slick-arrow slick-next" aria-label="Next"><svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 26"><path d="M15.38 11.2L4.78.63C4.38.2 3.9 0 3.3 0c-.6 0-1.08.2-1.48.62L.6 1.83a2.13 2.13 0 000 2.96l7.9 7.9-7.88 7.89a2.13 2.13 0 000 2.96l1.23 1.21c.4.4.9.6 1.47.6a2 2 0 001.47-.6L15.4 14.17c.4-.42.6-.91.6-1.5a2.09 2.09 0 00-.62-1.46z"/></svg></button>
                     </div>
                 </div>
 
@@ -828,29 +936,29 @@ get_header(); ?>
                                         <div class="block-content">
                                             <h3 class="product-name"><?php the_title();?></h3>
 
-                                                <ul class="product-rating">
-                                                    <li>
-                                                        <strong>Sentiment:</strong>
-                                                        <div class="item-value excellent"><?php echo number_format(get_field('sentiment'), 2);?> %</div>
-                                                    </li>
-                                                    <li>
-                                                        <strong>Star Rating:</strong>
-                                                        <div class="star-rating">
-                                                            <div class="star <?php echo ($average >= 0 && $average < 1 ? 'half' :( $average >= 1 ? 'full' : '') );?>"></div>
-                                                            <div class="star <?php echo ($average >= 1 && $average < 2 ? 'half' :( $average >= 2 ? 'full' : '') );?>"></div>
-                                                            <div class="star <?php echo ($average >= 2 && $average < 3 ? 'half' :( $average >= 3 ? 'full' : '') );?>"></div>
-                                                            <div class="star <?php echo ($average >= 3 && $average < 4 ? 'half' :( $average >= 4 ? 'full' : '') );?>"></div>
-                                                            <div class="star <?php echo ($average >= 4 && $average < 5 ? 'half' :( $average >= 5 ? 'full' : '') );?>"></div>
-                                                        </div>
-                                                        <div class="item-value"><?php echo number_format($average, 2);?></div>
-                                                    </li>
-                                                </ul>
+                                            <ul class="product-rating">
+                                                <li>
+                                                    <strong>Sentiment:</strong>
+                                                    <div class="item-value excellent"><?php echo number_format(get_field('sentiment'), 2);?> %</div>
+                                                </li>
+                                                <li>
+                                                    <strong>Star Rating:</strong>
+                                                    <div class="star-rating">
+                                                        <div class="star <?php echo ($average >= 0 && $average < 1 ? 'half' :( $average >= 1 ? 'full' : '') );?>"></div>
+                                                        <div class="star <?php echo ($average >= 1 && $average < 2 ? 'half' :( $average >= 2 ? 'full' : '') );?>"></div>
+                                                        <div class="star <?php echo ($average >= 2 && $average < 3 ? 'half' :( $average >= 3 ? 'full' : '') );?>"></div>
+                                                        <div class="star <?php echo ($average >= 3 && $average < 4 ? 'half' :( $average >= 4 ? 'full' : '') );?>"></div>
+                                                        <div class="star <?php echo ($average >= 4 && $average < 5 ? 'half' :( $average >= 5 ? 'full' : '') );?>"></div>
+                                                    </div>
+                                                    <div class="item-value"><?php echo number_format($average, 2);?></div>
+                                                </li>
+                                            </ul>
                                         </div>
                                         <div class="block-content-footer">
                                             <ul class="product-areas">
                                                 <li>
                                                     <small>Industry</small>
-                                                    <?php echo get_field('product_industry');?>
+                                                    <?php echo $termindustry;?>
                                                 </li>
                                                 <li>
                                                     <small>Brand</small>
@@ -858,7 +966,7 @@ get_header(); ?>
                                                 </li>
                                                 <li>
                                                     <small>Category</small>
-                                                    <?php echo get_name_category($termcategory->name); ?>
+                                                    <?php echo $termcategory; ?>
                                                 </li>
                                             </ul>
                                         </div>
@@ -1087,7 +1195,6 @@ get_header(); ?>
                                     </div>
                                 </div>
                             </div>
-
                         </div>
                     </div>
 
@@ -1103,54 +1210,68 @@ get_header(); ?>
             <?php get_template_part( 'revuzeapi/partials-demo/share-sidebar' ); ?>
 
             <div id="singleProduct">
-
+                <div class="container">
+                    <div class="breadcrumbs">
+                        <ul itemscope itemtype="https://schema.org/BreadcrumbList">
+                            <li itemprop="itemListElement" itemscope
+                                itemtype="https://schema.org/ListItem">
+                                <a itemprop="item" href="<?php echo get_home_url();?>">
+                                    <span itemprop="name"><?php echo get_the_title( get_option('page_on_front') );?></span></a>
+                                <meta itemprop="position" content="1" />
+                            </li>
+                            <!--                        <li itemprop="itemListElement" itemscope-->
+                            <!--                            itemtype="https://schema.org/ListItem">-->
+                            <!--                            <a itemscope itemtype="https://schema.org/WebPage"-->
+                            <!--                               itemprop="item" itemid="--><?php //echo get_permalink('3495'); ?><!--"-->
+                            <!--                               href="--><?php //echo get_permalink('3495'); ?><!--">-->
+                            <!--                                <span itemprop="name">--><?php //echo get_the_title('3495'); ?><!--</span></a>-->
+                            <!--                            <meta itemprop="position" content="2" />-->
+                            <!--                        </li>-->
+                            <!--                        <li itemprop="itemListElement" itemscope-->
+                            <!--                            itemtype="https://schema.org/ListItem">-->
+                            <!--                            <a itemscope itemtype="https://schema.org/WebPage"-->
+                            <!--                               itemprop="item" itemid="--><?php //echo get_term_link($termindustry->term_id,'product_industry'); ?><!--"-->
+                            <!--                               href="--><?php //echo get_term_link($termindustry->term_id,'product_industry'); ?><!--">-->
+                            <!--                                <span itemprop="name">--><?php //echo $termindustry->name; ?><!--</span></a>-->
+                            <!--                            <meta itemprop="position" content="3" />-->
+                            <!--                        </li>-->
+                            <!--                        <li itemprop="itemListElement" itemscope-->
+                            <!--                            itemtype="https://schema.org/ListItem">-->
+                            <!--                            <a itemscope itemtype="https://schema.org/WebPage"-->
+                            <!--                               itemprop="item" itemid="--><?php //echo get_term_link($termcategory->term_id,'product_category'); ?><!--"-->
+                            <!--                               href="--><?php //echo get_term_link($termcategory->term_id,'product_category'); ?><!--">-->
+                            <!--                                <span itemprop="name">--><?php //echo get_name_category($termcategory->name); ?><!--</span></a>-->
+                            <!--                            <meta itemprop="position" content="4" />-->
+                            <!--                        </li>-->
+                            <!--                        --><?php //$rd_terms = wp_get_post_terms( get_the_ID(), 'product_category', array( "fields" => "ids" ) ); // getting the term IDs
+                            //                        $term_array = trim( implode( ',', (array) $rd_terms ), ' ,' );
+                            //                        $neworderterms = get_terms('product_category', 'orderby=none&include=' . $term_array );
+                            //                        if( $neworderterms && $term_array) {
+                            //                            $neworderterms2 = array_reverse($neworderterms);
+                            //                            foreach( $neworderterms2 as $x => $term ) : $orderterm = get_term($term, 'product_category'); ?>
+                            <!--                                <li itemprop="itemListElement" itemscope-->
+                            <!--                                    itemtype="https://schema.org/ListItem">-->
+                            <!--                                    <a itemscope itemtype="https://schema.org/WebPage"-->
+                            <!--                                       itemprop="item" itemid="--><?php //echo get_term_link($orderterm->term_id); ?><!--"-->
+                            <!--                                       href="--><?php //echo get_term_link($orderterm->term_id); ?><!--">-->
+                            <!--                                        <span itemprop="name">--><?php //echo $term->name; ?><!--</span></a>-->
+                            <!--                                    <meta itemprop="position" content="--><?//= $x + 4; ?><!--" />-->
+                            <!--                                </li>-->
+                            <!--                            --><?php //endforeach;
+                            //                        } ?>
+                            <?php if ($parents) : foreach ($parents as $u => $parent) : ?>
+                                <li itemprop="itemListElement" itemscope
+                                    itemtype="https://schema.org/ListItem">
+                                    <a itemprop="item" href="<?php echo get_term_link($parent,'product_category'); ?>">
+                                        <span itemprop="name"><?php echo $parent->name; ?></span></a>
+                                    <meta itemprop="position" content="<?= $u + 2; ?>" />
+                                </li>
+                            <?php endforeach; endif; ?>
+                        </ul>
+                    </div>
+                </div>
                 <div class="section section__overview" id="overview">
                     <div class="container container__product">
-                        <div class="breadcrumbs">
-                            <ul itemscope itemtype="https://schema.org/BreadcrumbList">
-                                <li itemprop="itemListElement" itemscope
-                                    itemtype="https://schema.org/ListItem">
-                                    <a itemprop="item" href="<?php echo get_permalink(7);?>">
-                                        <span itemprop="name"><?php echo get_the_title(7);?></span></a>
-                                    <meta itemprop="position" content="1" />
-                                </li>
-                                <?php
-                                $termindustry=get_the_terms(get_the_ID(),'product_industry')[0];
-                                $termcategory=get_the_terms(get_the_ID(),'product_category')[0];
-                                ?>
-                                <li itemprop="itemListElement" itemscope
-                                    itemtype="https://schema.org/ListItem">
-                                    <a itemscope itemtype="https://schema.org/WebPage"
-                                       itemprop="item" itemid="<?php echo get_permalink('3495'); ?>"
-                                       href="<?php echo get_permalink('3495'); ?>">
-                                        <span itemprop="name"><?php echo get_the_title('3495'); ?></span></a>
-                                    <meta itemprop="position" content="2" />
-                                </li>
-                                <li itemprop="itemListElement" itemscope
-                                    itemtype="https://schema.org/ListItem">
-                                    <a itemscope itemtype="https://schema.org/WebPage"
-                                       itemprop="item" itemid="<?php echo get_term_link($termindustry->term_id,'product_industry'); ?>"
-                                       href="<?php echo get_term_link($termindustry->term_id,'product_industry'); ?>">
-                                        <span itemprop="name"><?php echo $termindustry->name; ?></span></a>
-                                    <meta itemprop="position" content="3" />
-                                </li>
-                                <li itemprop="itemListElement" itemscope
-                                    itemtype="https://schema.org/ListItem">
-                                    <a itemscope itemtype="https://schema.org/WebPage"
-                                       itemprop="item" itemid="<?php echo get_term_link($termcategory->term_id,'product_category'); ?>"
-                                       href="<?php echo get_term_link($termcategory->term_id,'product_category'); ?>">
-                                        <span itemprop="name"><?php echo $termcategory->name; ?></span></a>
-                                    <meta itemprop="position" content="4" />
-                                </li>
-
-                                <li itemprop="itemListElement" itemscope
-                                    itemtype="https://schema.org/ListItem">
-                                    <a itemprop="item" href="<?php echo get_permalink(); ?>">
-                                        <span itemprop="name"><?php echo get_the_title(); ?></span></a>
-                                    <meta itemprop="position" content="5" />
-                                </li>
-                            </ul>
-                        </div>
                         <div class="section__overview__top_info">
                             <div class="prod_img">
                                 <img src="<?php echo get_field('product_image');?>" alt="product_img"></div>
@@ -1172,9 +1293,9 @@ get_header(); ?>
                                         <td>Category</td>
                                         </thead>
                                         <tr>
-                                            <td class="info-col" data-id="industry"><?php echo get_field('product_industry');?></td>
+                                            <td class="info-col" data-id="industry"><?php echo $termindustry;?></td>
                                             <td class="info-col" data-id="brand"><?php echo get_field('product_brand_name');?></td>
-                                            <td class="info-col" data-id="category"><?php echo get_name_category($termcategory->name); ?></td>
+                                            <td class="info-col" data-id="category"><?php echo $termcategory; ?></td>
                                         </tr>
                                     </table>
                                 </div>

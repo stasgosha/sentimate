@@ -831,7 +831,6 @@ function imageExists(image_url){
         /**
          * competitive products drawing
          * **/
-
         $.ajax({
             url: ajaxurl,
             type: 'POST',
@@ -1249,7 +1248,7 @@ function imageExists(image_url){
         // if (urlParams.has('productGuid')) {
             if ($('#singleProduct').length > 0) {
                 currentProduct = drawOverview('#singleProduct #overview', '', urlParams, currentProduct);
-                drawCompetitors('#singleProduct #competitive_landscape', jQuery('#competitive_landscape').data('id'), urlParams, currentProduct);
+              //  drawCompetitors('#singleProduct #competitive_landscape', jQuery('#competitive_landscape').data('id'), urlParams, currentProduct);
                 drawMegatopicSentiment('#singleProduct #product_satisfaction', '', urlParams);
             }
         // }
